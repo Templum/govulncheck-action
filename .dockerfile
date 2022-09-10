@@ -1,0 +1,5 @@
+hack
+.devcontainer
+.vscode
+
+*.sarif
