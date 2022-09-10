@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/Templum/govulncheck-action/pkg/sarif"
 	"github.com/google/go-github/v47/github"
@@ -17,7 +18,6 @@ import (
 )
 
 const (
-	envOwner  = "GITHUB_REPOSITORY_OWNER"
 	envRepo   = "GITHUB_REPOSITORY"
 	envGitRef = "GITHUB_REF"
 	envSha    = "GITHUB_SHA"
@@ -39,8 +39,7 @@ func NewGithubGithubResultUploader() *GithubResultUploader {
 }
 
 func (g *GithubResultUploader) UploadReport(reporter *sarif.SarifReporter) error {
-	owner := os.Getenv(envOwner)
-	repo := os.Getenv(envRepo)
+	ownerAndRepo := strings.Split(os.Getenv(envRepo), "/")
 	commit := os.Getenv(envSha)
 	gitRef := os.Getenv(envGitRef)
 
@@ -50,7 +49,7 @@ func (g *GithubResultUploader) UploadReport(reporter *sarif.SarifReporter) error
 		return err
 	}
 
-	_, _, err = g.client.CodeScanning.UploadSarif(context.Background(), owner, repo, &github.SarifAnalysis{
+	_, _, err = g.client.CodeScanning.UploadSarif(context.Background(), ownerAndRepo[0], ownerAndRepo[1], &github.SarifAnalysis{
 		CommitSHA: &commit,
 		Ref:       &gitRef,
 		Sarif:     &encodedAndCompressedReport,
