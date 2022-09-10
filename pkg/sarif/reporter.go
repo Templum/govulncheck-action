@@ -11,8 +11,8 @@ import (
 
 const (
 	RULENAME  = "LanguageSpecificPackageVulnerability" // TODO: Research if more specific rule name is possible
-	SERVERITY = "warning"                              // There are no Severities published on that page
-	shortName = "vulncheck"
+	SEVERITY  = "warning"                              // There are no Severities published on that page
+	shortName = "govulncheck"
 	fullName  = "Golang Vulncheck"
 	uri       = "https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck"
 )
@@ -20,17 +20,12 @@ const (
 var rootPath = "file:///"
 
 type SarifReporter struct {
-	output io.Writer
 	report *sarif.Report
 	run    *sarif.Run
-
-	importLookup  *vulncheck.ImportGraph
-	callLookup    *vulncheck.CallGraph
-	requireLookup *vulncheck.RequireGraph
 }
 
-func NewSarifReporter(file io.Writer) *SarifReporter {
-	return &SarifReporter{output: file, report: nil, run: nil}
+func NewSarifReporter() *SarifReporter {
+	return &SarifReporter{report: nil, run: nil}
 }
 
 func (sr *SarifReporter) CreateEmptyReport(vulncheckVersion string) error {
@@ -49,15 +44,8 @@ func (sr *SarifReporter) CreateEmptyReport(vulncheckVersion string) error {
 	return nil
 }
 
-func (sr *SarifReporter) InitLookups(importGraph *vulncheck.ImportGraph, callGraph *vulncheck.CallGraph, requireGraph *vulncheck.RequireGraph) {
-	fmt.Println("Initialized Lookups on Reporter")
-	sr.importLookup = importGraph
-	sr.callLookup = callGraph
-	sr.requireLookup = requireGraph
-}
-
 func (sr *SarifReporter) AddRule(vuln vulncheck.Vuln) {
-	text, markdown := sr.generateHelp(vuln)
+	text, markdown := generateRuleHelp(vuln)
 
 	// sr.run.AddRule does check if the rule is present prior to adding it
 	sr.run.AddRule(vuln.OSV.ID).
@@ -65,7 +53,7 @@ func (sr *SarifReporter) AddRule(vuln vulncheck.Vuln) {
 		WithDescription(vuln.OSV.ID).
 		WithFullDescription(sarif.NewMultiformatMessageString(vuln.OSV.Details)).
 		WithHelp(sarif.NewMultiformatMessageString(text).WithMarkdown(markdown)).
-		WithDefaultConfiguration(sarif.NewReportingConfiguration().WithLevel(SERVERITY)).
+		WithDefaultConfiguration(sarif.NewReportingConfiguration().WithLevel(SEVERITY)).
 		WithProperties(sarif.Properties{
 			"tags": []string{
 				"vulnerability",
@@ -79,45 +67,59 @@ func (sr *SarifReporter) AddRule(vuln vulncheck.Vuln) {
 		WithHelpURI(fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID))
 }
 
-func (sr *SarifReporter) DoesRuleExist(osvID string) bool {
-	for _, rule := range sr.run.Tool.Driver.Rules {
-		if rule.ID == osvID {
-			return true
-		}
-	}
-
-	return false
-}
-
-func (sr *SarifReporter) AddResult(vuln vulncheck.Vuln) {
-
-	region := sarif.NewRegion(). // TODO: Need to get from call sync
-					WithStartLine(1).
-					WithEndLine(1).
-					WithStartColumn(1).
-					WithEndColumn(1)
+func (sr *SarifReporter) AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.CallSite) {
+	result := sarif.NewRuleResult(vuln.OSV.ID).
+		WithLevel(SEVERITY).
+		WithMessage(sarif.NewTextMessage(fmt.Sprintf("Vulnerable Code [%s] is getting called", call.Name)))
+	region := sarif.NewRegion().
+		WithStartLine(call.Pos.Line).
+		WithEndLine(call.Pos.Line).
+		WithStartColumn(call.Pos.Column).
+		WithEndColumn(call.Pos.Column).
+		WithCharOffset(call.Pos.Offset)
 
 	location := sarif.NewPhysicalLocation().
-		WithArtifactLocation(sarif.NewSimpleArtifactLocation("").WithUriBaseId("ROOTPATH")). // TODO: get Location
+		WithArtifactLocation(sarif.NewSimpleArtifactLocation(call.Pos.Filename).WithUriBaseId("ROOTPATH")).
 		WithRegion(region)
 
-	sr.run.AddResult(
-		sarif.NewRuleResult(vuln.OSV.ID).
-			WithLevel(SERVERITY).
-			WithMessage(sarif.NewTextMessage("Found a vulnerability")). //TODO: Create text sharing also fixed version (if avilable)
-			WithRuleIndex(0).                                           //TODO: Need to get rule based on vuln.OSV.ID
-			WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)}),
-	)
+	result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
+
+	ruleIdx := sr.getRuleIndex(vuln.OSV.ID)
+	if ruleIdx >= 0 {
+		result.WithRuleIndex(ruleIdx)
+		sr.run.AddResult(result)
+	}
 }
 
-func (sr *SarifReporter) Flush() error {
+func (sr *SarifReporter) AddImportResult(vuln *vulncheck.Vuln, pkg *vulncheck.PkgNode) {
+	result := sarif.NewRuleResult(vuln.OSV.ID).
+		WithLevel(SEVERITY).
+		WithMessage(sarif.NewTextMessage(fmt.Sprintf("Import of vulnerable package %s", pkg.Path)))
+
+	ruleIdx := sr.getRuleIndex(vuln.OSV.ID)
+	if ruleIdx > 0 {
+		result.WithRuleIndex(ruleIdx)
+		sr.run.AddResult(result)
+	}
+}
+
+func (sr *SarifReporter) WriteToFile(file io.Writer) error {
 	sr.run.ColumnKind = "utf16CodeUnits"
 	sr.run.OriginalUriBaseIDs = map[string]*sarif.ArtifactLocation{
 		"ROOTPATH": {URI: &rootPath},
 	}
 
 	sr.report.AddRun(sr.run)
-	return sr.report.PrettyWrite(sr.output)
+	return sr.report.PrettyWrite(file)
+}
+
+func (sr *SarifReporter) getRuleIndex(ruleId string) int {
+	for idx, rule := range sr.run.Tool.Driver.Rules {
+		if rule.ID == ruleId {
+			return idx
+		}
+	}
+	return -1
 }
 
 func searchFixVersion(versions []osv.Affected) string {
@@ -134,9 +136,9 @@ func searchFixVersion(versions []osv.Affected) string {
 	return "None"
 }
 
-func (sr *SarifReporter) generateHelp(vuln vulncheck.Vuln) (text string, markdown string) {
+func generateRuleHelp(vuln vulncheck.Vuln) (text string, markdown string) {
 	fixVersion := searchFixVersion(vuln.OSV.Affected)
 
 	return fmt.Sprintf("Vulnerability %s \n Module: %s \n Package: %s \n Fixed in Version: %s \n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion),
-		fmt.Sprintf("**Vulnerability %s**\n| Module | Package | Fixed in Version |\n| --- | --- | --- | --- |\n|%s|%s|%s|\n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion)
+		fmt.Sprintf("**Vulnerability %s**\n| Module | Package | Fixed in Version |\n| --- | --- | --- |:---:|\n|%s|%s|%s|\n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion)
 }

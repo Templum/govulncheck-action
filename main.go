@@ -1,60 +1,36 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"path"
 
 	"github.com/Templum/govulncheck-action/pkg/sarif"
-	"golang.org/x/vuln/vulncheck"
-)
-
-const (
-	version = "latest" // TODO: Read from env. Needs to be numeric, hence if latest we need to guess it somehow
+	"github.com/Templum/govulncheck-action/pkg/vulncheck"
 )
 
 func main() {
-	var result vulncheck.Result
+	reporter := sarif.NewSarifReporter()
+	converter := vulncheck.NewVulncheckConverter(reporter)
 
-	rawJson, err := os.ReadFile(path.Join("hack", "vuln_found.json"))
+	result, err := converter.ReadJsonReport(path.Join("hack", "multi.json"))
 	if err != nil {
-		fmt.Println("Failed to read vuln.json")
-		os.Exit(1)
+		fmt.Println(err) // TODO: Start using proper logger
+		os.Exit(2)
 	}
 
-	err = json.Unmarshal(rawJson, &result)
-
+	err = converter.Convert(result)
 	if err != nil {
-		fmt.Printf("Failed to parse vuln.json %v \n", err)
-		os.Exit(1)
+		fmt.Println(err) // TODO: Start using proper logger
+		os.Exit(2)
 	}
 
-	file, err := os.Create("report.sarif")
+	err = converter.FlushToFile("report.sarif")
 	if err != nil {
-		fmt.Printf("Failed to create report.sarif %v \n", err)
-		os.Exit(1)
+		fmt.Println(err) // TODO: Start using proper logger
+		os.Exit(2)
 	}
 
-	defer file.Close()
-	reporter := sarif.NewSarifReporter(file)
-	err = reporter.Init()
-	if err != nil {
-		fmt.Printf("Failed to init sarif Reporter due to %v \n", err)
-		os.Exit(1)
-	}
-
-	for _, current := range result.Vulns {
-		reporter.AddRule(*current)
-
-		reporter.AddResult(*current)
-	}
-
-	err = reporter.Flush()
-	if err != nil {
-		fmt.Printf("Failed to write sarif report due to %v \n", err)
-		os.Exit(1)
-	}
-
-	fmt.Println("Succesfully scanned and created sarif report")
+	// TODO: Implement upload to Github using the API
+	fmt.Println("Successfully processed vulncheck report and generated report.sarif for upload")
 }
