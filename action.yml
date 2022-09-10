@@ -23,8 +23,11 @@ runs:
     - name: Get govulncheck
       run: go install golang.org/x/vuln/cmd/govulncheck@${{ inputs.version }}
       shell: bash
+    - name: Create Share
+      run: mkdir -p /tmp/
+      shell: bash
     - name: Run govulncheck
-      run: govulncheck -json ${{ inputs.packages }}
+      run: govulncheck -json ${{ inputs.packages }} > /tmp/vulncheck.json
       shell: bash
     - name: Build Action
       run: CGO_ENABLED=0 go build -ldflags="-w -s" -v -o action .

@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"path"
 
 	"github.com/Templum/govulncheck-action/pkg/sarif"
 	"github.com/Templum/govulncheck-action/pkg/vulncheck"
@@ -13,7 +12,7 @@ func main() {
 	reporter := sarif.NewSarifReporter()
 	converter := vulncheck.NewVulncheckConverter(reporter)
 
-	result, err := converter.ReadJsonReport(path.Join("hack", "multi.json"))
+	result, err := converter.ReadJsonReport("/tmp/vulncheck.json")
 	if err != nil {
 		fmt.Println(err) // TODO: Start using proper logger
 		os.Exit(2)
