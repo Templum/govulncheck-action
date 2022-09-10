@@ -29,7 +29,7 @@ jobs:
         with:
           package: ./...
           version: v0.0.0-20220908210932-64dbbd7bba4f
-          github-token: {{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ### Inputs
