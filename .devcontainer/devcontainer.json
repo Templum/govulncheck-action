@@ -48,11 +48,12 @@
     },
     // Add the IDs of extensions you want installed when the container is created.
     "extensions": [
-        "golang.Go",
-        "streetsidesoftware.code-spell-checker",
-        "premparihar.gotestexplorer",
-        "wayou.vscode-todo-highlight"
-    ],
+		"golang.Go",
+		"streetsidesoftware.code-spell-checker",
+		"premparihar.gotestexplorer",
+		"wayou.vscode-todo-highlight",
+		"bierner.github-markdown-preview"
+	],
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
