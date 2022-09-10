@@ -26,6 +26,9 @@ runs:
     - name: Run govulncheck
       run: govulncheck -json ${{ inputs.packages }}
       shell: bash
+    - name: Interpret Result
+      using: "docker"
+      image: "Dockerfile"
 
 branding:
   icon: "alert-triangle"
