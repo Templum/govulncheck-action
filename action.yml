@@ -1,5 +1,5 @@
-name: "Rename"
-description: "Rename"
+name: "Golang Vulncheck"
+description: "Perform vulnerability scan using govulncheck and upload to Github Security Scans"
 author: "Templum"
 inputs:
   packages:
@@ -10,6 +10,10 @@ inputs:
     description: "Version of govulncheck that should be used, by default it will be the latest"
     required: false
     default: "latest"
+  github-token:
+    description: Github App token to upload sarif report. Needs write permissions for security_events. By default it will use "github.token value". 
+    default: ${{ github.token }}
+    required: true
 
 runs:
   using: "composite"
@@ -35,6 +39,8 @@ runs:
     - name: Interpret output
       run: ./action
       shell: bash
+      env:
+        GITHUB_TOKEN: '${{ inputs.github-token }}'
       
 
 branding:
