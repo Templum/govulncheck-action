@@ -1,0 +1,20 @@
+name: Release Process
+on:
+  push: # Only trigger for tags with format v****
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Release with Notes
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          token: {{ secrets.GITHUB_TOKEN }}
