@@ -140,5 +140,5 @@ func generateRuleHelp(vuln vulncheck.Vuln) (text string, markdown string) {
 	fixVersion := searchFixVersion(vuln.OSV.Affected)
 
 	return fmt.Sprintf("Vulnerability %s \n Module: %s \n Package: %s \n Fixed in Version: %s \n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion),
-		fmt.Sprintf("**Vulnerability %s**\n| Module | Package | Fixed in Version |\n| --- | --- | --- |:---:|\n|%s|%s|%s|\n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion)
+		fmt.Sprintf("**Vulnerability %s**\n| Module | Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|%s|\n\n %s", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion, vuln.OSV.Details)
 }
