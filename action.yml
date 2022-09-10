@@ -31,9 +31,7 @@ runs:
       shell: bash
     - name: Build Action
       run: CGO_ENABLED=0 go build -ldflags="-w -s" -v -o action .
-      shell: bash
-    - run: echo "${{ github.token }}" >> $GITHUB_TOKEN
-      shell: bash    
+      shell: bash 
     - name: Interpret output
       run: ./action
       shell: bash
