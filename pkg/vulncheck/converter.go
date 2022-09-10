@@ -71,7 +71,7 @@ func (c *Converter) FlushToFile(path string) error {
 	}
 	defer file.Close()
 
-	err = c.reporter.WriteToFile(file)
+	err = c.reporter.Flush(file)
 	if err != nil {
 		return fmt.Errorf("writing sarif report failed with %v", err)
 	}

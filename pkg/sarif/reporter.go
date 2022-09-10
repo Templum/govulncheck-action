@@ -103,7 +103,7 @@ func (sr *SarifReporter) AddImportResult(vuln *vulncheck.Vuln, pkg *vulncheck.Pk
 	}
 }
 
-func (sr *SarifReporter) WriteToFile(file io.Writer) error {
+func (sr *SarifReporter) Flush(file io.Writer) error {
 	sr.run.ColumnKind = "utf16CodeUnits"
 	sr.run.OriginalUriBaseIDs = map[string]*sarif.ArtifactLocation{
 		"ROOTPATH": {URI: &rootPath},
