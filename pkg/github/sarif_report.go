@@ -6,6 +6,8 @@ import (
 	"compress/gzip"
 	"context"
 	"encoding/base64"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 
@@ -42,6 +44,7 @@ func (g *GithubResultUploader) UploadReport(reporter *sarif.SarifReporter) error
 	commit := os.Getenv(envSha)
 	gitRef := os.Getenv(envGitRef)
 
+	fmt.Printf("Preparing Report for commit %s on ref %s \n", commit, gitRef)
 	encodedAndCompressedReport, err := g.prepareReport(reporter)
 	if err != nil {
 		return err
@@ -52,25 +55,53 @@ func (g *GithubResultUploader) UploadReport(reporter *sarif.SarifReporter) error
 		Ref:       &gitRef,
 		Sarif:     &encodedAndCompressedReport,
 	})
+	if _, ok := err.(*github.AcceptedError); ok {
+		var response github.SarifID
+		_ = json.Unmarshal(err.(*github.AcceptedError).Raw, &response)
+
+		fmt.Printf("Successfully uploaded Report to Github it received ID %s \n", *response.ID)
+		return nil
+	}
+
 	if err != nil {
 		return err
 	}
 
-	return nil
+	return errors.New("unexpected response from github")
 }
 
 func (g *GithubResultUploader) prepareReport(reporter *sarif.SarifReporter) (string, error) {
-	buf := bytes.NewBufferString("")
-	wr, err := gzip.NewWriterLevel(buf, flate.BestSpeed)
+	var b bytes.Buffer
+
+	writer, err := gzip.NewWriterLevel(&b, flate.BestSpeed)
 	if err != nil {
 		return "", err
 	}
 
-	err = reporter.Flush(wr)
+	err = reporter.Flush(writer)
 	if err != nil {
 		return "", err
 	}
 
-	fmt.Println("Debug", buf.String())
-	return base64.StdEncoding.EncodeToString(buf.Bytes()), nil
+	err = writer.Close()
+	if err != nil {
+		return "", err
+	}
+
+	writtenBytes := b.Bytes()
+	return base64.StdEncoding.EncodeToString(writtenBytes), nil
 }
+
+/**
+func debugCompressedContent(raw []byte) {
+	var readB = bytes.NewBuffer(raw)
+
+	reader, _ := gzip.NewReader(readB)
+	b, err := io.ReadAll(reader)
+	if err != nil {
+		fmt.Printf("Error %v", err)
+	} else {
+		fmt.Printf("Decoded string %s", string(b))
+	}
+}
+**/

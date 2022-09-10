@@ -29,6 +29,7 @@ func (c *Converter) ReadJsonReport(path string) (*vulncheck.Result, error) {
 		return nil, fmt.Errorf("failed parsing result failed with %v", err)
 	}
 
+	fmt.Printf("Successfully read report from %s\n", path)
 	return &result, nil
 }
 
@@ -61,19 +62,6 @@ func (c *Converter) Convert(result *vulncheck.Result) error {
 
 	}
 
-	return nil
-}
-
-func (c *Converter) FlushToFile(path string) error {
-	file, err := os.Create(path)
-	if err != nil {
-		return fmt.Errorf("failed to flush report to %s due to %v", path, err)
-	}
-	defer file.Close()
-
-	err = c.reporter.Flush(file)
-	if err != nil {
-		return fmt.Errorf("writing sarif report failed with %v", err)
-	}
+	fmt.Printf("Converted Report to Sarif format found %d Vulnerabilities\n", len(result.Vulns))
 	return nil
 }
