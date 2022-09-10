@@ -26,9 +26,13 @@ runs:
     - name: Run govulncheck
       run: govulncheck -json ${{ inputs.packages }}
       shell: bash
-    - name: Interpret Result
-      using: "docker"
-      image: "Dockerfile"
+    - name: Build Action
+      run: CGO_ENABLED=0 go build -ldflags="-w -s" -v -o action .
+      shell: bash
+    - name: Interpret output
+      run: ./action
+      shell: bash
+
 
 branding:
   icon: "alert-triangle"
