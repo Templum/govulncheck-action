@@ -1,9 +1,9 @@
 name: "Golang Vulncheck"
-description: "Perform vulnerability scan using govulncheck and upload to Github Security Scans"
+description: "Performs vulnerability scan using govulncheck and afterwards uploads it as Sarif Report to Github"
 author: "Templum"
 inputs:
-  packages:
-    description: "Template."
+  package:
+    description: "The package you want to scan, by default will be ./..."
     required: false
     default: "./..."
   version:
@@ -31,7 +31,7 @@ runs:
       run: mkdir -p /tmp/
       shell: bash
     - name: Run govulncheck
-      run: govulncheck -json ${{ inputs.packages }} > /tmp/vulncheck.json
+      run: govulncheck -json ${{ inputs.package }} > /tmp/vulncheck.json
       shell: bash
     - name: Build Action
       run: CGO_ENABLED=0 go build -ldflags="-w -s" -v -o action .
@@ -44,5 +44,5 @@ runs:
       
 
 branding:
-  icon: "alert-triangle"
+  icon: "alert-octagon"
   color: "red"
