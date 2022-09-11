@@ -154,9 +154,10 @@ func searchFixVersion(versions []osv.Affected) string {
 
 func generateRuleHelp(vuln vulncheck.Vuln) (text string, markdown string) {
 	fixVersion := searchFixVersion(vuln.OSV.Affected)
+	uri := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID)
 
 	return fmt.Sprintf("Vulnerability %s \n Module: %s \n Package: %s \n Fixed in Version: %s \n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion),
-		fmt.Sprintf("**Vulnerability %s**\n| Module | Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|%s|\n\n %s", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion, vuln.OSV.Details)
+		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Module | Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|%s|\n", vuln.OSV.ID, uri, vuln.OSV.Details, vuln.ModPath, vuln.PkgPath, fixVersion)
 }
 
 func generateResultMessage(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode) string {
