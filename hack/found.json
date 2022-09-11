@@ -7,7 +7,7 @@
 				"RecvType": "",
 				"PkgPath": "github.com/Templum/playground",
 				"Pos": {
-					"Filename": "/workspaces/playground/main.go",
+					"Filename": "/workspaces/govulncheck-action/main.go",
 					"Offset": 187,
 					"Line": 10,
 					"Column": 6
@@ -131,7 +131,7 @@
 						"Name": "MustParse",
 						"RecvType": "",
 						"Pos": {
-							"Filename": "/workspaces/playground/pkg/text/testcase.go",
+							"Filename": "/workspaces/govulncheck-action/pkg/text/testcase.go",
 							"Offset": 102,
 							"Line": 8,
 							"Column": 29
@@ -460,7 +460,7 @@
 				"RecvType": "",
 				"PkgPath": "github.com/Templum/playground/pkg/json",
 				"Pos": {
-					"Filename": "/workspaces/playground/pkg/json/testcase.go",
+					"Filename": "/workspaces/govulncheck-action/pkg/json/testcase.go",
 					"Offset": 130,
 					"Line": 10,
 					"Column": 6
@@ -471,7 +471,7 @@
 						"Name": "Testcase",
 						"RecvType": "",
 						"Pos": {
-							"Filename": "/workspaces/playground/main.go",
+							"Filename": "/workspaces/govulncheck-action/main.go",
 							"Offset": 210,
 							"Line": 11,
 							"Column": 15
@@ -1250,7 +1250,7 @@
 				"RecvType": "",
 				"PkgPath": "github.com/Templum/playground/pkg/text",
 				"Pos": {
-					"Filename": "/workspaces/playground/pkg/text/testcase.go",
+					"Filename": "/workspaces/govulncheck-action/pkg/text/testcase.go",
 					"Offset": 61,
 					"Line": 7,
 					"Column": 6
@@ -1261,7 +1261,7 @@
 						"Name": "Testcase",
 						"RecvType": "",
 						"Pos": {
-							"Filename": "/workspaces/playground/main.go",
+							"Filename": "/workspaces/govulncheck-action/main.go",
 							"Offset": 227,
 							"Line": 12,
 							"Column": 15
@@ -1824,7 +1824,7 @@
 				"RecvType": "",
 				"PkgPath": "github.com/Templum/playground/pkg/yaml",
 				"Pos": {
-					"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
+					"Filename": "/workspaces/govulncheck-action/pkg/yaml/testcase.go",
 					"Offset": 306,
 					"Line": 26,
 					"Column": 6
@@ -1835,7 +1835,7 @@
 						"Name": "Testcase",
 						"RecvType": "",
 						"Pos": {
-							"Filename": "/workspaces/playground/main.go",
+							"Filename": "/workspaces/govulncheck-action/main.go",
 							"Offset": 244,
 							"Line": 13,
 							"Column": 15
@@ -2515,7 +2515,7 @@
 						"Name": "Unmarshal",
 						"RecvType": "",
 						"Pos": {
-							"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
+							"Filename": "/workspaces/govulncheck-action/pkg/yaml/testcase.go",
 							"Offset": 348,
 							"Line": 28,
 							"Column": 20
@@ -2541,7 +2541,7 @@
 						"Name": "Get",
 						"RecvType": "",
 						"Pos": {
-							"Filename": "/workspaces/playground/pkg/json/testcase.go",
+							"Filename": "/workspaces/govulncheck-action/pkg/json/testcase.go",
 							"Offset": 162,
 							"Line": 11,
 							"Column": 20

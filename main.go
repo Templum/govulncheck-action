@@ -11,6 +11,11 @@ import (
 
 func main() {
 	scanner := vulncheck.NewScanner()
+
+	if os.Getenv("LOCAL") == "true" {
+		scanner = vulncheck.NewLocalScanner()
+	}
+
 	reporter := sarif.NewSarifReporter()
 	converter := vulncheck.NewVulncheckConverter(reporter)
 	github := github.NewSarifUploader()
