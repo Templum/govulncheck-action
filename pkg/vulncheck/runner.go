@@ -34,8 +34,6 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	if err, ok := cmdErr.(*exec.ExitError); ok {
 		if err.ExitCode() > 0 {
 			println("Scan found vulnerabilities in codebase")
-		} else {
-			println("Scan did not find any vulnerabilities in codebase")
 		}
 
 	}
