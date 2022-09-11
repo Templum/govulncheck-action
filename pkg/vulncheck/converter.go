@@ -3,6 +3,7 @@ package vulncheck
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/Templum/govulncheck-action/pkg/sarif"
 	"golang.org/x/vuln/vulncheck"
@@ -27,6 +28,8 @@ func (c *Converter) getVulncheckVersion() string {
 }
 
 func (c *Converter) Convert(result *vulncheck.Result) error {
+	localDir, _ := os.Getwd()
+
 	err := c.reporter.CreateEmptyReport(c.getVulncheckVersion())
 	if err != nil {
 		return err
@@ -42,13 +45,16 @@ func (c *Converter) Convert(result *vulncheck.Result) error {
 		} else {
 			if len(result.Calls.Functions) >= current.CallSink {
 				for _, call := range result.Calls.Functions[current.CallSink].CallSites {
-					c.reporter.AddCallResult(current, call)
+					if strings.Contains(call.Pos.Filename, localDir) {
+						// Only reporting code that is used
+						c.reporter.AddCallResult(current, call)
+					}
 				}
 			}
 		}
 
 	}
 
-	fmt.Printf("Converted Report to Sarif format found %d Vulnerabilities\n", len(result.Vulns))
+	fmt.Println("Converted Report to Sarif format")
 	return nil
 }

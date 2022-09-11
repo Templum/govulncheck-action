@@ -50,7 +50,6 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 		return nil, cmdErr
 	}
 
-	fmt.Println("Scan concluded will now attempt to parse it")
 	var result vulncheck.Result
 	err := json.Unmarshal(out, &result)
 	if err != nil {
