@@ -161,7 +161,8 @@ func generateRuleHelp(vuln vulncheck.Vuln) (text string, markdown string) {
 }
 
 func generateResultMessage(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode) string {
-	caller := fmt.Sprintf("%s:%d:%d %s.%s", call.Pos.Filename, call.Pos.Line, call.Pos.Column, parent.PkgPath, parent.Name)
+	localDir, _ := os.Getwd()
+	caller := fmt.Sprintf("%s:%d:%d %s.%s", makePathRelative(call.Pos.Filename, localDir), call.Pos.Line, call.Pos.Column, parent.PkgPath, parent.Name)
 	calledVuln := fmt.Sprintf("%s.%s", vuln.ModPath, vuln.Symbol)
 
 	return fmt.Sprintf("%s calls %s which has vulnerability %s", caller, calledVuln, vuln.OSV.ID)
