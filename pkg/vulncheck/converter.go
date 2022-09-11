@@ -3,6 +3,7 @@ package vulncheck
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/Templum/govulncheck-action/pkg/sarif"
 	"golang.org/x/vuln/vulncheck"
@@ -27,6 +28,8 @@ func (c *Converter) getVulncheckVersion() string {
 }
 
 func (c *Converter) Convert(result *vulncheck.Result) error {
+	localDir, _ := os.Getwd()
+
 	err := c.reporter.CreateEmptyReport(c.getVulncheckVersion())
 	if err != nil {
 		return err
@@ -36,19 +39,23 @@ func (c *Converter) Convert(result *vulncheck.Result) error {
 		c.reporter.AddRule(*current)
 
 		if current.CallSink == 0 {
-			if len(result.Imports.Packages) <= current.ImportSink {
+			if len(result.Imports.Packages) >= current.ImportSink {
 				c.reporter.AddImportResult(current, result.Imports.Packages[current.ImportSink])
 			}
 		} else {
-			if len(result.Calls.Functions) == current.CallSink {
+			if len(result.Calls.Functions) >= current.CallSink {
 				for _, call := range result.Calls.Functions[current.CallSink].CallSites {
-					c.reporter.AddCallResult(current, call)
+					// Only reporting code that is used
+					if strings.Contains(call.Pos.Filename, localDir) {
+						parent := result.Calls.Functions[call.Parent]
+						c.reporter.AddCallResult(current, call, parent)
+					}
 				}
 			}
 		}
 
 	}
 
-	fmt.Printf("Converted Report to Sarif format found %d Vulnerabilities\n", len(result.Vulns))
+	fmt.Println("Converted Report to Sarif format")
 	return nil
 }

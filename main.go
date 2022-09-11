@@ -11,25 +11,30 @@ import (
 
 func main() {
 	scanner := vulncheck.NewScanner()
+
+	if os.Getenv("LOCAL") == "true" {
+		scanner = vulncheck.NewLocalScanner()
+	}
+
 	reporter := sarif.NewSarifReporter()
 	converter := vulncheck.NewVulncheckConverter(reporter)
 	github := github.NewSarifUploader()
 
 	result, err := scanner.Scan()
 	if err != nil {
-		fmt.Println(err) // TODO: Start using proper logger
+		fmt.Printf("%v \n", err) // TODO: Start using proper logger
 		os.Exit(2)
 	}
 
 	err = converter.Convert(result)
 	if err != nil {
-		fmt.Println(err) // TODO: Start using proper logger
+		fmt.Printf("%v \n", err) // TODO: Start using proper logger
 		os.Exit(2)
 	}
 
 	err = github.UploadReport(reporter)
 	if err != nil {
-		fmt.Println(err) // TODO: Start using proper logger
+		fmt.Printf("%v \n", err) // TODO: Start using proper logger
 		os.Exit(2)
 	}
 

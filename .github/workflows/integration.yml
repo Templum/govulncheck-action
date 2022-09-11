@@ -6,8 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Debug
-        run: ls
+        run: pwd && ls
         shell: bash
       - name: Integration Test
         id: integration-test
-        uses: Templum/govulncheck-action@main
+        uses: Templum/govulncheck-action@debug
