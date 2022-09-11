@@ -29,8 +29,13 @@ func NewScanner() Scanner {
 
 func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	pkg := os.Getenv(envPackage)
-	out, cmdErr := exec.Command("govulncheck", "-json", pkg).Output()
+	workDir, _ := os.Getwd()
 
+	fmt.Printf("Running govulncheck for package %s in dir %s\n", pkg, workDir)
+	cmd := exec.Command("govulncheck", "-json", pkg)
+	cmd.Dir = workDir
+
+	out, cmdErr := cmd.Output()
 	if err, ok := cmdErr.(*exec.ExitError); ok {
 		if err.ExitCode() > 0 {
 			println("Scan found vulnerabilities in codebase")
