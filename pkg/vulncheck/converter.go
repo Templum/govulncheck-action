@@ -47,9 +47,8 @@ func (c *Converter) Convert(result *vulncheck.Result) error {
 				for _, call := range result.Calls.Functions[current.CallSink].CallSites {
 					// Only reporting code that is used
 					if strings.Contains(call.Pos.Filename, localDir) {
-
-						call.Pos.Filename = makePathRelative(call.Pos.Filename, localDir)
-						c.reporter.AddCallResult(current, call)
+						parent := result.Calls.Functions[call.Parent]
+						c.reporter.AddCallResult(current, call, parent)
 					}
 				}
 			}
@@ -59,8 +58,4 @@ func (c *Converter) Convert(result *vulncheck.Result) error {
 
 	fmt.Println("Converted Report to Sarif format")
 	return nil
-}
-
-func makePathRelative(absolute string, workdir string) string {
-	return strings.Replace(absolute, workdir, "", 1)
 }
