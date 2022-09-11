@@ -5,6 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Debug
+        run: ls
+        shell: bash
       - name: Integration Test
         id: integration-test
         uses: Templum/govulncheck-action@main

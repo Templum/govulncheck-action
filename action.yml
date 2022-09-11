@@ -16,6 +16,7 @@ runs:
   image: "Dockerfile"
   env:
     GITHUB_TOKEN: "${{ inputs.github-token }}"
+    PACKAGE: "${{ inputs.package }}"
 
 branding:
   icon: "alert-octagon"
