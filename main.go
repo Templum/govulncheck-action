@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/Templum/govulncheck-action/pkg/github"
 	"github.com/Templum/govulncheck-action/pkg/sarif"
@@ -11,17 +10,12 @@ import (
 )
 
 func main() {
+	scanner := vulncheck.NewScanner()
 	reporter := sarif.NewSarifReporter()
 	converter := vulncheck.NewVulncheckConverter(reporter)
-	github := github.NewGithubGithubResultUploader()
+	github := github.NewSarifUploader()
 
-	path := "/tmp/vulncheck.json"
-
-	if os.Getenv("LOCAL") == "true" {
-		path = filepath.Join("hack", "multi.json")
-	}
-
-	result, err := converter.ReadJsonReport(path)
+	result, err := scanner.Scan()
 	if err != nil {
 		fmt.Println(err) // TODO: Start using proper logger
 		os.Exit(2)

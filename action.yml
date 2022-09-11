@@ -24,19 +24,13 @@ runs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.19
-    - name: Get govulncheck
+    - name: Install govulncheck binary
       run: go install golang.org/x/vuln/cmd/govulncheck@${{ inputs.version }}
-      shell: bash
-    - name: Create Share
-      run: mkdir -p /tmp/
-      shell: bash
-    - name: Run govulncheck
-      run: govulncheck -json ${{ inputs.package }} > /tmp/vulncheck.json
       shell: bash
     - name: Build Action
       run: CGO_ENABLED=0 go build -ldflags="-w -s" -v -o action .
       shell: bash 
-    - name: Interpret output
+    - name: Perform Scan & Upload
       run: ./action
       shell: bash
       env:

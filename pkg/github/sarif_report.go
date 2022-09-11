@@ -24,27 +24,31 @@ const (
 	envToken  = "GITHUB_TOKEN"
 )
 
-type GithubResultUploader struct {
+type SarifUploader interface {
+	UploadReport(report sarif.Report) error
+}
+
+type GithubSarifUploader struct {
 	client *github.Client
 }
 
-func NewGithubGithubResultUploader() *GithubResultUploader {
+func NewSarifUploader() SarifUploader {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv(envToken)},
 	)
 	tc := oauth2.NewClient(ctx, ts)
 
-	return &GithubResultUploader{client: github.NewClient(tc)}
+	return &GithubSarifUploader{client: github.NewClient(tc)}
 }
 
-func (g *GithubResultUploader) UploadReport(reporter *sarif.SarifReporter) error {
+func (g *GithubSarifUploader) UploadReport(report sarif.Report) error {
 	ownerAndRepo := strings.Split(os.Getenv(envRepo), "/")
 	commit := os.Getenv(envSha)
 	gitRef := os.Getenv(envGitRef)
 
 	fmt.Printf("Preparing Report for commit %s on ref %s \n", commit, gitRef)
-	encodedAndCompressedReport, err := g.prepareReport(reporter)
+	encodedAndCompressedReport, err := g.prepareReport(report)
 	if err != nil {
 		return err
 	}
@@ -69,26 +73,24 @@ func (g *GithubResultUploader) UploadReport(reporter *sarif.SarifReporter) error
 	return errors.New("unexpected response from github")
 }
 
-func (g *GithubResultUploader) prepareReport(reporter *sarif.SarifReporter) (string, error) {
+func (g *GithubSarifUploader) prepareReport(report sarif.Report) (string, error) {
 	var b bytes.Buffer
 
-	writer, err := gzip.NewWriterLevel(&b, flate.BestSpeed)
+	// Can only throw for invalid level, which can not be the case here
+	writer, _ := gzip.NewWriterLevel(&b, flate.BestSpeed)
+
+	err := report.Flush(writer)
 	if err != nil {
 		return "", err
 	}
 
-	err = reporter.Flush(writer)
-	if err != nil {
-		return "", err
-	}
-
+	// Only through calling close the bytes will be written to the underlying writer
 	err = writer.Close()
 	if err != nil {
 		return "", err
 	}
 
-	writtenBytes := b.Bytes()
-	return base64.StdEncoding.EncodeToString(writtenBytes), nil
+	return base64.StdEncoding.EncodeToString(b.Bytes()), nil
 }
 
 /**
