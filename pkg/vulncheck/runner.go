@@ -31,8 +31,9 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	pkg := os.Getenv(envPackage)
 	workDir, _ := os.Getwd()
 
-	files, _ := os.ReadDir(workDir)
-	for _, f := range files {
+	println("Reading /usr/local/bin")
+	bins, _ := os.ReadDir("/usr/local/bin/")
+	for _, f := range bins {
 		fmt.Println(f.Name())
 	}
 
