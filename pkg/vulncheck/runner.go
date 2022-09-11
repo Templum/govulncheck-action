@@ -40,10 +40,8 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 		if err.ExitCode() > 0 {
 			println("Scan found vulnerabilities in codebase")
 		}
-		println(err)
-	}
-	if cmdErr != nil {
-		println(cmdErr)
+		fmt.Printf("%v \n", err)
+	} else if cmdErr != nil {
 		return nil, cmdErr
 	}
 
