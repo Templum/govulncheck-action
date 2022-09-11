@@ -36,11 +36,11 @@ func (c *Converter) Convert(result *vulncheck.Result) error {
 		c.reporter.AddRule(*current)
 
 		if current.CallSink == 0 {
-			if len(result.Imports.Packages) <= current.ImportSink {
+			if len(result.Imports.Packages) >= current.ImportSink {
 				c.reporter.AddImportResult(current, result.Imports.Packages[current.ImportSink])
 			}
 		} else {
-			if len(result.Calls.Functions) == current.CallSink {
+			if len(result.Calls.Functions) >= current.CallSink {
 				for _, call := range result.Calls.Functions[current.CallSink].CallSites {
 					c.reporter.AddCallResult(current, call)
 				}
