@@ -10,4 +10,4 @@ jobs:
         shell: bash
       - name: Integration Test
         id: integration-test
-        uses: Templum/govulncheck-action@main
+        uses: Templum/govulncheck-action@debug
