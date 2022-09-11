@@ -1,7 +1,6 @@
 package vulncheck
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
@@ -9,28 +8,16 @@ import (
 	"golang.org/x/vuln/vulncheck"
 )
 
+type VulncheckConverter interface {
+	Convert(result *vulncheck.Result) error
+}
+
 type Converter struct {
-	reporter *sarif.SarifReporter
+	reporter sarif.Reporter
 }
 
-func NewVulncheckConverter(reporter *sarif.SarifReporter) *Converter {
+func NewVulncheckConverter(reporter sarif.Reporter) VulncheckConverter {
 	return &Converter{reporter: reporter}
-}
-
-func (c *Converter) ReadJsonReport(path string) (*vulncheck.Result, error) {
-	rawJson, err := os.ReadFile(path)
-	if err != nil {
-		return nil, fmt.Errorf("was not able to read vulncheck report located at %s", path)
-	}
-
-	var result vulncheck.Result
-	err = json.Unmarshal(rawJson, &result)
-	if err != nil {
-		return nil, fmt.Errorf("failed parsing result failed with %v", err)
-	}
-
-	fmt.Printf("Successfully read report from %s\n", path)
-	return &result, nil
 }
 
 func (c *Converter) getVulncheckVersion() string {

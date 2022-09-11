@@ -19,12 +19,28 @@ const (
 
 var rootPath = "file:///"
 
+type Reporter interface {
+	CreateEmptyReport(vulncheckVersion string) error
+	AddRule(vuln vulncheck.Vuln)
+	AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.CallSite)
+	AddImportResult(vuln *vulncheck.Vuln, pkg *vulncheck.PkgNode)
+}
+
+type Report interface {
+	Flush(writer io.Writer) error
+}
+
+type Reportable interface {
+	Reporter
+	Report
+}
+
 type SarifReporter struct {
 	report *sarif.Report
 	run    *sarif.Run
 }
 
-func NewSarifReporter() *SarifReporter {
+func NewSarifReporter() Reportable {
 	return &SarifReporter{report: nil, run: nil}
 }
 
@@ -103,14 +119,14 @@ func (sr *SarifReporter) AddImportResult(vuln *vulncheck.Vuln, pkg *vulncheck.Pk
 	}
 }
 
-func (sr *SarifReporter) Flush(file io.Writer) error {
+func (sr *SarifReporter) Flush(writer io.Writer) error {
 	sr.run.ColumnKind = "utf16CodeUnits"
 	sr.run.OriginalUriBaseIDs = map[string]*sarif.ArtifactLocation{
 		"ROOTPATH": {URI: &rootPath},
 	}
 
 	sr.report.AddRun(sr.run)
-	return sr.report.PrettyWrite(file)
+	return sr.report.PrettyWrite(writer)
 }
 
 func (sr *SarifReporter) getRuleIndex(ruleId string) int {
