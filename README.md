@@ -9,8 +9,6 @@ Performs vulnerability scan using govulncheck and afterwards uploads it as [Sari
 
 ## Usage
 
-Describe how to use your action here.
-
 ### Example Workflow
 
 Please be aware that this workflow highlights all available inputs. But all inputs come with a default value.
@@ -28,7 +26,6 @@ jobs:
         uses: Templum/govulncheck-action@<version>
         with:
           package: ./...
-          version: v0.0.0-20220908210932-64dbbd7bba4f
           github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
@@ -37,7 +34,6 @@ jobs:
 | Input                       | Description                                                                          |
 |-----------------------------|--------------------------------------------------------------------------------------|
 | `package` _(optional)_      | The package you want to scan, by default will be `./...`                             |
-| `version` _(optional)_      | Version of govulncheck that should be used, by default it will be `latest`           |
 | `github-token` _(optional)_ | Github Token to upload sarif report. Needs *write* permissions for `security_events` |
 
 > Please be aware if the token is not specified it uses `github.token` for more details on that check [those docs](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)
