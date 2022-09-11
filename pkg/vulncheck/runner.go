@@ -31,6 +31,11 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	pkg := os.Getenv(envPackage)
 	workDir, _ := os.Getwd()
 
+	files, _ := os.ReadDir(workDir)
+	for _, f := range files {
+		fmt.Println(f.Name())
+	}
+
 	fmt.Printf("Running govulncheck for package %s in dir %s\n", pkg, workDir)
 	cmd := exec.Command("govulncheck", "-json", pkg)
 	cmd.Dir = workDir
@@ -41,6 +46,9 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 			println("Scan found vulnerabilities in codebase")
 		}
 
+	}
+	if cmdErr != nil {
+		return nil, cmdErr
 	}
 
 	var result vulncheck.Result
