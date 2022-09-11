@@ -40,15 +40,16 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 		if err.ExitCode() > 0 {
 			println("Scan found vulnerabilities in codebase")
 		}
-		fmt.Printf("Program has excited ? %t", err.Exited())
-		fmt.Printf("Program was success ? %t", err.Success())
-		fmt.Printf("Stderr: %s", string(err.Stderr))
-		fmt.Printf("Error: %v", err)
+
+		if len(err.Stderr) > 0 {
+			fmt.Printf("Stderr: %s\n", string(err.Stderr))
+			fmt.Printf("Error: %v\n", err)
+		}
+
 	} else if cmdErr != nil {
 		return nil, cmdErr
 	}
 
-	fmt.Printf("Debug raw output: %s \n", string(out))
 	fmt.Println("Scan concluded will now attempt to parse it")
 	var result vulncheck.Result
 	err := json.Unmarshal(out, &result)
