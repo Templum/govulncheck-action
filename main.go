@@ -7,6 +7,7 @@ import (
 	"github.com/Templum/govulncheck-action/pkg/github"
 	"github.com/Templum/govulncheck-action/pkg/sarif"
 	"github.com/Templum/govulncheck-action/pkg/vulncheck"
+	"golang.org/x/text/language"
 )
 
 func main() {
@@ -33,5 +34,6 @@ func main() {
 		os.Exit(2)
 	}
 
-	fmt.Println("Successfully processed uploaded vulncheck report to Github")
+	value := language.MustParse("de-De")
+	fmt.Println("Successfully processed uploaded vulncheck report to Github", value)
 }

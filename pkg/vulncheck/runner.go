@@ -32,7 +32,7 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	workDir, _ := os.Getwd()
 
 	fmt.Printf("Running govulncheck for package %s in dir %s\n", pkg, workDir)
-	cmd := exec.Command(command, pkg)
+	cmd := exec.Command(command, flag, pkg)
 	cmd.Dir = workDir
 
 	out, cmdErr := cmd.Output()
@@ -40,6 +40,10 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 		if err.ExitCode() > 0 {
 			println("Scan found vulnerabilities in codebase")
 		}
+		fmt.Printf("Program has excited ? %t", err.Exited())
+		fmt.Printf("Program was success ? %t", err.Success())
+		fmt.Printf("Stderr: %s", string(err.Stderr))
+		fmt.Printf("Error: %v", err)
 	} else if cmdErr != nil {
 		return nil, cmdErr
 	}
