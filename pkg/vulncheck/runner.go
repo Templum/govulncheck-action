@@ -32,7 +32,7 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	workDir, _ := os.Getwd()
 
 	fmt.Printf("Running govulncheck for package %s in dir %s\n", pkg, workDir)
-	cmd := exec.Command("govulncheck", "-json", pkg)
+	cmd := exec.Command(command, pkg)
 	cmd.Dir = workDir
 
 	out, cmdErr := cmd.Output()
