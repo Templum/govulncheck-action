@@ -15,7 +15,7 @@ RUN CGO_ENABLED=0 go build -ldflags="-w -s" -v -o action .
 
 FROM gcr.io/distroless/static
 COPY --from=builder /go/src/github.com/Templum/govulncheck-action/action /action
-COPY --from=builder /go/bin/govulncheck/ /bin/govulncheck
+COPY --from=builder /go/bin/govulncheck /bin/govulncheck
 ENV PATH=/bin/govulncheck:$PATH
 
 ENTRYPOINT ["/action"]
