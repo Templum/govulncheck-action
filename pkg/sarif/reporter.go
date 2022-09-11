@@ -10,14 +10,13 @@ import (
 )
 
 const (
-	RULENAME  = "LanguageSpecificPackageVulnerability" // TODO: Research if more specific rule name is possible
-	SEVERITY  = "warning"                              // There are no Severities published on that page
+	ruleName  = "LanguageSpecificPackageVulnerability" // TODO: Research if more specific rule name is possible
+	severity  = "warning"                              // There are no Severities published on that page
 	shortName = "govulncheck"
 	fullName  = "Golang Vulncheck"
 	uri       = "https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck"
+	baseURI   = "SRCROOT"
 )
-
-var rootPath = "file:///"
 
 type Reporter interface {
 	CreateEmptyReport(vulncheckVersion string) error
@@ -65,11 +64,11 @@ func (sr *SarifReporter) AddRule(vuln vulncheck.Vuln) {
 
 	// sr.run.AddRule does check if the rule is present prior to adding it
 	sr.run.AddRule(vuln.OSV.ID).
-		WithName(RULENAME).
+		WithName(ruleName).
 		WithDescription(vuln.OSV.ID).
 		WithFullDescription(sarif.NewMultiformatMessageString(vuln.OSV.Details)).
 		WithHelp(sarif.NewMultiformatMessageString(text).WithMarkdown(markdown)).
-		WithDefaultConfiguration(sarif.NewReportingConfiguration().WithLevel(SEVERITY)).
+		WithDefaultConfiguration(sarif.NewReportingConfiguration().WithLevel(severity)).
 		WithProperties(sarif.Properties{
 			"tags": []string{
 				"vulnerability",
@@ -85,7 +84,7 @@ func (sr *SarifReporter) AddRule(vuln vulncheck.Vuln) {
 
 func (sr *SarifReporter) AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.CallSite) {
 	result := sarif.NewRuleResult(vuln.OSV.ID).
-		WithLevel(SEVERITY).
+		WithLevel(severity).
 		WithMessage(sarif.NewTextMessage(fmt.Sprintf("Vulnerable Code [%s] is getting called", call.Name)))
 	region := sarif.NewRegion().
 		WithStartLine(call.Pos.Line).
@@ -95,7 +94,7 @@ func (sr *SarifReporter) AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.Cal
 		WithCharOffset(call.Pos.Offset)
 
 	location := sarif.NewPhysicalLocation().
-		WithArtifactLocation(sarif.NewSimpleArtifactLocation(call.Pos.Filename).WithUriBaseId("ROOTPATH")).
+		WithArtifactLocation(sarif.NewSimpleArtifactLocation(call.Pos.Filename).WithUriBaseId(baseURI)).
 		WithRegion(region)
 
 	result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
@@ -109,7 +108,7 @@ func (sr *SarifReporter) AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.Cal
 
 func (sr *SarifReporter) AddImportResult(vuln *vulncheck.Vuln, pkg *vulncheck.PkgNode) {
 	result := sarif.NewRuleResult(vuln.OSV.ID).
-		WithLevel(SEVERITY).
+		WithLevel(severity).
 		WithMessage(sarif.NewTextMessage(fmt.Sprintf("Import of vulnerable package %s", pkg.Path)))
 
 	ruleIdx := sr.getRuleIndex(vuln.OSV.ID)
@@ -121,9 +120,6 @@ func (sr *SarifReporter) AddImportResult(vuln *vulncheck.Vuln, pkg *vulncheck.Pk
 
 func (sr *SarifReporter) Flush(writer io.Writer) error {
 	sr.run.ColumnKind = "utf16CodeUnits"
-	sr.run.OriginalUriBaseIDs = map[string]*sarif.ArtifactLocation{
-		"ROOTPATH": {URI: &rootPath},
-	}
 
 	sr.report.AddRun(sr.run)
 	return sr.report.PrettyWrite(writer)
