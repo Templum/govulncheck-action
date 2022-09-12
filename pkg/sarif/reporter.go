@@ -39,10 +39,16 @@ type Reportable interface {
 type SarifReporter struct {
 	report *sarif.Report
 	run    *sarif.Run
+
+	workDir    string
+	repository string
 }
 
 func NewSarifReporter() Reportable {
-	return &SarifReporter{report: nil, run: nil}
+	localDir, _ := os.Getwd()
+	githubRepo := os.Getenv("GITHUB_REPOSITORY")
+
+	return &SarifReporter{report: nil, run: nil, workDir: localDir, repository: githubRepo}
 }
 
 func (sr *SarifReporter) CreateEmptyReport(vulncheckVersion string) error {
@@ -85,11 +91,9 @@ func (sr *SarifReporter) AddRule(vuln vulncheck.Vuln) {
 }
 
 func (sr *SarifReporter) AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode) {
-	localDir, _ := os.Getwd()
-
 	result := sarif.NewRuleResult(vuln.OSV.ID).
 		WithLevel(severity).
-		WithMessage(sarif.NewTextMessage(generateResultMessage(vuln, call, parent)))
+		WithMessage(sarif.NewTextMessage(sr.generateResultMessage(vuln, call, parent)))
 	region := sarif.NewRegion().
 		WithStartLine(call.Pos.Line).
 		WithEndLine(call.Pos.Line).
@@ -98,7 +102,7 @@ func (sr *SarifReporter) AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.Cal
 		WithCharOffset(call.Pos.Offset)
 
 	location := sarif.NewPhysicalLocation().
-		WithArtifactLocation(sarif.NewSimpleArtifactLocation(makePathRelative(call.Pos.Filename, localDir)).WithUriBaseId(baseURI)).
+		WithArtifactLocation(sarif.NewSimpleArtifactLocation(sr.makePathRelative(call.Pos.Filename)).WithUriBaseId(baseURI)).
 		WithRegion(region)
 
 	result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
@@ -138,6 +142,19 @@ func (sr *SarifReporter) getRuleIndex(ruleId string) int {
 	return -1
 }
 
+func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode) string {
+	relativeFile := strings.Replace(call.Pos.Filename, sr.workDir, "", 1)
+
+	caller := fmt.Sprintf("%s:%d:%d %s.%s", relativeFile, call.Pos.Line, call.Pos.Column, parent.PkgPath, parent.Name)
+	calledVuln := fmt.Sprintf("%s.%s", vuln.ModPath, vuln.Symbol)
+
+	return fmt.Sprintf("%s calls %s which has vulnerability %s", caller, calledVuln, vuln.OSV.ID)
+}
+
+func (sr *SarifReporter) makePathRelative(absolute string) string {
+	return strings.Replace(absolute, sr.workDir, sr.repository, 1)
+}
+
 func searchFixVersion(versions []osv.Affected) string {
 	for _, current := range versions {
 		for _, r := range current.Ranges {
@@ -158,16 +175,4 @@ func generateRuleHelp(vuln vulncheck.Vuln) (text string, markdown string) {
 
 	return fmt.Sprintf("Vulnerability %s \n Module: %s \n Package: %s \n Fixed in Version: %s \n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion),
 		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Module | Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|%s|\n", vuln.OSV.ID, uri, vuln.OSV.Details, vuln.ModPath, vuln.PkgPath, fixVersion)
-}
-
-func generateResultMessage(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode) string {
-	localDir, _ := os.Getwd()
-	caller := fmt.Sprintf("%s:%d:%d %s.%s", makePathRelative(call.Pos.Filename, localDir), call.Pos.Line, call.Pos.Column, parent.PkgPath, parent.Name)
-	calledVuln := fmt.Sprintf("%s.%s", vuln.ModPath, vuln.Symbol)
-
-	return fmt.Sprintf("%s calls %s which has vulnerability %s", caller, calledVuln, vuln.OSV.ID)
-}
-
-func makePathRelative(absolute string, workdir string) string {
-	return strings.Replace(absolute, workdir, "", 1)
 }
