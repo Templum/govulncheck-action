@@ -23,7 +23,7 @@ runs:
   using: "composite"
   steps:
     - id: build
-      run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -t templum/govulncheck-action:local
+      run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -t templum/govulncheck-action:local .
       shell: bash
     - id: run
       run: docker run --rm -v $(pwd):/github/workspace --workdir /github/workspace -e GITHUB_TOKEN=${{ inputs.github-token }} -e PACKAGE=${{ inputs.package }} -e VERSION=${{ inputs.version }} -e GITHUB_REPOSITORY=${{ github.repository }} -e GITHUB_REF=${{ github.ref }} -e GITHUB_SHA=${{ github.sha }} templum/govulncheck-action:local
