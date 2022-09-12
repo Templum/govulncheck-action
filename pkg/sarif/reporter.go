@@ -40,15 +40,13 @@ type SarifReporter struct {
 	report *sarif.Report
 	run    *sarif.Run
 
-	workDir    string
-	repository string
+	workDir string
 }
 
 func NewSarifReporter() Reportable {
 	localDir, _ := os.Getwd()
-	githubRepo := os.Getenv("GITHUB_REPOSITORY")
 
-	return &SarifReporter{report: nil, run: nil, workDir: localDir, repository: githubRepo}
+	return &SarifReporter{report: nil, run: nil, workDir: localDir}
 }
 
 func (sr *SarifReporter) CreateEmptyReport(vulncheckVersion string) error {
@@ -143,7 +141,7 @@ func (sr *SarifReporter) getRuleIndex(ruleId string) int {
 }
 
 func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode) string {
-	relativeFile := strings.Replace(call.Pos.Filename, sr.workDir, "", 1)
+	relativeFile := sr.makePathRelative(call.Pos.Filename)
 
 	caller := fmt.Sprintf("%s:%d:%d %s.%s", relativeFile, call.Pos.Line, call.Pos.Column, parent.PkgPath, parent.Name)
 	calledVuln := fmt.Sprintf("%s.%s", vuln.ModPath, vuln.Symbol)
@@ -152,7 +150,7 @@ func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, call *vulnc
 }
 
 func (sr *SarifReporter) makePathRelative(absolute string) string {
-	return strings.Replace(absolute, sr.workDir, sr.repository, 1)
+	return strings.Replace(absolute, sr.workDir, "", 1)
 }
 
 func searchFixVersion(versions []osv.Affected) string {
