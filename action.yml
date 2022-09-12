@@ -6,17 +6,28 @@ inputs:
     description: "The package you want to scan, by default will be ./..."
     required: false
     default: "./..."
+  go-version:
+    description: "Can be any Tag for the golang docker image, but should ideally match your runtime go version. By default 1.19 is assumed"
+    required: false
+    default: "1.19"
+  vulncheck-version:
+    description: "Version of govulncheck that should be used, by default latest"
+    required: false
+    default: "latest"
   github-token:
     description: "Github App token to upload sarif report. Needs write permissions for security_events. By default it will use 'github.token' value"
     default: ${{ github.token }}
-    required: true
+    required: false
 
 runs:
-  using: "docker"
-  image: "Dockerfile"
-  env:
-    GITHUB_TOKEN: "${{ inputs.github-token }}"
-    PACKAGE: "${{ inputs.package }}"
+  using: "composite"
+  steps:
+    - id: build
+      run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -t Templum/govulncheck-action:local
+      shell: bash
+    - id: run
+      run: docker run --rm -v $(pwd):/github/workspace --workdir /github/workspace -e GITHUB_TOKEN=${{ inputs.github-token }} -e PACKAGE=${{ inputs.package }} -e VERSION=${{ inputs.version }} -e GITHUB_REPOSITORY=${{ github.repository }} -e GITHUB_REF=${{ github.ref }} -e GITHUB_SHA=${{ github.sha }} Templum/govulncheck-action:local
+      shell: bash
 
 branding:
   icon: "alert-octagon"
