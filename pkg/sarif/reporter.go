@@ -6,57 +6,85 @@ import (
 	"os"
 	"strings"
 
+	"github.com/Templum/govulncheck-action/pkg/types"
 	"github.com/owenrumney/go-sarif/v2/sarif"
+	"github.com/rs/zerolog"
 	"golang.org/x/vuln/osv"
 	"golang.org/x/vuln/vulncheck"
 )
 
 const (
-	ruleName  = "LanguageSpecificPackageVulnerability" // TODO: Research if more specific rule name is possible
-	severity  = "warning"                              // There are no Severities published on that page
+	ruleName  = "LanguageSpecificPackageVulnerability"
+	severity  = "warning"
 	shortName = "govulncheck"
 	fullName  = "Golang Vulncheck"
 	uri       = "https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck"
 	baseURI   = "SRCROOT"
 )
 
-type Reporter interface {
-	CreateEmptyReport(vulncheckVersion string) error
-	AddRule(vuln vulncheck.Vuln)
-	AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode)
-	AddImportResult(vuln *vulncheck.Vuln, pkg *vulncheck.PkgNode)
-}
-
-type Report interface {
-	Flush(writer io.Writer) error
-}
-
-type Reportable interface {
-	Reporter
-	Report
-}
-
 type SarifReporter struct {
 	report *sarif.Report
 	run    *sarif.Run
+	log    zerolog.Logger
 
 	workDir string
 }
 
-func NewSarifReporter() Reportable {
+func NewSarifReporter(logger zerolog.Logger) types.Reporter {
 	localDir, _ := os.Getwd()
 
-	return &SarifReporter{report: nil, run: nil, workDir: localDir}
+	return &SarifReporter{report: nil, run: nil, log: logger, workDir: localDir}
 }
 
-func (sr *SarifReporter) CreateEmptyReport(vulncheckVersion string) error {
+func (sr *SarifReporter) Convert(result *vulncheck.Result) error {
+	if err := sr.createEmptyReport("initial"); err != nil {
+		return fmt.Errorf("failed to create an empty sarif report due to %v", err)
+	}
+
+	for _, current := range result.Vulns {
+		sr.addRule(*current)
+
+		if current.CallSink == 0 {
+			if len(result.Imports.Packages) >= current.ImportSink {
+				pkg := result.Imports.Packages[current.ImportSink]
+				message := fmt.Sprintf("Project is indirectly using vulnerable package %s", pkg.Path)
+
+				sr.addResult(current, message, nil)
+			}
+		} else {
+			if len(result.Calls.Functions) >= current.CallSink {
+				for _, call := range result.Calls.Functions[current.CallSink].CallSites {
+					// Only reporting code that is used
+					if strings.Contains(call.Pos.Filename, sr.workDir) {
+						parent := result.Calls.Functions[call.Parent]
+						message := sr.generateResultMessage(current, call, parent)
+
+						sr.addResult(current, message, call)
+					}
+				}
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (sr *SarifReporter) Write(dest io.Writer) error {
+	sr.run.ColumnKind = "utf16CodeUnits"
+	sr.report.AddRun(sr.run)
+
+	return sr.report.PrettyWrite(dest)
+}
+
+func (sr *SarifReporter) createEmptyReport(vulncheckVersion string) error {
 	report, err := sarif.New(sarif.Version210)
 	if err != nil {
 		return err
 	}
 
 	run := sarif.NewRunWithInformationURI(shortName, uri)
-	run.Tool.Driver.WithVersion(vulncheckVersion)
+	run.Tool.Driver.WithVersion("0.0.1") // TODO: Get version from tag
 	run.Tool.Driver.WithFullName(fullName)
 
 	sr.report = report
@@ -65,8 +93,8 @@ func (sr *SarifReporter) CreateEmptyReport(vulncheckVersion string) error {
 	return nil
 }
 
-func (sr *SarifReporter) AddRule(vuln vulncheck.Vuln) {
-	text, markdown := generateRuleHelp(vuln)
+func (sr *SarifReporter) addRule(vuln vulncheck.Vuln) {
+	text, markdown := sr.generateRuleHelp(vuln)
 
 	// sr.run.AddRule does check if the rule is present prior to adding it
 	sr.run.AddRule(vuln.OSV.ID).
@@ -88,47 +116,37 @@ func (sr *SarifReporter) AddRule(vuln vulncheck.Vuln) {
 		WithHelpURI(fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID))
 }
 
-func (sr *SarifReporter) AddCallResult(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode) {
+func (sr *SarifReporter) addResult(vuln *vulncheck.Vuln, message string, call *vulncheck.CallSite) {
+	sr.log.Debug().
+		Str("ID", vuln.OSV.ID).
+		Str("Pkg", vuln.PkgPath).
+		Str("Symbol", vuln.Symbol).
+		Msg("Adding a new Result to the Sarif Report")
+
 	result := sarif.NewRuleResult(vuln.OSV.ID).
 		WithLevel(severity).
-		WithMessage(sarif.NewTextMessage(sr.generateResultMessage(vuln, call, parent)))
-	region := sarif.NewRegion().
-		WithStartLine(call.Pos.Line).
-		WithEndLine(call.Pos.Line).
-		WithStartColumn(call.Pos.Column).
-		WithEndColumn(call.Pos.Column).
-		WithCharOffset(call.Pos.Offset)
+		WithMessage(sarif.NewTextMessage(message))
 
-	location := sarif.NewPhysicalLocation().
-		WithArtifactLocation(sarif.NewSimpleArtifactLocation(sr.makePathRelative(call.Pos.Filename)).WithUriBaseId(baseURI)).
-		WithRegion(region)
+	if call != nil {
+		region := sarif.NewRegion().
+			WithStartLine(call.Pos.Line).
+			WithEndLine(call.Pos.Line).
+			WithStartColumn(call.Pos.Column).
+			WithEndColumn(call.Pos.Column).
+			WithCharOffset(call.Pos.Offset)
 
-	result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
+		location := sarif.NewPhysicalLocation().
+			WithArtifactLocation(sarif.NewSimpleArtifactLocation(sr.makePathRelative(call.Pos.Filename)).WithUriBaseId(baseURI)).
+			WithRegion(region)
+
+		result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
+	}
 
 	ruleIdx := sr.getRuleIndex(vuln.OSV.ID)
 	if ruleIdx >= 0 {
 		result.WithRuleIndex(ruleIdx)
 		sr.run.AddResult(result)
 	}
-}
-
-func (sr *SarifReporter) AddImportResult(vuln *vulncheck.Vuln, pkg *vulncheck.PkgNode) {
-	result := sarif.NewRuleResult(vuln.OSV.ID).
-		WithLevel(severity).
-		WithMessage(sarif.NewTextMessage(fmt.Sprintf("Import of vulnerable package %s", pkg.Path)))
-
-	ruleIdx := sr.getRuleIndex(vuln.OSV.ID)
-	if ruleIdx > 0 {
-		result.WithRuleIndex(ruleIdx)
-		sr.run.AddResult(result)
-	}
-}
-
-func (sr *SarifReporter) Flush(writer io.Writer) error {
-	sr.run.ColumnKind = "utf16CodeUnits"
-
-	sr.report.AddRun(sr.run)
-	return sr.report.PrettyWrite(writer)
 }
 
 func (sr *SarifReporter) getRuleIndex(ruleId string) int {
@@ -153,7 +171,7 @@ func (sr *SarifReporter) makePathRelative(absolute string) string {
 	return strings.Replace(absolute, sr.workDir, "", 1)
 }
 
-func searchFixVersion(versions []osv.Affected) string {
+func (sr *SarifReporter) searchFixVersion(versions []osv.Affected) string {
 	for _, current := range versions {
 		for _, r := range current.Ranges {
 			for _, ev := range r.Events {
@@ -167,8 +185,8 @@ func searchFixVersion(versions []osv.Affected) string {
 	return "None"
 }
 
-func generateRuleHelp(vuln vulncheck.Vuln) (text string, markdown string) {
-	fixVersion := searchFixVersion(vuln.OSV.Affected)
+func (sr *SarifReporter) generateRuleHelp(vuln vulncheck.Vuln) (text string, markdown string) {
+	fixVersion := sr.searchFixVersion(vuln.OSV.Affected)
 	uri := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID)
 
 	return fmt.Sprintf("Vulnerability %s \n Module: %s \n Package: %s \n Fixed in Version: %s \n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion),
