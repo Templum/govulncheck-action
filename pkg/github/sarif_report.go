@@ -8,12 +8,12 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"os"
 	"strings"
 
-	"github.com/Templum/govulncheck-action/pkg/sarif"
+	"github.com/Templum/govulncheck-action/pkg/types"
 	"github.com/google/go-github/v47/github"
+	"github.com/rs/zerolog"
 	"golang.org/x/oauth2"
 )
 
@@ -25,29 +25,34 @@ const (
 )
 
 type SarifUploader interface {
-	UploadReport(report sarif.Report) error
+	UploadReport(report types.Reporter) error
 }
 
 type GithubSarifUploader struct {
 	client *github.Client
+	log    zerolog.Logger
 }
 
-func NewSarifUploader() SarifUploader {
+func NewSarifUploader(logger zerolog.Logger) SarifUploader {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv(envToken)},
 	)
 	tc := oauth2.NewClient(ctx, ts)
 
-	return &GithubSarifUploader{client: github.NewClient(tc)}
+	return &GithubSarifUploader{client: github.NewClient(tc), log: logger}
 }
 
-func (g *GithubSarifUploader) UploadReport(report sarif.Report) error {
+func (g *GithubSarifUploader) UploadReport(report types.Reporter) error {
 	ownerAndRepo := strings.Split(os.Getenv(envRepo), "/")
 	commit := os.Getenv(envSha)
 	gitRef := os.Getenv(envGitRef)
 
-	fmt.Printf("Preparing Report for commit %s on ref %s \n", commit, gitRef)
+	g.log.Info().
+		Str("Commit", commit).
+		Str("Ref", gitRef).
+		Msg("Preparing Report for upload to Github")
+
 	encodedAndCompressedReport, err := g.prepareReport(report)
 	if err != nil {
 		return err
@@ -58,11 +63,14 @@ func (g *GithubSarifUploader) UploadReport(report sarif.Report) error {
 		Ref:       &gitRef,
 		Sarif:     &encodedAndCompressedReport,
 	})
+
 	if _, ok := err.(*github.AcceptedError); ok {
 		var response github.SarifID
 		_ = json.Unmarshal(err.(*github.AcceptedError).Raw, &response)
 
-		fmt.Printf("Successfully uploaded Report to Github it received ID %s \n", *response.ID)
+		g.log.Info().
+			Str("sarif_id", *response.ID).
+			Msg("Report was uploaded to GitHub")
 		return nil
 	}
 
@@ -73,13 +81,13 @@ func (g *GithubSarifUploader) UploadReport(report sarif.Report) error {
 	return errors.New("unexpected response from github")
 }
 
-func (g *GithubSarifUploader) prepareReport(report sarif.Report) (string, error) {
+func (g *GithubSarifUploader) prepareReport(report types.Reporter) (string, error) {
 	var b bytes.Buffer
 
 	// Can only throw for invalid level, which can not be the case here
 	writer, _ := gzip.NewWriterLevel(&b, flate.BestSpeed)
 
-	err := report.Flush(writer)
+	err := report.Write(writer)
 	if err != nil {
 		return "", err
 	}
@@ -90,19 +98,10 @@ func (g *GithubSarifUploader) prepareReport(report sarif.Report) (string, error)
 		return "", err
 	}
 
+	g.log.Debug().
+		Int("Original Size", b.Len()).
+		Int("Compressed Size", b.Cap()).
+		Msg("Report was successfully gzipped")
+
 	return base64.StdEncoding.EncodeToString(b.Bytes()), nil
 }
-
-/**
-func debugCompressedContent(raw []byte) {
-	var readB = bytes.NewBuffer(raw)
-
-	reader, _ := gzip.NewReader(readB)
-	b, err := io.ReadAll(reader)
-	if err != nil {
-		fmt.Printf("Error %v", err)
-	} else {
-		fmt.Printf("Decoded string %s", string(b))
-	}
-}
-**/

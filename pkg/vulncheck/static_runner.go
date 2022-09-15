@@ -3,21 +3,23 @@ package vulncheck
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"os"
 
+	"github.com/rs/zerolog"
 	"golang.org/x/vuln/vulncheck"
 )
 
 type StaticScanner struct {
+	log  zerolog.Logger
+	path string
 }
 
-func NewLocalScanner() Scanner {
-	return &StaticScanner{}
+func NewLocalScanner(logger zerolog.Logger, pathToFile string) Scanner {
+	return &StaticScanner{log: logger, path: pathToFile}
 }
 
 func (r *StaticScanner) Scan() (*vulncheck.Result, error) {
-	out, _ := os.ReadFile("/workspaces/govulncheck-action/hack/found.json")
+	out, _ := os.ReadFile(r.path)
 
 	var result vulncheck.Result
 	err := json.Unmarshal(out, &result)
@@ -25,6 +27,6 @@ func (r *StaticScanner) Scan() (*vulncheck.Result, error) {
 		return nil, errors.New("scan failed to produce proper report")
 	}
 
-	fmt.Println("Successfully parsed report")
+	r.log.Debug().Msgf("Successfully parsed report located at %s", r.path)
 	return &result, nil
 }

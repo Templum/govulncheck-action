@@ -10,4 +10,6 @@ jobs:
         shell: bash
       - name: Integration Test
         id: integration-test
-        uses: Templum/govulncheck-action@main
+        uses: Templum/govulncheck-action@feature/2
+        with:
+          go-version: 1.18.3

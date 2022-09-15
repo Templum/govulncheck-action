@@ -3,10 +3,10 @@ package vulncheck
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"os"
 	"os/exec"
 
+	"github.com/rs/zerolog"
 	"golang.org/x/vuln/vulncheck"
 )
 
@@ -21,29 +21,29 @@ type Scanner interface {
 }
 
 type CmdScanner struct {
+	log zerolog.Logger
 }
 
-func NewScanner() Scanner {
-	return &CmdScanner{}
+func NewScanner(logger zerolog.Logger) Scanner {
+	return &CmdScanner{log: logger}
 }
 
 func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	pkg := os.Getenv(envPackage)
 	workDir, _ := os.Getwd()
 
-	fmt.Printf("Running govulncheck for package %s in dir %s\n", pkg, workDir)
+	r.log.Info().Msgf("Running govulncheck for package %s in dir %s", pkg, workDir)
+
 	cmd := exec.Command(command, flag, pkg)
 	cmd.Dir = workDir
 
 	out, cmdErr := cmd.Output()
 	if err, ok := cmdErr.(*exec.ExitError); ok {
-		if err.ExitCode() > 0 {
-			println("Scan found vulnerabilities in codebase")
-		}
-
 		if len(err.Stderr) > 0 {
-			fmt.Printf("Stderr: %s\n", string(err.Stderr))
-			fmt.Printf("Error: %v\n", err)
+			r.log.Error().
+				Err(err).
+				Str("Stderr", string(err.Stderr)).
+				Msg("govulncheck exited with none 0 code")
 		}
 
 	} else if cmdErr != nil {
@@ -56,6 +56,6 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 		return nil, errors.New("scan failed to produce proper report")
 	}
 
-	fmt.Println("Successfully parsed report")
+	r.log.Info().Msg("Successfully scanned project")
 	return &result, nil
 }
