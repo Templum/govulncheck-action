@@ -42,7 +42,7 @@ func (sr *SarifReporter) Convert(result *vulncheck.Result) error {
 	}
 
 	for _, current := range result.Vulns {
-		sr.addRule(*current)
+		sr.addRule(current)
 
 		callingVuln := sr.searchCallChainForUserCode(current, result.Calls)
 
@@ -68,6 +68,8 @@ func (sr *SarifReporter) Write(dest io.Writer) error {
 	sr.run.ColumnKind = "utf16CodeUnits"
 	sr.report.AddRun(sr.run)
 
+	// TODO: Log that informs user about the found results
+
 	return sr.report.PrettyWrite(dest)
 }
 
@@ -87,7 +89,7 @@ func (sr *SarifReporter) createEmptyReport(vulncheckVersion string) error {
 	return nil
 }
 
-func (sr *SarifReporter) addRule(vuln vulncheck.Vuln) {
+func (sr *SarifReporter) addRule(vuln *vulncheck.Vuln) {
 	text, markdown := sr.generateRuleHelp(vuln)
 
 	// sr.run.AddRule does check if the rule is present prior to adding it
@@ -216,7 +218,7 @@ func (sr *SarifReporter) searchFixVersion(versions []osv.Affected) string {
 	return "None"
 }
 
-func (sr *SarifReporter) generateRuleHelp(vuln vulncheck.Vuln) (text string, markdown string) {
+func (sr *SarifReporter) generateRuleHelp(vuln *vulncheck.Vuln) (text string, markdown string) {
 	fixVersion := sr.searchFixVersion(vuln.OSV.Affected)
 	uri := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID)
 
