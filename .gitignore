@@ -19,3 +19,4 @@
 
 # Used for testing locally
 .env
+hack/output.json
