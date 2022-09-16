@@ -1,13 +1,21 @@
 name: Integration Test
 on: [push]
 jobs:
-  build:
+  main:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
       - name: Debug
         run: pwd && ls
         shell: bash
-      - name: Integration Test
-        id: integration-test
-        uses: Templum/govulncheck-action@feature/2
+      - name: Main Integration Test
+        uses: Templum/govulncheck-action@main
+  dynamic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Debug
+        run: pwd && ls
+        shell: bash
+      - name: Dynamic Integration Test
+        uses: Templum/govulncheck-action@${{github.ref_name}}
