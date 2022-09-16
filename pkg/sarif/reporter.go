@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/Templum/govulncheck-action/pkg/action"
 	"github.com/Templum/govulncheck-action/pkg/types"
 	"github.com/owenrumney/go-sarif/v2/sarif"
 	"github.com/rs/zerolog"
@@ -36,31 +37,27 @@ func NewSarifReporter(logger zerolog.Logger) types.Reporter {
 	return &SarifReporter{report: nil, run: nil, log: logger, workDir: localDir}
 }
 
-func (sr *SarifReporter) Convert(result *vulncheck.Result) error {
+func (sr *SarifReporter) Convert(result types.VulnerableStacks) error {
 	if err := sr.createEmptyReport("initial"); err != nil {
 		return fmt.Errorf("failed to create an empty sarif report due to %v", err)
 	}
 
-	for _, current := range result.Vulns {
-		sr.addRule(current)
+	sr.log.Debug().Msgf("Scan showed code being impacted by %d vulnerabilities", len(result))
+	for vuln, callStacks := range result {
+		sr.addRule(vuln)
 
-		callingVuln := sr.searchCallChainForUserCode(current, result.Calls)
+		for _, current := range callStacks {
+			// callSite can never have Call=nil Function=nil as the curator is using
+			// the same method and filtering out those cases
+			callSite := action.FindVulnerableCallSite(sr.workDir, current)
 
-		if callingVuln == nil {
-			if len(result.Imports.Packages) >= current.ImportSink {
-				pkg := result.Imports.Packages[current.ImportSink]
-				message := fmt.Sprintf("Project is indirectly using vulnerable package %s", pkg.Path)
-
-				sr.addResult(current, message, nil)
-			}
-			break
+			message := sr.generateResultMessage(vuln, callSite, current)
+			sr.addResult(vuln, message, callSite.Call)
 		}
 
-		parent := result.Calls.Functions[callingVuln.Parent]
-		message := sr.generateResultMessage(current, callingVuln, parent)
-		sr.addResult(current, message, callingVuln)
 	}
 
+	sr.log.Info().Int("Vulnerabilities", len(result)).Int("Call Sites", len(sr.run.Results)).Msg("Conversion yielded following stats")
 	return nil
 }
 
@@ -113,24 +110,15 @@ func (sr *SarifReporter) addRule(vuln *vulncheck.Vuln) {
 }
 
 func (sr *SarifReporter) addResult(vuln *vulncheck.Vuln, message string, call *vulncheck.CallSite) {
-	if sr.alreadyReported(vuln, message) {
-		sr.log.Debug().
-			Str("ID", vuln.OSV.ID).
-			Str("Pkg", vuln.PkgPath).
-			Str("Caller", call.Name).
-			Msg("There is already a result for this vuln-call tuple")
-		return
-	}
-
-	sr.log.Debug().
-		Str("Symbol", vuln.Symbol).
-		Msgf("[Add Result] %s", message)
-
 	result := sarif.NewRuleResult(vuln.OSV.ID).
 		WithLevel(severity).
 		WithMessage(sarif.NewTextMessage(message))
 
 	if call != nil {
+		sr.log.Debug().
+			Str("Symbol", vuln.Symbol).
+			Msgf("Add result for %s called from %s", vuln.OSV.ID, call.Pos)
+
 		region := sarif.NewRegion().
 			WithStartLine(call.Pos.Line).
 			WithEndLine(call.Pos.Line).
@@ -144,6 +132,9 @@ func (sr *SarifReporter) addResult(vuln *vulncheck.Vuln, message string, call *v
 
 		result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
 	}
+
+	// TODO: Research option to provide fix instructions
+	// result.Fixes = append(result.Fixes, sarif.NewFix().WithDescription(fmt.Sprintf("Was fixed with version %s")))
 
 	ruleIdx := sr.getRule(vuln.OSV.ID)
 	if ruleIdx >= 0 {
@@ -161,47 +152,8 @@ func (sr *SarifReporter) getRule(ruleId string) int {
 	return -1
 }
 
-func (sr *SarifReporter) searchCallChainForUserCode(vuln *vulncheck.Vuln, graph *vulncheck.CallGraph) *vulncheck.CallSite {
-	if vuln.CallSink == 0 {
-		return nil
-	}
-
-	// TODO: It might be that graph.Functions[vuln.CallSink] itself is a vulnerability
-	callChain := graph.Functions[vuln.CallSink].CallSites
-
-	for len(callChain) > 0 {
-		var updatedChain []*vulncheck.CallSite
-		for _, current := range callChain {
-			parent := graph.Functions[current.Parent]
-
-			if strings.Contains(current.Pos.Filename, sr.workDir) {
-				return current
-			}
-
-			updatedChain = append(updatedChain, parent.CallSites...)
-		}
-
-		callChain = updatedChain
-	}
-
-	return nil
-}
-
 func (sr *SarifReporter) makePathRelative(absolute string) string {
 	return strings.ReplaceAll(absolute, sr.workDir, "")
-}
-
-func (sr *SarifReporter) alreadyReported(vuln *vulncheck.Vuln, message string) bool {
-	for _, current := range sr.run.Results {
-		ruleId := *current.RuleID
-		text := *current.Message.Text
-
-		if ruleId == vuln.OSV.ID && text == message {
-			return true
-		}
-	}
-
-	return false
 }
 
 func (sr *SarifReporter) searchFixVersion(versions []osv.Affected) string {
@@ -226,11 +178,16 @@ func (sr *SarifReporter) generateRuleHelp(vuln *vulncheck.Vuln) (text string, ma
 		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Module | Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|%s|\n", vuln.OSV.ID, uri, vuln.OSV.Details, vuln.ModPath, vuln.PkgPath, fixVersion)
 }
 
-func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, call *vulncheck.CallSite, parent *vulncheck.FuncNode) string {
-	relativeFile := sr.makePathRelative(call.Pos.String())
+func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, entry vulncheck.StackEntry, stack vulncheck.CallStack) string {
+	relativeFile := sr.makePathRelative(entry.Call.Pos.String())
 
-	caller := fmt.Sprintf("[%s] %s.%s", relativeFile, parent.PkgPath, parent.Name)
-	calledVuln := fmt.Sprintf("%s.%s", vuln.PkgPath, call.Name)
+	caller := fmt.Sprintf("[%s] %s.%s", relativeFile, entry.Function.PkgPath, entry.Function.Name)
+	calledVuln := fmt.Sprintf("%s.%s", vuln.PkgPath, entry.Call.Name)
 
-	return fmt.Sprintf("%s calls %s which has vulnerability %s", caller, calledVuln, vuln.OSV.ID)
+	var b strings.Builder
+	b.WriteString(fmt.Sprintf("%s calls %s which has vulnerability %s\n", caller, calledVuln, vuln.OSV.ID))
+	b.WriteString("Stacktrace: \n")
+	b.WriteString(types.Stack(stack))
+
+	return b.String()
 }
