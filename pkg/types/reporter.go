@@ -2,11 +2,9 @@ package types
 
 import (
 	"io"
-
-	"golang.org/x/vuln/vulncheck"
 )
 
 type Reporter interface {
-	Convert(result *vulncheck.Result) error
+	Convert(result VulnerableStacks) error
 	Write(dest io.Writer) error
 }
