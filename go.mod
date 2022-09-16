@@ -2,7 +2,7 @@ module github.com/Templum/govulncheck-action
 
 go 1.19
 
-require golang.org/x/vuln v0.0.0-20220908210932-64dbbd7bba4f
+require golang.org/x/vuln v0.0.0-20220914160157-cac67f5c7c81
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
