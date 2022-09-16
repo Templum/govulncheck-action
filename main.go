@@ -4,6 +4,7 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/Templum/govulncheck-action/pkg/action"
 	"github.com/Templum/govulncheck-action/pkg/github"
 	"github.com/Templum/govulncheck-action/pkg/sarif"
 	"github.com/Templum/govulncheck-action/pkg/vulncheck"
@@ -21,12 +22,13 @@ func main() {
 	reporter := sarif.NewSarifReporter(logger)
 	github := github.NewSarifUploader(logger)
 	scanner := vulncheck.NewScanner(logger)
+	processor := action.NewVulncheckProcessor()
 
 	if os.Getenv("DEBUG") == "true" {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 		logger.Debug().Msg("Running in Debug-Mode will use hardcoded scan result and enable debug logs")
 
-		scanner = vulncheck.NewLocalScanner(logger, "/workspaces/govulncheck-action/hack/output.json")
+		scanner = vulncheck.NewLocalScanner(logger, "/workspaces/govulncheck-action/hack/found.json")
 	}
 
 	logger.Info().
@@ -41,7 +43,10 @@ func main() {
 		os.Exit(2)
 	}
 
-	err = reporter.Convert(result)
+	vulnerableStacks := vulncheck.Resolve(result)
+	vulnerableStacks = processor.RemoveDuplicates(vulnerableStacks)
+
+	err = reporter.Convert(vulnerableStacks)
 	if err != nil {
 		logger.Error().Err(err).Msg("Conversion of Scan yielded error")
 		os.Exit(2)
