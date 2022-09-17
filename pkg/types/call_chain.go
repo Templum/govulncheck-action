@@ -30,13 +30,8 @@ func (c *CallChain) CreateCallStack() vulncheck.CallStack {
 }
 
 func PrintStack(log zerolog.Logger, stack vulncheck.CallStack) {
-	for i, current := range stack {
-		if current.Call == nil {
-			log.Info().Msgf("[%d] %s.%s", i, current.Function.PkgPath, current.Function.Name)
-		} else {
-			log.Info().Msgf("[%d] %s %s => %s", i, current.Function.PkgPath, current.Function.Name, current.Call.Name)
-		}
-
+	for _, line := range Stack(stack) {
+		log.Info().Msg(line)
 	}
 }
 
