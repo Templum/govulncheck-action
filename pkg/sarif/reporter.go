@@ -51,8 +51,8 @@ func (sr *SarifReporter) Convert(result types.VulnerableStacks) error {
 			// the same method and filtering out those cases
 			callSite := action.FindVulnerableCallSite(sr.workDir, current)
 
-			message := sr.generateResultMessage(vuln, callSite, current)
-			sr.addResult(vuln, message, callSite.Call)
+			text, markdown := sr.generateResultMessage(vuln, callSite, current)
+			sr.addResult(vuln, callSite.Call, text, markdown)
 		}
 
 	}
@@ -64,8 +64,6 @@ func (sr *SarifReporter) Convert(result types.VulnerableStacks) error {
 func (sr *SarifReporter) Write(dest io.Writer) error {
 	sr.run.ColumnKind = "utf16CodeUnits"
 	sr.report.AddRun(sr.run)
-
-	// TODO: Log that informs user about the found results
 
 	return sr.report.PrettyWrite(dest)
 }
@@ -109,10 +107,10 @@ func (sr *SarifReporter) addRule(vuln *vulncheck.Vuln) {
 		WithHelpURI(fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID))
 }
 
-func (sr *SarifReporter) addResult(vuln *vulncheck.Vuln, message string, call *vulncheck.CallSite) {
+func (sr *SarifReporter) addResult(vuln *vulncheck.Vuln, call *vulncheck.CallSite, text string, markdown string) {
 	result := sarif.NewRuleResult(vuln.OSV.ID).
 		WithLevel(severity).
-		WithMessage(sarif.NewTextMessage(message))
+		WithMessage(sarif.NewMessage().WithMarkdown(markdown).WithText(text))
 
 	if call != nil {
 		sr.log.Debug().
@@ -178,16 +176,28 @@ func (sr *SarifReporter) generateRuleHelp(vuln *vulncheck.Vuln) (text string, ma
 		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Module | Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|%s|\n", vuln.OSV.ID, uri, vuln.OSV.Details, vuln.ModPath, vuln.PkgPath, fixVersion)
 }
 
-func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, entry vulncheck.StackEntry, stack vulncheck.CallStack) string {
+func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, entry vulncheck.StackEntry, stack vulncheck.CallStack) (text string, markdown string) {
 	relativeFile := sr.makePathRelative(entry.Call.Pos.String())
 
-	caller := fmt.Sprintf("[%s] %s.%s", relativeFile, entry.Function.PkgPath, entry.Function.Name)
-	calledVuln := fmt.Sprintf("%s.%s", vuln.PkgPath, entry.Call.Name)
+	var txtBuilder strings.Builder
+	var markBuilder strings.Builder
 
-	var b strings.Builder
-	b.WriteString(fmt.Sprintf("%s calls %s which has vulnerability %s\n", caller, calledVuln, vuln.OSV.ID))
-	b.WriteString("Stacktrace: \n")
-	b.WriteString(types.Stack(stack))
+	txtBuilder.WriteString(fmt.Sprintf("%s calls %s which has vulnerability %s\n",
+		fmt.Sprintf("[%s] %s.%s", relativeFile, entry.Function.PkgPath, entry.Function.Name),
+		fmt.Sprintf("%s.%s", vuln.PkgPath, entry.Call.Name),
+		vuln.OSV.ID))
+	txtBuilder.WriteString("Stacktrace: \n")
 
-	return b.String()
+	markBuilder.WriteString(fmt.Sprintf("%s calls %s which has vulnerability %s\n",
+		fmt.Sprintf("[%s](%s) **%s.%s**", relativeFile, relativeFile, entry.Function.PkgPath, entry.Function.Name), // TODO: See if relative link work for report
+		fmt.Sprintf("**%s.%s**", vuln.PkgPath, entry.Call.Name),
+		vuln.OSV.ID))
+	markBuilder.WriteString("**Stacktrace:** \n")
+
+	for _, line := range types.Stack(stack) {
+		txtBuilder.WriteString(fmt.Sprintf("%s \n", line))
+		markBuilder.WriteString(fmt.Sprintf("* %s \n", line))
+	}
+
+	return txtBuilder.String(), markBuilder.String()
 }

@@ -40,14 +40,14 @@ func PrintStack(log zerolog.Logger, stack vulncheck.CallStack) {
 	}
 }
 
-func Stack(stack vulncheck.CallStack) string {
-	output := ""
+func Stack(stack vulncheck.CallStack) []string {
+	var output []string
 
 	for i, current := range stack {
 		if current.Call == nil {
-			output += fmt.Sprintf("[%d] Vulnerability %s.%s\n", i, current.Function.PkgPath, current.Function.Name)
+			output = append(output, fmt.Sprintf("[%d] Vulnerability %s.%s", i, current.Function.PkgPath, current.Function.Name))
 		} else {
-			output += fmt.Sprintf("[%d] %s %s => %s\n", i, current.Function.PkgPath, current.Function.Name, current.Call.Name)
+			output = append(output, fmt.Sprintf("[%d] %s %s => %s", i, current.Function.PkgPath, current.Function.Name, current.Call.Name))
 		}
 
 	}
