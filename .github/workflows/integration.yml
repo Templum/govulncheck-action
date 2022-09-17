@@ -1,7 +1,12 @@
 name: Integration Test
-on: [push]
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
@@ -10,4 +15,4 @@ jobs:
         shell: bash
       - name: Integration Test
         id: integration-test
-        uses: Templum/govulncheck-action@feature/2
+        uses: Templum/govulncheck-action@main
