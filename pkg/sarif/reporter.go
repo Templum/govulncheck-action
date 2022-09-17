@@ -179,7 +179,7 @@ func (sr *SarifReporter) generateRuleHelp(vuln *vulncheck.Vuln) (text string, ma
 
 func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, entry vulncheck.StackEntry, stack vulncheck.CallStack) (text string, markdown string) {
 	relativeFile := sr.makePathRelative(entry.Call.Pos.String())
-	linkToFile := fmt.Sprintf("%s/%s", os.Getenv(envRepo), relativeFile)
+	linkToFile := fmt.Sprintf("https://github.com/%s/blob/main/%s#L%d", os.Getenv(envRepo), sr.makePathRelative(entry.Call.Pos.Filename), entry.Call.Pos.Line)
 
 	var txtBuilder strings.Builder
 	var markBuilder strings.Builder
@@ -191,10 +191,10 @@ func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, entry vulnc
 	txtBuilder.WriteString("Stacktrace: \n")
 
 	markBuilder.WriteString(fmt.Sprintf("%s calls %s which has vulnerability %s\n",
-		fmt.Sprintf("[%s](%s) %s.%s", relativeFile, linkToFile, entry.Function.PkgPath, entry.Function.Name), // TODO: See if relative link work for report
+		fmt.Sprintf("[%s](%s) %s.%s", "File", linkToFile, entry.Function.PkgPath, entry.Function.Name), // TODO: See if relative link work for report
 		fmt.Sprintf("%s.%s", vuln.PkgPath, entry.Call.Name),
 		vuln.OSV.ID))
-	markBuilder.WriteString("**Stacktrace:** \n")
+	markBuilder.WriteString("Stacktrace: \n")
 
 	for _, line := range types.Stack(stack) {
 		txtBuilder.WriteString(fmt.Sprintf("%s \n", line))
