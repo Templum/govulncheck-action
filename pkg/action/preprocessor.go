@@ -27,7 +27,7 @@ func (p *VulncheckProcessor) RemoveDuplicates(vulnerableStacks types.VulnerableS
 	lookupTable := make(map[string]map[string]bool)
 
 	for vuln, stacks := range vulnerableStacks {
-		ref := Find(vuln.OSV.ID, uniqueVulnStacks)
+		ref := findRef(vuln.OSV.ID, uniqueVulnStacks)
 		if ref == nil {
 			uniqueVulnStacks[vuln] = make([]vulncheck.CallStack, 0)
 			ref = vuln
@@ -55,16 +55,6 @@ func (p *VulncheckProcessor) RemoveDuplicates(vulnerableStacks types.VulnerableS
 	return uniqueVulnStacks
 }
 
-func Find(osvID string, lookup types.VulnerableStacks) *vulncheck.Vuln {
-	for key := range lookup {
-		if key.OSV.ID == osvID {
-			return key
-		}
-	}
-
-	return nil
-}
-
 func FindVulnerableCallSite(workDir string, stack vulncheck.CallStack) vulncheck.StackEntry {
 	// We start from the back as that is the entrypoint for the reported vulnerability
 	for i := range stack {
@@ -76,4 +66,14 @@ func FindVulnerableCallSite(workDir string, stack vulncheck.CallStack) vulncheck
 	}
 
 	return vulncheck.StackEntry{Function: nil, Call: nil}
+}
+
+func findRef(osvID string, lookup types.VulnerableStacks) *vulncheck.Vuln {
+	for key := range lookup {
+		if key.OSV.ID == osvID {
+			return key
+		}
+	}
+
+	return nil
 }
