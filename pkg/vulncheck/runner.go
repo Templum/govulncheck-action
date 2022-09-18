@@ -21,21 +21,20 @@ type Scanner interface {
 }
 
 type CmdScanner struct {
-	log zerolog.Logger
+	log     zerolog.Logger
+	workDir string
 }
 
-func NewScanner(logger zerolog.Logger) Scanner {
-	return &CmdScanner{log: logger}
+func NewScanner(logger zerolog.Logger, workDir string) Scanner {
+	return &CmdScanner{log: logger, workDir: workDir}
 }
 
 func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	pkg := os.Getenv(envPackage)
-	workDir, _ := os.Getwd()
-
-	r.log.Info().Msgf("Running govulncheck for package %s in dir %s", pkg, workDir)
+	r.log.Info().Msgf("Running govulncheck for package %s in dir %s", pkg, r.workDir)
 
 	cmd := exec.Command(command, flag, pkg)
-	cmd.Dir = workDir
+	cmd.Dir = r.workDir
 
 	out, cmdErr := cmd.Output()
 	if err, ok := cmdErr.(*exec.ExitError); ok {

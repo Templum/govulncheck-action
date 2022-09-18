@@ -133,9 +133,7 @@ func TestVulncheckProcessor_RemoveDuplicates(t *testing.T) {
 	}
 
 	t.Run("should remove duplicates which are called from the same site", func(t *testing.T) {
-		target := NewVulncheckProcessor()
-		target.workDir = "/workspaces/govulncheck-action"
-
+		target := NewVulncheckProcessor("/workspaces/govulncheck-action")
 		reduced := target.RemoveDuplicates(hasDuplicateCallsites)
 
 		assert.NotNil(t, reduced, "should not be nil")
@@ -144,9 +142,7 @@ func TestVulncheckProcessor_RemoveDuplicates(t *testing.T) {
 	})
 
 	t.Run("should remove duplicates which are for the same vulnerability", func(t *testing.T) {
-		target := NewVulncheckProcessor()
-		target.workDir = "/workspaces/govulncheck-action"
-
+		target := NewVulncheckProcessor("/workspaces/govulncheck-action")
 		reduced := target.RemoveDuplicates(hasDuplicateVuln)
 
 		assert.NotNil(t, reduced, "should not be nil")
