@@ -1,7 +1,6 @@
 package action
 
 import (
-	"os"
 	"strings"
 
 	"github.com/Templum/govulncheck-action/pkg/types"
@@ -12,9 +11,7 @@ type VulncheckProcessor struct {
 	workDir string
 }
 
-func NewVulncheckProcessor() *VulncheckProcessor {
-	workDir, _ := os.Getwd()
-
+func NewVulncheckProcessor(workDir string) *VulncheckProcessor {
 	return &VulncheckProcessor{
 		workDir: workDir,
 	}

@@ -7,7 +7,6 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"os"
 	"strings"
 
@@ -74,11 +73,7 @@ func (g *GithubSarifUploader) UploadReport(report types.Reporter) error {
 		return nil
 	}
 
-	if err != nil {
-		return err
-	}
-
-	return errors.New("unexpected response from github")
+	return err
 }
 
 func (g *GithubSarifUploader) prepareReport(report types.Reporter) (string, error) {

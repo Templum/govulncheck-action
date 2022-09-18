@@ -32,16 +32,12 @@ type SarifReporter struct {
 	workDir string
 }
 
-func NewSarifReporter(logger zerolog.Logger) types.Reporter {
-	localDir, _ := os.Getwd()
-
-	return &SarifReporter{report: nil, run: nil, log: logger, workDir: localDir}
+func NewSarifReporter(logger zerolog.Logger, workDir string) types.Reporter {
+	return &SarifReporter{report: nil, run: nil, log: logger, workDir: workDir}
 }
 
 func (sr *SarifReporter) Convert(result types.VulnerableStacks) error {
-	if err := sr.createEmptyReport("initial"); err != nil {
-		return fmt.Errorf("failed to create an empty sarif report due to %v", err)
-	}
+	sr.createEmptyReport("initial")
 
 	sr.log.Debug().Msgf("Scan showed code being impacted by %d vulnerabilities", len(result))
 	for vuln, callStacks := range result {
@@ -63,26 +59,21 @@ func (sr *SarifReporter) Convert(result types.VulnerableStacks) error {
 }
 
 func (sr *SarifReporter) Write(dest io.Writer) error {
-	sr.run.ColumnKind = "utf16CodeUnits"
 	sr.report.AddRun(sr.run)
 
 	return sr.report.PrettyWrite(dest)
 }
 
-func (sr *SarifReporter) createEmptyReport(vulncheckVersion string) error {
-	report, err := sarif.New(sarif.Version210)
-	if err != nil {
-		return err
-	}
+func (sr *SarifReporter) createEmptyReport(vulncheckVersion string) {
+	report, _ := sarif.New(sarif.Version210)
 
 	run := sarif.NewRunWithInformationURI(shortName, uri)
 	run.Tool.Driver.WithVersion("0.0.1") // TODO: Get version from tag
 	run.Tool.Driver.WithFullName(fullName)
+	run.ColumnKind = "utf16CodeUnits"
 
 	sr.report = report
 	sr.run = run
-
-	return nil
 }
 
 func (sr *SarifReporter) addRule(vuln *vulncheck.Vuln) {
@@ -200,7 +191,7 @@ func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, entry vulnc
 
 	markBuilder.WriteString("Stacktrace: \n")
 
-	for _, line := range types.Stack(stack) {
+	for _, line := range types.FormatCallStack(stack) {
 		txtBuilder.WriteString(fmt.Sprintf("%s \n", line))
 		markBuilder.WriteString(fmt.Sprintf("* %s \n", line))
 	}

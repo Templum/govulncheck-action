@@ -3,7 +3,6 @@ package types
 import (
 	"fmt"
 
-	"github.com/rs/zerolog"
 	"golang.org/x/vuln/vulncheck"
 )
 
@@ -29,13 +28,7 @@ func (c *CallChain) CreateCallStack() vulncheck.CallStack {
 	return append(vulncheck.CallStack{vulncheck.StackEntry{Function: c.Fn, Call: c.Called}}, c.Child.CreateCallStack()...)
 }
 
-func PrintStack(log zerolog.Logger, stack vulncheck.CallStack) {
-	for _, line := range Stack(stack) {
-		log.Info().Msg(line)
-	}
-}
-
-func Stack(stack vulncheck.CallStack) []string {
+func FormatCallStack(stack vulncheck.CallStack) []string {
 	var output []string
 
 	for i, current := range stack {
