@@ -2,8 +2,12 @@ package action
 
 import (
 	"go/token"
+	"path"
 	"testing"
 
+	"github.com/Templum/govulncheck-action/pkg/types"
+	helper "github.com/Templum/govulncheck-action/pkg/vulncheck"
+	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/vuln/vulncheck"
 )
@@ -100,6 +104,53 @@ func TestFindVulnerableCallSite(t *testing.T) {
 	})
 }
 
-func TestVulncheckProcessor_RemoveDuplicates(t *testing.T) {
+func CalculateTotalFindings(input types.VulnerableStacks) int {
+	output := 0
 
+	for _, findings := range input {
+		output += len(findings)
+	}
+
+	return output
+}
+
+func TestVulncheckProcessor_RemoveDuplicates(t *testing.T) {
+	scanner := helper.NewLocalScanner(zerolog.Nop(), path.Join("..", "..", "hack", "found.json"))
+	result, _ := scanner.Scan()
+	input := helper.Resolve(result)
+
+	hasDuplicateCallsites := make(types.VulnerableStacks)
+	hasDuplicateVuln := make(types.VulnerableStacks)
+
+	for key, value := range input {
+		if key.OSV.ID == "GO-2021-0113" {
+			hasDuplicateVuln[key] = value
+		}
+
+		if key.OSV.ID == "GO-2021-0061" && key.Symbol == "decoder.unmarshal" {
+			hasDuplicateCallsites[key] = value
+		}
+	}
+
+	t.Run("should remove duplicates which are called from the same site", func(t *testing.T) {
+		target := NewVulncheckProcessor()
+		target.workDir = "/workspaces/govulncheck-action"
+
+		reduced := target.RemoveDuplicates(hasDuplicateCallsites)
+
+		assert.NotNil(t, reduced, "should not be nil")
+		assert.Equal(t, len(reduced), len(hasDuplicateCallsites), "should have same amount of entries")
+		assert.Less(t, CalculateTotalFindings(reduced), CalculateTotalFindings(hasDuplicateCallsites), "reduced should be less after removal of duplicates")
+	})
+
+	t.Run("should remove duplicates which are for the same vulnerability", func(t *testing.T) {
+		target := NewVulncheckProcessor()
+		target.workDir = "/workspaces/govulncheck-action"
+
+		reduced := target.RemoveDuplicates(hasDuplicateVuln)
+
+		assert.NotNil(t, reduced, "should not be nil")
+		assert.Less(t, len(reduced), len(hasDuplicateVuln), "should only have one entry now")
+		assert.Less(t, CalculateTotalFindings(reduced), CalculateTotalFindings(hasDuplicateVuln), "reduced should be less after removal of duplicates")
+	})
 }
