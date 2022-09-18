@@ -20,31 +20,32 @@ import (
 	"github.com/owenrumney/go-sarif/v2/sarif"
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
-type MockReport struct{ fail bool }
-
-func NewMockReport(shouldFail bool) types.Reporter {
-	return &MockReport{fail: shouldFail}
+type MockReport struct {
+	mock.Mock
 }
 
 func (m *MockReport) Convert(result types.VulnerableStacks) error {
-	return nil
+	args := m.Called(result)
+	return args.Error(0)
 }
 
 func (m *MockReport) Write(dest io.Writer) error {
-	if m.fail {
-		return errors.New("version [1.1.1] is not supported")
+	args := m.Called(dest)
+
+	if args.Error(0) == nil {
+		emptyReport, _ := sarif.New(sarif.Version210)
+		run := sarif.NewRunWithInformationURI("govulncheck", "")
+		run.Tool.Driver.WithVersion("0.0.1")
+		run.Tool.Driver.WithFullName("govulncheck")
+		run.ColumnKind = "utf16CodeUnits"
+		emptyReport.AddRun(run)
+		_ = emptyReport.Write(dest)
 	}
 
-	emptyReport, _ := sarif.New(sarif.Version210)
-	run := sarif.NewRunWithInformationURI("govulncheck", "")
-	run.Tool.Driver.WithVersion("0.0.1")
-	run.Tool.Driver.WithFullName("govulncheck")
-	run.ColumnKind = "utf16CodeUnits"
-	emptyReport.AddRun(run)
-
-	return emptyReport.Write(dest)
+	return args.Error(0)
 }
 
 func ExtractSarifString(body io.ReadCloser) ([]byte, error) {
@@ -136,8 +137,13 @@ func TestGithubSarifUploader_UploadReport(t *testing.T) {
 		ref.client = github.NewClient(uploadServer.Client())
 		ref.client.BaseURL = uploadUrl
 
-		err := target.UploadReport(NewMockReport(false))
+		mockReporter := new(MockReport)
+		mockReporter.On("Write", mock.Anything).Return(nil)
+
+		err := target.UploadReport(mockReporter)
+		mockReporter.AssertExpectations(t)
 		assert.Nil(t, err, "should not fail")
+
 	})
 
 	t.Run("should return error if status code is not 202", func(t *testing.T) {
@@ -146,15 +152,22 @@ func TestGithubSarifUploader_UploadReport(t *testing.T) {
 		ref.client = github.NewClient(unreachableServer.Client())
 		ref.client.BaseURL = unreachableUrl
 
-		err := target.UploadReport(NewMockReport(false))
+		mockReporter := new(MockReport)
+		mockReporter.On("Write", mock.Anything).Return(nil)
+
+		err := target.UploadReport(mockReporter)
+		mockReporter.AssertExpectations(t)
 		assert.NotNil(t, err, "should fail")
 		assert.Contains(t, err.Error(), "502")
 	})
 
 	t.Run("should return received error if report writing fails", func(t *testing.T) {
 		target := NewSarifUploader(zerolog.Nop())
+		mockReporter := new(MockReport)
+		mockReporter.On("Write", mock.Anything).Return(errors.New("version [1.1.1] is not supported"))
 
-		err := target.UploadReport(NewMockReport(true))
+		err := target.UploadReport(mockReporter)
+		mockReporter.AssertExpectations(t)
 		assert.NotNil(t, err, "should fail")
 		assert.Contains(t, err.Error(), "version [1.1.1] is not supported")
 	})
