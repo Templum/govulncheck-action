@@ -1,7 +1,8 @@
 # Golang Vulncheck
 Performs vulnerability scan using govulncheck and afterwards uploads it as [Sarif](https://sarifweb.azurewebsites.net/) Report to Github
 
-[![Build](https://github.com/Templum/govulncheck-action/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/Templum/govulncheck-action/actions/workflows/build.yml)
+[![CI Flow](https://github.com/Templum/govulncheck-action/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Templum/govulncheck-action/actions/workflows/ci.yml) [![Release Process](https://github.com/Templum/govulncheck-action/actions/workflows/release.yml/badge.svg)](https://github.com/Templum/govulncheck-action/actions/workflows/release.yml)
+
 
 ## :information_source: Limitations of govulncheck :information_source:
 
