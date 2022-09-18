@@ -13,16 +13,17 @@ import (
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-
 	logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: zerolog.TimeFormatUnix}).
 		With().
 		Timestamp().
 		Logger() // Main Logger
 
-	reporter := sarif.NewSarifReporter(logger)
+	workDir, _ := os.Getwd()
+
 	github := github.NewSarifUploader(logger)
-	scanner := vulncheck.NewScanner(logger)
-	processor := action.NewVulncheckProcessor()
+	reporter := sarif.NewSarifReporter(logger, workDir)
+	scanner := vulncheck.NewScanner(logger, workDir)
+	processor := action.NewVulncheckProcessor(workDir)
 
 	if os.Getenv("DEBUG") == "true" {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
