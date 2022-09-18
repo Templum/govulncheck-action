@@ -1,4 +1,4 @@
-name: Build
+name: CI Flow
 on: [push, pull_request]
 jobs:
   build:
