@@ -20,7 +20,7 @@ require (
 )
 
 require (
-	github.com/google/go-github/v47 v47.0.0
+	github.com/google/go-github/v47 v47.1.0
 	github.com/owenrumney/go-sarif/v2 v2.1.2
 	github.com/rs/zerolog v1.28.0
 	github.com/stretchr/testify v1.8.0
