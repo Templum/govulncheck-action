@@ -27,9 +27,12 @@ func main() {
 
 	if os.Getenv("DEBUG") == "true" {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-		logger.Debug().Msg("Running in Debug-Mode will use hardcoded scan result and enable debug logs")
+		logger.Debug().Msg("Enabled Debug Level logs")
+	}
 
+	if os.Getenv("LOCAL") == "true" {
 		scanner = vulncheck.NewLocalScanner(logger, "/workspaces/govulncheck-action/hack/found.json")
+		logger.Debug().Msg("Enabled Local Development mode, scanner will return static result based on found.json")
 	}
 
 	logger.Info().
