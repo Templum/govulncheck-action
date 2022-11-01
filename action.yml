@@ -18,6 +18,10 @@ inputs:
     description: "Github App token to upload sarif report. Needs write permissions for security_events. By default it will use 'github.token' value"
     default: ${{ github.token }}
     required: false
+  fail-on-vuln:
+    description: "This allows you to specify if the action should fail on encountering any vulnerability, by default it will not"
+    default: false
+    required: false
 
 runs:
   using: "composite"
@@ -26,7 +30,7 @@ runs:
       run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -q -f $GITHUB_ACTION_PATH/Dockerfile -t templum/govulncheck-action:local $GITHUB_ACTION_PATH
       shell: bash
     - id: run
-      run: docker run --rm -v $(pwd):/github/workspace --workdir /github/workspace -e GITHUB_TOKEN=${{ inputs.github-token }} -e PACKAGE=${{ inputs.package }} -e VERSION=${{ inputs.version }} -e GITHUB_REPOSITORY=${{ github.repository }} -e GITHUB_REF=${{ github.ref }} -e GITHUB_SHA=${{ github.sha }} templum/govulncheck-action:local
+      run: docker run --rm -v $(pwd):/github/workspace --workdir /github/workspace -e GITHUB_TOKEN=${{ inputs.github-token }} -e STRICT=${{ inputs.fail-on-vuln }} -e PACKAGE=${{ inputs.package }} -e GITHUB_REPOSITORY=${{ github.repository }} -e GITHUB_REF=${{ github.ref }} -e GITHUB_SHA=${{ github.sha }} templum/govulncheck-action:local
       shell: bash
 
 branding:
