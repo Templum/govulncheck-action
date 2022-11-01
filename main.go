@@ -41,6 +41,11 @@ func main() {
 		Str("Go-Arch", runtime.GOARCH).
 		Msg("GoEnvironment Details:")
 
+	logger.Debug().
+		Str("Package", os.Getenv("PACKAGE")).
+		Str("Fail on Vulnerabilities", os.Getenv("STRICT")).
+		Msg("Action Inputs:")
+
 	result, err := scanner.Scan()
 	if err != nil {
 		logger.Error().Err(err).Msg("Scanning yielded error")
@@ -63,4 +68,14 @@ func main() {
 	}
 
 	logger.Info().Msg("Successfully uploaded Sarif Report to Github, it will be available after processing")
+
+	if os.Getenv("STRICT") == "true" {
+		logger.Debug().Msg("Action is running in strict mode")
+
+		if len(vulnerableStacks) > 0 {
+			logger.Info().Msg("Encountered at least one vulnerability while running in strict mode, will mark outcome as failed")
+			os.Exit(2)
+		}
+	}
+
 }

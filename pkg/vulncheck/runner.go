@@ -52,6 +52,7 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 	var result vulncheck.Result
 	err := json.Unmarshal(out, &result)
 	if err != nil {
+		r.log.Error().Err(err).Msg("parsing govulncheck output yielded error")
 		return nil, errors.New("scan failed to produce proper report")
 	}
 
