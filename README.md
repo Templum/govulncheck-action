@@ -20,6 +20,8 @@ For a full list of currently known limitations please head over to [here](https:
 
 ### Example Workflow
 
+The below example configuration uses go version 1.18 and the latest version of govulncheck. It will scan `./...`. Additionally it's configured to fail on finding a vulnerability.
+
 ```yaml
 name: My Workflow
 on: [push, pull_request]
@@ -38,6 +40,28 @@ jobs:
           fail-on-vuln: true
 ```
 
+The below example configuration uses most of the default values, but will fail on any found vulnerability and also skip the upload. Instead it will upload the sarif report as build artifact using another action.
+
+```yaml
+name: My Workflow
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Running govulncheck
+        uses: Templum/govulncheck-action@<version>
+        with:
+          fail-on-vuln: true
+          skip-upload: true
+      - name: Upload Sarif Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: sarif-report
+          path: govulncheck-report.sarif
+```
+
 ### Inputs
 
 | Input                            | Description                                                                                                    |
@@ -47,6 +71,7 @@ jobs:
 | `package` _(optional)_           | The package you want to scan, by default will be `./...`                                                       |
 | `github-token` _(optional)_      | Github Token to upload sarif report. **Needs** `write` permissions for `security_events`                       |
 | `fail-on-vuln` _(optional)_      | This allows you to specify if the action should fail on encountering any vulnerability, by default it will not |
+| `skip-upload` _(optional)_       | This flag allows you to skip the sarif upload, it will be instead written to disk as `govulncheck-report.sarif`|
 
 > :warning: Please be aware that go-version should be a valid tag name for the [golang dockerhub image](https://hub.docker.com/_/golang/tags).
 
