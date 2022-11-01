@@ -1,8 +1,8 @@
 # Golang Vulncheck
-Performs vulnerability scan using govulncheck and afterwards uploads it as [Sarif](https://sarifweb.azurewebsites.net/) Report to Github
 
 [![CI Flow](https://github.com/Templum/govulncheck-action/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Templum/govulncheck-action/actions/workflows/ci.yml) [![Release Process](https://github.com/Templum/govulncheck-action/actions/workflows/release.yml/badge.svg)](https://github.com/Templum/govulncheck-action/actions/workflows/release.yml)
 
+This action uses govulncheck to perform a scan of the code, afterwards it will parse the output and transform it into an [Sarif](https://sarifweb.azurewebsites.net/) Report, which will be uploaded to Github using the [code-scanning API](https://docs.github.com/en/rest/code-scanning#upload-an-analysis-as-sarif-data). **Please note** this requires write-permission for `security_events`. The result should then be visible within the security-tab. By default this action won't exit with a failure if a vulnerability was found, but it can be configured this way.
 
 ## :information_source: Limitations of govulncheck :information_source:
 
@@ -35,16 +35,18 @@ jobs:
           vulncheck-version: latest
           package: ./...
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-vuln: true
 ```
 
 ### Inputs
 
-| Input                            | Description                                                                                       |
-|----------------------------------|---------------------------------------------------------------------------------------------------|
-| `go-version` _(optional)_        | Version of Go used for scanning the code, should equal *your* runtime version. Defaults to `1.19` |
-| `vulncheck-version` _(optional)_ | Version of govulncheck that should be used, by default `latest`                                   |
-| `package` _(optional)_           | The package you want to scan, by default will be `./...`                                          |
-| `github-token` _(optional)_      | Github Token to upload sarif report. Needs *write* permissions for `security_events`              |
+| Input                            | Description                                                                                                    |
+|----------------------------------|----------------------------------------------------------------------------------------------------------------|
+| `go-version` _(optional)_        | Version of Go used for scanning the code, should equal *your* runtime version. Defaults to `1.19`              |
+| `vulncheck-version` _(optional)_ | Version of govulncheck that should be used, by default `latest`                                                |
+| `package` _(optional)_           | The package you want to scan, by default will be `./...`                                                       |
+| `github-token` _(optional)_      | Github Token to upload sarif report. **Needs** `write` permissions for `security_events`                       |
+| `fail-on-vuln` _(optional)_      | This allows you to specify if the action should fail on encountering any vulnerability, by default it will not |
 
 > :warning: Please be aware that go-version should be a valid tag name for the [golang dockerhub image](https://hub.docker.com/_/golang/tags).
 
