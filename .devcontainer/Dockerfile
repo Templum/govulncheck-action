@@ -14,7 +14,15 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 
 # [Optional] Uncomment the next lines to use go get to install anything else you need
 USER vscode
+
+# Installing govulncheck && tools used by VSCode Go Extension+
 RUN go install golang.org/x/vuln/cmd/govulncheck@latest
+RUN go install github.com/cweill/gotests/gotests@latest
+RUN go install github.com/fatih/gomodifytags@latest
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
+RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+RUN go install golang.org/x/tools/gopls@latest
+
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
