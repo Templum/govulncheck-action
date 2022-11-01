@@ -18,9 +18,12 @@ For a full list of currently known limitations please head over to [here](https:
 
 ## Usage
 
-### Example Workflow
+### Example Workflows
 
-The below example configuration uses go version 1.18 and the latest version of govulncheck. It will scan `./...`. Additionally it's configured to fail on finding a vulnerability.
+<details>
+  <summary>
+  This configuration uses a different version of go (1.18) scans ./... and will fail if at least one vulnerability was found. Also it explicitly sets the github-token.
+  </summary>
 
 ```yaml
 name: My Workflow
@@ -39,8 +42,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           fail-on-vuln: true
 ```
+</details>
 
-The below example configuration uses most of the default values, but will fail on any found vulnerability and also skip the upload. Instead it will upload the sarif report as build artifact using another action.
+<details>
+  <summary>
+  This configuration uses most of the default values, which are specified below. However it skips the upload to Github and instead uses the upload-artifact-action
+  to upload the result directly as build artifact.
+  </summary>
 
 ```yaml
 name: My Workflow
@@ -53,7 +61,6 @@ jobs:
       - name: Running govulncheck
         uses: Templum/govulncheck-action@<version>
         with:
-          fail-on-vuln: true
           skip-upload: true
       - name: Upload Sarif Report
         uses: actions/upload-artifact@v3
@@ -61,6 +68,7 @@ jobs:
           name: sarif-report
           path: govulncheck-report.sarif
 ```
+</details>
 
 ### Inputs
 
