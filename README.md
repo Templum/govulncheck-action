@@ -18,7 +18,12 @@ For a full list of currently known limitations please head over to [here](https:
 
 ## Usage
 
-### Example Workflow
+### Example Workflows
+
+<details>
+  <summary>
+  This configuration uses a different version of go (1.18) scans ./... and will fail if at least one vulnerability was found. Also it explicitly sets the github-token.
+  </summary>
 
 ```yaml
 name: My Workflow
@@ -37,6 +42,33 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           fail-on-vuln: true
 ```
+</details>
+
+<details>
+  <summary>
+  This configuration uses most of the default values, which are specified below. However it skips the upload to Github and instead uses the upload-artifact-action
+  to upload the result directly as build artifact.
+  </summary>
+
+```yaml
+name: My Workflow
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Running govulncheck
+        uses: Templum/govulncheck-action@<version>
+        with:
+          skip-upload: true
+      - name: Upload Sarif Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: sarif-report
+          path: govulncheck-report.sarif
+```
+</details>
 
 ### Inputs
 
@@ -47,6 +79,7 @@ jobs:
 | `package` _(optional)_           | The package you want to scan, by default will be `./...`                                                       |
 | `github-token` _(optional)_      | Github Token to upload sarif report. **Needs** `write` permissions for `security_events`                       |
 | `fail-on-vuln` _(optional)_      | This allows you to specify if the action should fail on encountering any vulnerability, by default it will not |
+| `skip-upload` _(optional)_       | This flag allows you to skip the sarif upload, it will be instead written to disk as `govulncheck-report.sarif`|
 
 > :warning: Please be aware that go-version should be a valid tag name for the [golang dockerhub image](https://hub.docker.com/_/golang/tags).
 
