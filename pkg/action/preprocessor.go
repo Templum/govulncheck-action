@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/Templum/govulncheck-action/pkg/types"
+	"github.com/rs/zerolog/log"
 	"golang.org/x/vuln/vulncheck"
 )
 
@@ -57,8 +58,11 @@ func FindVulnerableCallSite(workDir string, stack vulncheck.CallStack) vulncheck
 	for i := range stack {
 		current := stack[len(stack)-1-i]
 
-		if current.Call != nil && strings.Contains(current.Call.Pos.Filename, workDir) {
-			return current
+		if current.Call != nil {
+			log.Debug().Bool("Contains", strings.Contains(current.Call.Pos.Filename, workDir)).Msgf("Filename %s Workspace %s", current.Call.Pos.Filename, workDir)
+			if strings.Contains(current.Call.Pos.Filename, workDir) {
+				return current
+			}
 		}
 	}
 
