@@ -1,20 +1,28 @@
 package action
 
 import (
+	"os"
 	"strings"
 
 	"github.com/Templum/govulncheck-action/pkg/types"
-	"github.com/rs/zerolog/log"
+	"github.com/rs/zerolog"
 	"golang.org/x/vuln/vulncheck"
 )
 
 type VulncheckProcessor struct {
 	workDir string
+	log     zerolog.Logger
 }
 
 func NewVulncheckProcessor(workDir string) *VulncheckProcessor {
+	logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: zerolog.TimeFormatUnix}).
+		With().
+		Timestamp().
+		Logger() // Main Logger
+
 	return &VulncheckProcessor{
 		workDir: workDir,
+		log:     logger,
 	}
 }
 
@@ -47,6 +55,13 @@ func (p *VulncheckProcessor) RemoveDuplicates(vulnerableStacks types.VulnerableS
 				}
 			}
 
+			if entry.Call == nil && entry.Function == nil {
+				// TODO Need to dump call sites
+				for _, c := range current {
+					p.log.Debug().Bool("Contains", strings.Contains(c.Call.Pos.Filename, p.workDir)).Msgf("Filename %s Workspace %s", c.Call.Pos.Filename, p.workDir)
+				}
+			}
+
 		}
 	}
 
@@ -58,11 +73,8 @@ func FindVulnerableCallSite(workDir string, stack vulncheck.CallStack) vulncheck
 	for i := range stack {
 		current := stack[len(stack)-1-i]
 
-		if current.Call != nil {
-			log.Debug().Bool("Contains", strings.Contains(current.Call.Pos.Filename, workDir)).Msgf("Filename %s Workspace %s", current.Call.Pos.Filename, workDir)
-			if strings.Contains(current.Call.Pos.Filename, workDir) {
-				return current
-			}
+		if current.Call != nil && strings.Contains(current.Call.Pos.Filename, workDir) {
+			return current
 		}
 	}
 
