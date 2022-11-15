@@ -56,6 +56,22 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 		return nil, errors.New("scan failed to produce proper report")
 	}
 
+	if os.Getenv("DEBUG") == "true" {
+		fileName := "raw-report.json"
+		reportFile, err := os.Create(fileName)
+
+		if err != nil {
+			r.log.Debug().Err(err).Msg("Failed to create raw-report.json")
+		}
+
+		defer reportFile.Close()
+
+		_, err = reportFile.Write(out)
+		if err != nil {
+			r.log.Debug().Err(err).Msg("Writing raw report to file yielded error")
+		}
+	}
+
 	r.log.Info().Msg("Successfully scanned project")
 	return &result, nil
 }
