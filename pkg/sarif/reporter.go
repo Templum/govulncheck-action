@@ -171,7 +171,8 @@ func (sr *SarifReporter) getRule(ruleId string) int {
 }
 
 func (sr *SarifReporter) makePathRelative(absolute string) string {
-	return strings.TrimSuffix(strings.ReplaceAll(absolute, sr.workDir, ""), "/")
+	relative := strings.ReplaceAll(absolute, sr.workDir, "")
+	return strings.TrimPrefix(relative, "/")
 }
 
 func (sr *SarifReporter) searchFixVersion(versions []osv.Affected) string {
