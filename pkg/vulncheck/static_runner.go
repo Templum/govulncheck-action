@@ -5,8 +5,8 @@ import (
 	"errors"
 	"os"
 
+	"github.com/Templum/govulncheck-action/pkg/types"
 	"github.com/rs/zerolog"
-	"golang.org/x/vuln/vulncheck"
 )
 
 type StaticScanner struct {
@@ -18,10 +18,10 @@ func NewLocalScanner(logger zerolog.Logger, pathToFile string) Scanner {
 	return &StaticScanner{log: logger, path: pathToFile}
 }
 
-func (r *StaticScanner) Scan() (*vulncheck.Result, error) {
+func (r *StaticScanner) Scan() (*types.Result, error) {
 	out, _ := os.ReadFile(r.path)
 
-	var result vulncheck.Result
+	var result types.Result
 	err := json.Unmarshal(out, &result)
 	if err != nil {
 		return nil, errors.New("scan failed to produce proper report")

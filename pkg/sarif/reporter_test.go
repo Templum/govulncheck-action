@@ -7,7 +7,6 @@ import (
 	"path"
 	"testing"
 
-	"github.com/Templum/govulncheck-action/pkg/action"
 	"github.com/Templum/govulncheck-action/pkg/types"
 	helper "github.com/Templum/govulncheck-action/pkg/vulncheck"
 	"github.com/owenrumney/go-sarif/v2/sarif"
@@ -17,21 +16,18 @@ import (
 
 func TestSarifReporter_Convert(t *testing.T) {
 	scanner := helper.NewLocalScanner(zerolog.Nop(), path.Join("..", "..", "hack", "found.json"))
-	preprocessor := action.NewVulncheckProcessor("/workspaces/govulncheck-action")
 	result, _ := scanner.Scan()
-	input := helper.Resolve(result)
-	input = preprocessor.RemoveDuplicates(input)
 
 	t.Run("Should convert a preprocessed report into sarif format", func(t *testing.T) {
 		target := NewSarifReporter(zerolog.Nop(), "/workspaces/govulncheck-action")
 		ref := target.(*SarifReporter)
 
-		_ = target.Convert(input)
+		_ = target.Convert(result)
 
 		assert.NotNil(t, ref.report, "should have create an empty report")
 		assert.NotNil(t, ref.run, "should have filled a run with details")
 
-		assert.GreaterOrEqual(t, len(ref.run.Results), 9, "example report should have 9 calls to vulnerabilities")
+		assert.GreaterOrEqual(t, len(ref.run.Results), 8, "example report should have 9 calls to vulnerabilities")
 		assert.GreaterOrEqual(t, len(ref.run.Tool.Driver.Rules), 6, "example report should have 6 vulnerabilities")
 		assert.Equal(t, len(ref.report.Runs), 0, "should have not yet added the run to the report")
 	})
@@ -40,7 +36,7 @@ func TestSarifReporter_Convert(t *testing.T) {
 		target := NewSarifReporter(zerolog.Nop(), "/workspaces/govulncheck-action")
 		ref := target.(*SarifReporter)
 
-		_ = target.Convert(make(types.VulnerableStacks))
+		_ = target.Convert(&types.Result{Vulns: []types.Vulns{}})
 
 		assert.NotNil(t, ref.report, "should have create an empty report")
 		assert.NotNil(t, ref.run, "should have filled a run with details")

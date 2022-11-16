@@ -27,7 +27,7 @@ type MockReport struct {
 	mock.Mock
 }
 
-func (m *MockReport) Convert(result types.VulnerableStacks) error {
+func (m *MockReport) Convert(result *types.Result) error {
 	args := m.Called(result)
 	return args.Error(0)
 }

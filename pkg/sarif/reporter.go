@@ -3,15 +3,12 @@ package sarif
 import (
 	"fmt"
 	"io"
-	"os"
 	"strings"
 
-	"github.com/Templum/govulncheck-action/pkg/action"
 	"github.com/Templum/govulncheck-action/pkg/types"
 	"github.com/owenrumney/go-sarif/v2/sarif"
 	"github.com/rs/zerolog"
 	"golang.org/x/vuln/osv"
-	"golang.org/x/vuln/vulncheck"
 )
 
 const (
@@ -36,25 +33,25 @@ func NewSarifReporter(logger zerolog.Logger, workDir string) types.Reporter {
 	return &SarifReporter{report: nil, run: nil, log: logger, workDir: workDir}
 }
 
-func (sr *SarifReporter) Convert(result types.VulnerableStacks) error {
+func (sr *SarifReporter) Convert(result *types.Result) error {
 	sr.createEmptyReport("initial")
 
-	sr.log.Debug().Msgf("Scan showed code being impacted by %d vulnerabilities", len(result))
-	for vuln, callStacks := range result {
-		sr.addRule(vuln)
+	sr.log.Debug().Msgf("Scan result shows the code is affected by %d vulnerabilities", len(result.Vulns))
+	for _, vuln := range result.Vulns {
+		sr.addRule(vuln.Osv)
 
-		for _, current := range callStacks {
-			// callSite can never have Call=nil Function=nil as the curator is using
-			// the same method and filtering out those cases
-			callSite := action.FindVulnerableCallSite(sr.workDir, current)
-
-			text, markdown := sr.generateResultMessage(vuln, callSite, current)
-			sr.addResult(vuln, callSite.Call, text, markdown)
+		for _, mods := range vuln.Modules {
+			for _, pkgs := range mods.Packages {
+				for _, callStack := range pkgs.CallStacks {
+					text, markdown := sr.generateResultHelp(vuln.Osv, callStack)
+					sr.addResult(vuln.Osv, callStack, text, markdown)
+				}
+			}
 		}
 
 	}
 
-	sr.log.Info().Int("Vulnerabilities", len(result)).Int("Call Sites", len(sr.run.Results)).Msg("Conversion yielded following stats")
+	sr.log.Info().Int("Vulnerabilities", len(sr.run.Tool.Driver.Rules)).Int("Call Sites", len(sr.run.Results)).Msg("Conversion yielded following stats")
 	return nil
 }
 
@@ -76,14 +73,14 @@ func (sr *SarifReporter) createEmptyReport(vulncheckVersion string) {
 	sr.run = run
 }
 
-func (sr *SarifReporter) addRule(vuln *vulncheck.Vuln) {
+func (sr *SarifReporter) addRule(vuln *osv.Entry) {
 	text, markdown := sr.generateRuleHelp(vuln)
 
 	// sr.run.AddRule does check if the rule is present prior to adding it
-	sr.run.AddRule(vuln.OSV.ID).
+	sr.run.AddRule(vuln.ID).
 		WithName(ruleName).
-		WithDescription(vuln.OSV.ID).
-		WithFullDescription(sarif.NewMultiformatMessageString(vuln.OSV.Details)).
+		WithDescription(vuln.ID).
+		WithFullDescription(sarif.NewMultiformatMessageString(vuln.Details)).
 		WithHelp(sarif.NewMultiformatMessageString(text).WithMarkdown(markdown)).
 		WithDefaultConfiguration(sarif.NewReportingConfiguration().WithLevel(severity)).
 		WithProperties(sarif.Properties{
@@ -94,30 +91,32 @@ func (sr *SarifReporter) addRule(vuln *vulncheck.Vuln) {
 				"security",
 			},
 			"precision": "very-high",
-			"aliases":   vuln.OSV.Aliases,
+			"aliases":   vuln.Aliases,
 		}).
-		WithHelpURI(fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID))
+		WithHelpURI(fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.ID))
 }
 
-func (sr *SarifReporter) addResult(vuln *vulncheck.Vuln, call *vulncheck.CallSite, text string, markdown string) {
-	result := sarif.NewRuleResult(vuln.OSV.ID).
+func (sr *SarifReporter) addResult(vuln *osv.Entry, callStack types.CallStack, text string, markdown string) {
+	entry := callStack.Frames[0]
+
+	result := sarif.NewRuleResult(vuln.ID).
 		WithLevel(severity).
 		WithMessage(sarif.NewMessage().WithMarkdown(markdown).WithText(text))
 
-	if call != nil {
+	if entry != nil {
 		sr.log.Debug().
-			Str("Symbol", vuln.Symbol).
-			Msgf("Add result for %s called from %s", vuln.OSV.ID, call.Pos)
+			Str("Symbol", callStack.Symbol).
+			Msgf("Add result for %s called from %s", vuln.ID, entry.Position)
 
 		region := sarif.NewRegion().
-			WithStartLine(call.Pos.Line).
-			WithEndLine(call.Pos.Line).
-			WithStartColumn(call.Pos.Column).
-			WithEndColumn(call.Pos.Column).
-			WithCharOffset(call.Pos.Offset)
+			WithStartLine(entry.Position.Line).
+			WithEndLine(entry.Position.Line).
+			WithStartColumn(entry.Position.Column).
+			WithEndColumn(entry.Position.Column).
+			WithCharOffset(entry.Position.Offset)
 
 		location := sarif.NewPhysicalLocation().
-			WithArtifactLocation(sarif.NewSimpleArtifactLocation(sr.makePathRelative(call.Pos.Filename)).WithUriBaseId(baseURI)).
+			WithArtifactLocation(sarif.NewSimpleArtifactLocation(sr.makePathRelative(entry.Position.Filename)).WithUriBaseId(baseURI)).
 			WithRegion(region)
 
 		result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
@@ -126,7 +125,7 @@ func (sr *SarifReporter) addResult(vuln *vulncheck.Vuln, call *vulncheck.CallSit
 	// TODO: Research option to provide fix instructions
 	// result.Fixes = append(result.Fixes, sarif.NewFix().WithDescription(fmt.Sprintf("Was fixed with version %s")))
 
-	ruleIdx := sr.getRule(vuln.OSV.ID)
+	ruleIdx := sr.getRule(vuln.ID)
 	if ruleIdx >= 0 {
 		result.WithRuleIndex(ruleIdx)
 		sr.run.AddResult(result)
@@ -160,41 +159,36 @@ func (sr *SarifReporter) searchFixVersion(versions []osv.Affected) string {
 	return "None"
 }
 
-func (sr *SarifReporter) generateRuleHelp(vuln *vulncheck.Vuln) (text string, markdown string) {
-	fixVersion := sr.searchFixVersion(vuln.OSV.Affected)
-	uri := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID)
+func (sr *SarifReporter) searchPackage(versions []osv.Affected) string {
+	for _, current := range versions {
+		return current.Package.Name
+	}
 
-	return fmt.Sprintf("Vulnerability %s \n Module: %s \n Package: %s \n Fixed in Version: %s \n", vuln.OSV.ID, vuln.ModPath, vuln.PkgPath, fixVersion),
-		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Module | Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|%s|\n", vuln.OSV.ID, uri, vuln.OSV.Details, vuln.ModPath, vuln.PkgPath, fixVersion)
+	return "N/A"
 }
 
-func (sr *SarifReporter) generateResultMessage(vuln *vulncheck.Vuln, entry vulncheck.StackEntry, stack vulncheck.CallStack) (text string, markdown string) {
-	relativeFile := sr.makePathRelative(entry.Call.Pos.String())
-	linkToFile := fmt.Sprintf("https://github.com/%s/blob/main/%s#L%d", os.Getenv(envRepo), sr.makePathRelative(entry.Call.Pos.Filename), entry.Call.Pos.Line)
-	linkToVuln := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.OSV.ID)
+func (sr *SarifReporter) generateRuleHelp(vuln *osv.Entry) (text string, markdown string) {
+	fixVersion := sr.searchFixVersion(vuln.Affected)
+	pkg := sr.searchPackage(vuln.Affected)
+
+	uri := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.ID)
+
+	return fmt.Sprintf("Vulnerability %s \n Package: %s \n Fixed in Version: %s \n", vuln.ID, pkg, fixVersion),
+		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|\n", vuln.ID, uri, vuln.Details, pkg, fixVersion)
+}
+
+func (sr *SarifReporter) generateResultHelp(vuln *osv.Entry, callStack types.CallStack) (text string, markdown string) {
+	// entry := callStack.Frames[0]
+
+	// relativeFile := sr.makePathRelative(entry.Position.String())
+	// linkToFile := fmt.Sprintf("https://github.com/%s/blob/main/%s#L%d", os.Getenv(envRepo), sr.makePathRelative(entry.Position.Filename), entry.Position.Line)
+	// linkToVuln := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.ID)
 
 	var txtBuilder strings.Builder
 	var markBuilder strings.Builder
 
-	txtBuilder.WriteString(fmt.Sprintf("%s calls %s which has vulnerability %s\n",
-		fmt.Sprintf("[%s] %s.%s", relativeFile, entry.Function.PkgPath, entry.Function.Name),
-		fmt.Sprintf("%s.%s", vuln.PkgPath, entry.Call.Name),
-		vuln.OSV.ID))
-	txtBuilder.WriteString("Stacktrace: \n")
-
-	markBuilder.WriteString(fmt.Sprintf("%s calls %s which has vulnerability [%s](%s)\n",
-		fmt.Sprintf("[%s](%s) %s.%s", relativeFile, linkToFile, entry.Function.PkgPath, entry.Function.Name),
-		fmt.Sprintf("%s.%s", vuln.PkgPath, entry.Call.Name),
-		vuln.OSV.ID,
-		linkToVuln,
-	))
-
-	markBuilder.WriteString("Stacktrace: \n")
-
-	for _, line := range types.FormatCallStack(stack) {
-		txtBuilder.WriteString(fmt.Sprintf("%s \n", line))
-		markBuilder.WriteString(fmt.Sprintf("* %s \n", line))
-	}
+	txtBuilder.WriteString(callStack.Summary)
+	markBuilder.WriteString(callStack.Summary)
 
 	return txtBuilder.String(), markBuilder.String()
 }

@@ -5,6 +5,6 @@ import (
 )
 
 type Reporter interface {
-	Convert(result VulnerableStacks) error
+	Convert(result *Result) error
 	Write(dest io.Writer) error
 }

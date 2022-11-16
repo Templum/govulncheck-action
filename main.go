@@ -4,7 +4,6 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/Templum/govulncheck-action/pkg/action"
 	"github.com/Templum/govulncheck-action/pkg/github"
 	"github.com/Templum/govulncheck-action/pkg/sarif"
 	"github.com/Templum/govulncheck-action/pkg/vulncheck"
@@ -23,7 +22,6 @@ func main() {
 	github := github.NewSarifUploader(logger)
 	reporter := sarif.NewSarifReporter(logger, workDir)
 	scanner := vulncheck.NewScanner(logger, workDir)
-	processor := action.NewVulncheckProcessor(workDir)
 
 	if os.Getenv("DEBUG") == "true" {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -53,10 +51,7 @@ func main() {
 		os.Exit(2)
 	}
 
-	vulnerableStacks := vulncheck.Resolve(result)
-	vulnerableStacks = processor.RemoveDuplicates(vulnerableStacks)
-
-	err = reporter.Convert(vulnerableStacks)
+	err = reporter.Convert(result)
 	if err != nil {
 		logger.Error().Err(err).Msg("Conversion of Scan yielded error")
 		os.Exit(2)
@@ -95,7 +90,7 @@ func main() {
 	if os.Getenv("STRICT") == "true" {
 		logger.Debug().Msg("Action is running in strict mode")
 
-		if len(vulnerableStacks) > 0 {
+		if len(result.Vulns) > 0 {
 			logger.Info().Msg("Encountered at least one vulnerability while running in strict mode, will mark outcome as failed")
 			os.Exit(2)
 		}
