@@ -27,8 +27,8 @@ func TestSarifReporter_Convert(t *testing.T) {
 		assert.NotNil(t, ref.report, "should have create an empty report")
 		assert.NotNil(t, ref.run, "should have filled a run with details")
 
-		assert.GreaterOrEqual(t, len(ref.run.Results), 6, "example report should have 6 calls to vulnerabilities")
-		assert.GreaterOrEqual(t, len(ref.run.Tool.Driver.Rules), 8, "example report should have 8 vulnerabilities")
+		assert.Equal(t, len(ref.run.Results), 9, "example report should have 9 calls to vulnerabilities")
+		assert.Equal(t, len(ref.run.Tool.Driver.Rules), 9, "example report should have 9 vulnerabilities")
 		assert.Equal(t, len(ref.report.Runs), 0, "should have not yet added the run to the report")
 	})
 
