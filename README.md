@@ -8,8 +8,9 @@ This action uses govulncheck to perform a scan of the code, afterwards it will p
 
 For a full list of currently known limitations please head over to [here](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck#hdr-Limitations). Listed below are an important overview.
 
-* Govulncheck only reads binaries compiled with Go 1.18 and later.
-* Govulncheck only reports vulnerabilities that apply to the current Go build system and configuration (GOOS/GOARCH settings).
+* Govulncheck analyzes function pointer and interface calls conservatively, which may result in false positives or inaccurate call stacks in some cases.
+* Calls to functions made using package reflect are not visible to static analysis. Vulnerable code reachable only through those calls will not be reported.
+* There is no support for silencing vulnerability findings.
 
 ## :books: Useful links & resources on govulncheck :books:
 
