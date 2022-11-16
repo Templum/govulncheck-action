@@ -54,14 +54,6 @@ func (p *VulncheckProcessor) RemoveDuplicates(vulnerableStacks types.VulnerableS
 					uniqueVulnStacks[ref] = append(uniqueVulnStacks[ref], current)
 				}
 			}
-
-			if entry.Call == nil && entry.Function == nil {
-				// TODO Need to dump call sites
-				for _, c := range current {
-					p.log.Debug().Bool("Contains", strings.Contains(c.Call.Pos.Filename, p.workDir)).Msgf("Filename %s Workspace %s", c.Call.Pos.Filename, p.workDir)
-				}
-			}
-
 		}
 	}
 

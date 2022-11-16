@@ -54,9 +54,7 @@ func main() {
 	}
 
 	vulnerableStacks := vulncheck.Resolve(result)
-	logger.Info().Int("stacks", len(vulnerableStacks)).Msg("Resolved vulncheck output to following number of stacks that contain vulnerable code")
 	vulnerableStacks = processor.RemoveDuplicates(vulnerableStacks)
-	logger.Info().Int("stacks", len(vulnerableStacks)).Msg("Removed duplicates from raw vulncheck output")
 
 	err = reporter.Convert(vulnerableStacks)
 	if err != nil {
