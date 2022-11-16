@@ -132,9 +132,11 @@ func (sr *SarifReporter) addDirectCallResult(vulnID string, pkg *types.Package, 
 }
 
 func (sr *SarifReporter) addImportResult(vulnID string, pkg *types.Package) {
+	message := fmt.Sprintf("Package %s is vulnerable to %s, but your code doesn't appear to call any vulnerable function directly. You may not need to take any action.", pkg.Path, vulnID)
+
 	result := sarif.NewRuleResult(vulnID).
 		WithLevel(severity).
-		WithMessage(sarif.NewMessage().WithText(fmt.Sprintf("Package %s is vulnerable to %s, but your code doesn't appear to call any vulnerable function directly. You may not need to take any action.", pkg.Path, vulnID)))
+		WithMessage(sarif.NewMessage().WithText(message).WithMarkdown(message))
 
 	sr.log.Debug().
 		Str("Path", pkg.Path).
@@ -169,7 +171,7 @@ func (sr *SarifReporter) getRule(ruleId string) int {
 }
 
 func (sr *SarifReporter) makePathRelative(absolute string) string {
-	return strings.ReplaceAll(absolute, sr.workDir, "")
+	return strings.TrimSuffix(strings.ReplaceAll(absolute, sr.workDir, ""), "/")
 }
 
 func (sr *SarifReporter) searchFixVersion(versions []osv.Affected) string {
