@@ -4,13 +4,9 @@ import (
 	"go/token"
 
 	"golang.org/x/vuln/osv"
-	"golang.org/x/vuln/vulncheck"
 )
 
-type VulnerableStacks map[*vulncheck.Vuln][]vulncheck.CallStack
-
 // Result links to: https://github.com/golang/vuln/blob/55c64d8e26b914d8703299302be4997b6de580d0/internal/govulncheck/result.go#L38
-
 type Result struct {
 	Vulns []Vulns
 }
