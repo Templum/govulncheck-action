@@ -1,2963 +1,191 @@
 {
-	"Calls": {
-		"Functions": {
-			"1": {
-				"ID": 1,
-				"Name": "main",
-				"RecvType": "",
-				"PkgPath": "github.com/Templum/playground",
-				"Pos": {
-					"Filename": "/workspaces/govulncheck-action/main.go",
-					"Offset": 232,
-					"Line": 11,
-					"Column": 6
-				},
-				"CallSites": null
-			},
-			"10": {
-				"ID": 10,
-				"Name": "yaml_parser_roll_indent",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-					"Offset": 27804,
-					"Line": 931,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 57,
-						"Name": "yaml_parser_roll_indent",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 34648,
-							"Line": 1196,
-							"Column": 30
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 58,
-						"Name": "yaml_parser_roll_indent",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 37172,
-							"Line": 1283,
-							"Column": 30
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 58,
-						"Name": "yaml_parser_roll_indent",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 37897,
-							"Line": 1308,
-							"Column": 31
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 59,
-						"Name": "yaml_parser_roll_indent",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 35945,
-							"Line": 1239,
-							"Column": 30
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"11": {
-				"ID": 11,
-				"Name": "yaml_parser_fetch_more_tokens",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-					"Offset": 17667,
-					"Line": 626,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 27,
-						"Name": "yaml_parser_fetch_more_tokens",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 2220,
-							"Line": 47,
-							"Column": 60
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"12": {
-				"ID": 12,
-				"Name": "Get",
-				"RecvType": "",
-				"PkgPath": "github.com/tidwall/gjson",
-				"Pos": {
-					"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-					"Offset": 37859,
-					"Line": 1873,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 3,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/pkg/seconds/mixer.go",
-							"Offset": 257,
-							"Line": 15,
-							"Column": 18
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 7,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 5781,
-							"Line": 297,
-							"Column": 12
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 12,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 38198,
-							"Line": 1885,
-							"Column": 17
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 12,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 38654,
-							"Line": 1905,
-							"Column": 17
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 2,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/pkg/json/testcase.go",
-							"Offset": 162,
-							"Line": 11,
-							"Column": 20
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"13": {
-				"ID": 13,
-				"Name": "yaml_parser_increase_flow_level",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-					"Offset": 27111,
-					"Line": 910,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 55,
-						"Name": "yaml_parser_increase_flow_level",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 32293,
-							"Line": 1106,
-							"Column": 37
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"14": {
-				"ID": 14,
-				"Name": "MustParse",
-				"RecvType": "",
-				"PkgPath": "golang.org/x/text/language",
-				"Pos": {
-					"Filename": "/go/pkg/mod/golang.org/x/text@v0.3.6/language/tags.go",
-					"Offset": 427,
-					"Line": 13,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 3,
-						"Name": "MustParse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/pkg/seconds/mixer.go",
-							"Offset": 204,
-							"Line": 12,
-							"Column": 29
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 4,
-						"Name": "MustParse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/pkg/text/testcase.go",
-							"Offset": 102,
-							"Line": 8,
-							"Column": 29
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"15": {
-				"ID": 15,
-				"Name": "queryMatches",
-				"RecvType": "",
-				"PkgPath": "github.com/tidwall/gjson",
-				"Pos": {
-					"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-					"Offset": 25066,
-					"Line": 1265,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 18,
-						"Name": "queryMatches",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 27271,
-							"Line": 1377,
-							"Column": 18
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"16": {
-				"ID": 16,
-				"Name": "parseObject",
-				"RecvType": "",
-				"PkgPath": "github.com/tidwall/gjson",
-				"Pos": {
-					"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-					"Offset": 21927,
-					"Line": 1114,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 17,
-						"Name": "parseObject",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 28823,
-							"Line": 1462,
-							"Column": 26
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 16,
-						"Name": "parseObject",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 24057,
-							"Line": 1212,
-							"Column": 26
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 12,
-						"Name": "parseObject",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 39894,
-							"Line": 1963,
-							"Column": 16
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"17": {
-				"ID": 17,
-				"Name": "parseArray",
-				"RecvType": "",
-				"PkgPath": "github.com/tidwall/gjson",
-				"Pos": {
-					"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-					"Offset": 26587,
-					"Line": 1341,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 12,
-						"Name": "parseArray",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 39788,
-							"Line": 1958,
-							"Column": 13
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 16,
-						"Name": "parseArray",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 24326,
-							"Line": 1226,
-							"Column": 25
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 17,
-						"Name": "parseArray",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 29286,
-							"Line": 1486,
-							"Column": 25
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 12,
-						"Name": "parseArray",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 39969,
-							"Line": 1968,
-							"Column": 15
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"18": {
-				"ID": 18,
-				"Name": "parseArray$1",
-				"RecvType": "",
-				"PkgPath": "github.com/tidwall/gjson",
-				"Pos": {
-					"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-					"Offset": 26982,
-					"Line": 1362,
-					"Column": 15
-				},
-				"CallSites": [
-					{
-						"Parent": 17,
-						"Name": "t21",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 28463,
-							"Line": 1444,
-							"Column": 18
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 17,
-						"Name": "t21",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 29015,
-							"Line": 1472,
-							"Column": 19
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 17,
-						"Name": "t21",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 29478,
-							"Line": 1496,
-							"Column": 19
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 17,
-						"Name": "t21",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 29937,
-							"Line": 1515,
-							"Column": 18
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 17,
-						"Name": "t21",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 30419,
-							"Line": 1539,
-							"Column": 18
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"19": {
-				"ID": 19,
-				"Name": "unmarshal",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
-					"Offset": 4340,
-					"Line": 137,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 8,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
-							"Offset": 2826,
-							"Line": 81,
-							"Column": 18
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"2": {
-				"ID": 2,
-				"Name": "Testcase",
-				"RecvType": "",
-				"PkgPath": "github.com/Templum/playground/pkg/json",
-				"Pos": {
-					"Filename": "/workspaces/govulncheck-action/pkg/json/testcase.go",
-					"Offset": 130,
-					"Line": 10,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 1,
-						"Name": "Testcase",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/main.go",
-							"Offset": 255,
-							"Line": 12,
-							"Column": 15
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"20": {
-				"ID": 20,
-				"Name": "merge",
-				"RecvType": "*gopkg.in/yaml.v2.decoder",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 17803,
-					"Line": 744,
-					"Column": 19
-				},
-				"CallSites": [
-					{
-						"Parent": 21,
-						"Name": "merge",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 16710,
-							"Line": 705,
-							"Column": 11
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 22,
-						"Name": "merge",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 14719,
-							"Line": 621,
-							"Column": 11
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 23,
-						"Name": "merge",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 15783,
-							"Line": 665,
-							"Column": 11
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"21": {
-				"ID": 21,
-				"Name": "mappingStruct",
-				"RecvType": "*gopkg.in/yaml.v2.decoder",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 16136,
-					"Line": 682,
-					"Column": 19
-				},
-				"CallSites": [
-					{
-						"Parent": 22,
-						"Name": "mappingStruct",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 13978,
-							"Line": 584,
-							"Column": 25
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"22": {
-				"ID": 22,
-				"Name": "mapping",
-				"RecvType": "*gopkg.in/yaml.v2.decoder",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 13861,
-					"Line": 581,
-					"Column": 19
-				},
-				"CallSites": [
-					{
-						"Parent": 9,
-						"Name": "mapping",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 7743,
-							"Line": 332,
-							"Column": 19
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"23": {
-				"ID": 23,
-				"Name": "mappingSlice",
-				"RecvType": "*gopkg.in/yaml.v2.decoder",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 15467,
-					"Line": 651,
-					"Column": 19
-				},
-				"CallSites": [
-					{
-						"Parent": 22,
-						"Name": "mappingSlice",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 14031,
-							"Line": 586,
-							"Column": 24
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 22,
-						"Name": "mappingSlice",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 14278,
-							"Line": 596,
-							"Column": 22
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"24": {
-				"ID": 24,
-				"Name": "document",
-				"RecvType": "*gopkg.in/yaml.v2.decoder",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 7917,
-					"Line": 341,
-					"Column": 19
-				},
-				"CallSites": [
-					{
-						"Parent": 9,
-						"Name": "document",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 7511,
-							"Line": 320,
-							"Column": 20
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"25": {
-				"ID": 25,
-				"Name": "sequence",
-				"RecvType": "*gopkg.in/yaml.v2.decoder",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 13038,
-					"Line": 543,
-					"Column": 19
-				},
-				"CallSites": [
-					{
-						"Parent": 9,
-						"Name": "sequence",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 7791,
-							"Line": 334,
-							"Column": 20
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"26": {
-				"ID": 26,
-				"Name": "alias",
-				"RecvType": "*gopkg.in/yaml.v2.decoder",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 8093,
-					"Line": 350,
-					"Column": 19
-				},
-				"CallSites": [
-					{
-						"Parent": 9,
-						"Name": "alias",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 7553,
-							"Line": 322,
-							"Column": 17
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"27": {
-				"ID": 27,
-				"Name": "peek_token",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 2111,
-					"Line": 46,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 28,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 31112,
-							"Line": 971,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 28,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 31376,
-							"Line": 981,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 40,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 12542,
-							"Line": 362,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 40,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 13239,
-							"Line": 391,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 40,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 13503,
-							"Line": 402,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 40,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 13805,
-							"Line": 415,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 40,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 13988,
-							"Line": 423,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 41,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 23280,
-							"Line": 734,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 41,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 23428,
-							"Line": 741,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 42,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 26456,
-							"Line": 834,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 43,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 29084,
-							"Line": 906,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 43,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 29194,
-							"Line": 911,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 43,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 29390,
-							"Line": 920,
-							"Column": 23
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 43,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 29819,
-							"Line": 935,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 44,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 24637,
-							"Line": 772,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 44,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 24746,
-							"Line": 776,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 44,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 24942,
-							"Line": 784,
-							"Column": 23
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 45,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 21536,
-							"Line": 677,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 45,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 21646,
-							"Line": 682,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 45,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 21793,
-							"Line": 690,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 46,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 20086,
-							"Line": 632,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 46,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 20241,
-							"Line": 640,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 47,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 27253,
-							"Line": 855,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 47,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 27377,
-							"Line": 861,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 48,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 9755,
-							"Line": 283,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 49,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 18526,
-							"Line": 581,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 49,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 18636,
-							"Line": 586,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 49,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 18791,
-							"Line": 594,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 50,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 28119,
-							"Line": 879,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 51,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 7443,
-							"Line": 200,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 51,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 7635,
-							"Line": 209,
-							"Column": 22
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 51,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 8577,
-							"Line": 241,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 52,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 32571,
-							"Line": 1020,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 52,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 33523,
-							"Line": 1053,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 53,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 10591,
-							"Line": 306,
-							"Column": 21
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 54,
-						"Name": "peek_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 6628,
-							"Line": 175,
-							"Column": 21
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"28": {
-				"ID": 28,
-				"Name": "yaml_parser_parse_flow_mapping_value",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 30992,
-					"Line": 970,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_mapping_value",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 6200,
-							"Line": 161,
-							"Column": 46
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_mapping_value",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 6318,
-							"Line": 164,
-							"Column": 46
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"29": {
-				"ID": 29,
-				"Name": "yaml_parser_state_machine",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 3588,
-					"Line": 93,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 30,
-						"Name": "yaml_parser_state_machine",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 2972,
-							"Line": 72,
-							"Column": 34
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"3": {
-				"ID": 3,
-				"Name": "Testcase",
-				"RecvType": "",
-				"PkgPath": "github.com/Templum/playground/pkg/seconds",
-				"Pos": {
-					"Filename": "/workspaces/govulncheck-action/pkg/seconds/mixer.go",
-					"Offset": 162,
-					"Line": 10,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 1,
-						"Name": "Testcase",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/main.go",
-							"Offset": 309,
-							"Line": 15,
-							"Column": 18
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"30": {
-				"ID": 30,
-				"Name": "yaml_parser_parse",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 2611,
-					"Line": 62,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 31,
-						"Name": "yaml_parser_parse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 2134,
-							"Line": 105,
-							"Column": 23
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 36,
-						"Name": "yaml_parser_parse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 1559,
-							"Line": 84,
-							"Column": 24
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"31": {
-				"ID": 31,
-				"Name": "peek",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 2026,
-					"Line": 101,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 32,
-						"Name": "peek",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 2928,
-							"Line": 143,
-							"Column": 15
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 33,
-						"Name": "peek",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4359,
-							"Line": 205,
-							"Column": 12
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 34,
-						"Name": "peek",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4624,
-							"Line": 216,
-							"Column": 12
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"32": {
-				"ID": 32,
-				"Name": "parse",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 2888,
-					"Line": 141,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 19,
-						"Name": "parse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
-							"Offset": 4508,
-							"Line": 142,
-							"Column": 17
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 33,
-						"Name": "parse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4432,
-							"Line": 206,
-							"Column": 42
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 34,
-						"Name": "parse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4696,
-							"Line": 217,
-							"Column": 42
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 34,
-						"Name": "parse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4707,
-							"Line": 217,
-							"Column": 53
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 35,
-						"Name": "parse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 3703,
-							"Line": 175,
-							"Column": 41
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"33": {
-				"ID": 33,
-				"Name": "sequence",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 4236,
-					"Line": 201,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 32,
-						"Name": "sequence",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 3126,
-							"Line": 151,
-							"Column": 20
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"34": {
-				"ID": 34,
-				"Name": "mapping",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 4504,
-					"Line": 212,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 32,
-						"Name": "mapping",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 3071,
-							"Line": 149,
-							"Column": 19
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"35": {
-				"ID": 35,
-				"Name": "document",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 3533,
-					"Line": 170,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 32,
-						"Name": "document",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 3181,
-							"Line": 153,
-							"Column": 20
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"36": {
-				"ID": 36,
-				"Name": "expect",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 1471,
-					"Line": 82,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 33,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4320,
-							"Line": 204,
-							"Column": 10
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 33,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4448,
-							"Line": 208,
-							"Column": 10
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 34,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4586,
-							"Line": 215,
-							"Column": 10
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 34,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4723,
-							"Line": 219,
-							"Column": 10
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 35,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 3635,
-							"Line": 174,
-							"Column": 10
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 35,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 3716,
-							"Line": 176,
-							"Column": 10
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 37,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 3964,
-							"Line": 187,
-							"Column": 10
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 38,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 4186,
-							"Line": 197,
-							"Column": 10
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 39,
-						"Name": "expect",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 1179,
-							"Line": 69,
-							"Column": 10
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"37": {
-				"ID": 37,
-				"Name": "alias",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 3772,
-					"Line": 180,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 32,
-						"Name": "alias",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 3018,
-							"Line": 147,
-							"Column": 17
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"38": {
-				"ID": 38,
-				"Name": "scalar",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 4013,
-					"Line": 191,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 32,
-						"Name": "scalar",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 2975,
-							"Line": 145,
-							"Column": 18
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"39": {
-				"ID": 39,
-				"Name": "init",
-				"RecvType": "*gopkg.in/yaml.v2.parser",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 1132,
-					"Line": 65,
-					"Column": 18
-				},
-				"CallSites": [
-					{
-						"Parent": 32,
-						"Name": "init",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 2911,
-							"Line": 142,
-							"Column": 8
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"4": {
-				"ID": 4,
-				"Name": "Testcase",
-				"RecvType": "",
-				"PkgPath": "github.com/Templum/playground/pkg/text",
-				"Pos": {
-					"Filename": "/workspaces/govulncheck-action/pkg/text/testcase.go",
-					"Offset": 61,
-					"Line": 7,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 1,
-						"Name": "Testcase",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/main.go",
-							"Offset": 272,
-							"Line": 13,
-							"Column": 15
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"40": {
-				"ID": 40,
-				"Name": "yaml_parser_parse_node",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 12309,
-					"Line": 359,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 28,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 31619,
-							"Line": 987,
-							"Column": 33
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 41,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 23697,
-							"Line": 749,
-							"Column": 33
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 42,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 26748,
-							"Line": 842,
-							"Column": 32
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 43,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 30111,
-							"Line": 943,
-							"Column": 34
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 43,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 30461,
-							"Line": 950,
-							"Column": 33
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 44,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 25816,
-							"Line": 810,
-							"Column": 33
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 45,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 22064,
-							"Line": 698,
-							"Column": 33
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4329,
-							"Line": 113,
-							"Column": 32
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4448,
-							"Line": 116,
-							"Column": 32
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4542,
-							"Line": 119,
-							"Column": 32
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 46,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 20560,
-							"Line": 649,
-							"Column": 33
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 47,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 27636,
-							"Line": 867,
-							"Column": 33
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 48,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 10237,
-							"Line": 297,
-							"Column": 31
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 49,
-						"Name": "yaml_parser_parse_node",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 19032,
-							"Line": 600,
-							"Column": 33
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"41": {
-				"ID": 41,
-				"Name": "yaml_parser_parse_block_mapping_value",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 23171,
-					"Line": 733,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_block_mapping_value",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5244,
-							"Line": 137,
-							"Column": 47
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"42": {
-				"ID": 42,
-				"Name": "yaml_parser_parse_flow_sequence_entry_mapping_key",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 26335,
-					"Line": 833,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_sequence_entry_mapping_key",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5608,
-							"Line": 146,
-							"Column": 59
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"43": {
-				"ID": 43,
-				"Name": "yaml_parser_parse_flow_mapping_key",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 28953,
-					"Line": 904,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_mapping_key",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5981,
-							"Line": 155,
-							"Column": 44
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_mapping_key",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 6088,
-							"Line": 158,
-							"Column": 44
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"44": {
-				"ID": 44,
-				"Name": "yaml_parser_parse_flow_sequence_entry",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 24503,
-					"Line": 770,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_sequence_entry",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5357,
-							"Line": 140,
-							"Column": 47
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_sequence_entry",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5470,
-							"Line": 143,
-							"Column": 47
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"45": {
-				"ID": 45,
-				"Name": "yaml_parser_parse_block_mapping_key",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 21404,
-					"Line": 675,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_block_mapping_key",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5021,
-							"Line": 131,
-							"Column": 45
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_block_mapping_key",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5130,
-							"Line": 134,
-							"Column": 45
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"46": {
-				"ID": 46,
-				"Name": "yaml_parser_parse_indentless_sequence_entry",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 19971,
-					"Line": 631,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_indentless_sequence_entry",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4912,
-							"Line": 128,
-							"Column": 53
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"47": {
-				"ID": 47,
-				"Name": "yaml_parser_parse_flow_sequence_entry_mapping_value",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 27130,
-					"Line": 854,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_sequence_entry_mapping_value",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5743,
-							"Line": 149,
-							"Column": 61
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"48": {
-				"ID": 48,
-				"Name": "yaml_parser_parse_document_content",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 9649,
-					"Line": 282,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_document_content",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4153,
-							"Line": 107,
-							"Column": 44
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"49": {
-				"ID": 49,
-				"Name": "yaml_parser_parse_block_sequence_entry",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 18391,
-					"Line": 579,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_block_sequence_entry",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4671,
-							"Line": 122,
-							"Column": 48
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_block_sequence_entry",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4786,
-							"Line": 125,
-							"Column": 48
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"5": {
-				"ID": 5,
-				"Name": "Testcase",
-				"RecvType": "",
-				"PkgPath": "github.com/Templum/playground/pkg/yaml",
-				"Pos": {
-					"Filename": "/workspaces/govulncheck-action/pkg/yaml/testcase.go",
-					"Offset": 306,
-					"Line": 26,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 1,
-						"Name": "Testcase",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/main.go",
-							"Offset": 289,
-							"Line": 14,
-							"Column": 15
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"50": {
-				"ID": 50,
-				"Name": "yaml_parser_parse_flow_sequence_entry_mapping_end",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 27998,
-					"Line": 878,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_flow_sequence_entry_mapping_end",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 5874,
-							"Line": 152,
-							"Column": 59
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"51": {
-				"ID": 51,
-				"Name": "yaml_parser_parse_document_start",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 7323,
-					"Line": 198,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_document_start",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 3942,
-							"Line": 101,
-							"Column": 42
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_document_start",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4045,
-							"Line": 104,
-							"Column": 42
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"52": {
-				"ID": 52,
-				"Name": "yaml_parser_process_directives",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 32300,
-					"Line": 1013,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 51,
-						"Name": "yaml_parser_process_directives",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 7951,
-							"Line": 221,
-							"Column": 37
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 51,
-						"Name": "yaml_parser_process_directives",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 8489,
-							"Line": 238,
-							"Column": 37
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"53": {
-				"ID": 53,
-				"Name": "yaml_parser_parse_document_end",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 10489,
-					"Line": 305,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_document_end",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 4246,
-							"Line": 110,
-							"Column": 40
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"54": {
-				"ID": 54,
-				"Name": "yaml_parser_parse_stream_start",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-					"Offset": 6526,
-					"Line": 174,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 29,
-						"Name": "yaml_parser_parse_stream_start",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/parserc.go",
-							"Offset": 3836,
-							"Line": 98,
-							"Column": 40
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"55": {
-				"ID": 55,
-				"Name": "yaml_parser_fetch_flow_collection_start",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-					"Offset": 32018,
-					"Line": 1099,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 56,
-						"Name": "yaml_parser_fetch_flow_collection_start",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 20412,
-							"Line": 722,
-							"Column": 49
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 56,
-						"Name": "yaml_parser_fetch_flow_collection_start",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 20595,
-							"Line": 727,
-							"Column": 49
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"56": {
-				"ID": 56,
-				"Name": "yaml_parser_fetch_next_token",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-					"Offset": 18571,
-					"Line": 665,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 11,
-						"Name": "yaml_parser_fetch_next_token",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 18446,
-							"Line": 655,
-							"Column": 35
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"57": {
-				"ID": 57,
-				"Name": "yaml_parser_fetch_block_entry",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-					"Offset": 34213,
-					"Line": 1187,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 56,
-						"Name": "yaml_parser_fetch_block_entry",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 21301,
-							"Line": 749,
-							"Column": 39
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"58": {
-				"ID": 58,
-				"Name": "yaml_parser_fetch_value",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-					"Offset": 36627,
-					"Line": 1268,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 56,
-						"Name": "yaml_parser_fetch_value",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 21693,
-							"Line": 759,
-							"Column": 33
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"59": {
-				"ID": 59,
-				"Name": "yaml_parser_fetch_key",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-					"Offset": 35499,
-					"Line": 1229,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 56,
-						"Name": "yaml_parser_fetch_key",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/scannerc.go",
-							"Offset": 21495,
-							"Line": 754,
-							"Column": 31
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"6": {
-				"ID": 6,
-				"Name": "Parse",
-				"RecvType": "",
-				"PkgPath": "golang.org/x/text/language",
-				"Pos": {
-					"Filename": "/go/pkg/mod/golang.org/x/text@v0.3.6/language/parse.go",
-					"Offset": 1121,
-					"Line": 33,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 14,
-						"Name": "Parse",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/golang.org/x/text@v0.3.6/language/tags.go",
-							"Offset": 469,
-							"Line": 14,
-							"Column": 17
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"7": {
-				"ID": 7,
-				"Name": "Get",
-				"RecvType": "github.com/tidwall/gjson.Result",
-				"PkgPath": "github.com/tidwall/gjson",
-				"Pos": {
-					"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-					"Offset": 5744,
-					"Line": 296,
-					"Column": 17
-				},
-				"CallSites": [
-					{
-						"Parent": 17,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 31327,
-							"Line": 1579,
-							"Column": 24
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 18,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 27159,
-							"Line": 1370,
-							"Column": 18
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 18,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 27446,
-							"Line": 1385,
-							"Column": 19
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 12,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 39584,
-							"Line": 1945,
-							"Column": 20
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 12,
-						"Name": "Get",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/github.com/tidwall/gjson@v1.6.4/gjson.go",
-							"Offset": 40038,
-							"Line": 1974,
-							"Column": 21
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"8": {
-				"ID": 8,
-				"Name": "Unmarshal",
-				"RecvType": "",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
-					"Offset": 2757,
-					"Line": 80,
-					"Column": 6
-				},
-				"CallSites": [
-					{
-						"Parent": 5,
-						"Name": "Unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/workspaces/govulncheck-action/pkg/yaml/testcase.go",
-							"Offset": 348,
-							"Line": 28,
-							"Column": 20
-						},
-						"Resolved": true
-					}
-				]
-			},
-			"9": {
-				"ID": 9,
-				"Name": "unmarshal",
-				"RecvType": "*gopkg.in/yaml.v2.decoder",
-				"PkgPath": "gopkg.in/yaml.v2",
-				"Pos": {
-					"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-					"Offset": 7403,
-					"Line": 317,
-					"Column": 19
-				},
-				"CallSites": [
-					{
-						"Parent": 19,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
-							"Offset": 4635,
-							"Line": 148,
-							"Column": 14
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 20,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 17888,
-							"Line": 747,
-							"Column": 14
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 20,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 18019,
-							"Line": 753,
-							"Column": 14
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 20,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 18376,
-							"Line": 766,
-							"Column": 15
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 21,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 16766,
-							"Line": 708,
-							"Column": 18
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 21,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 17240,
-							"Line": 725,
-							"Column": 15
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 21,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 17440,
-							"Line": 731,
-							"Column": 15
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 23,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 15899,
-							"Line": 670,
-							"Column": 17
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 23,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 15981,
-							"Line": 672,
-							"Column": 18
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 22,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 14804,
-							"Line": 625,
-							"Column": 17
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 22,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 15071,
-							"Line": 634,
-							"Column": 18
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 24,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 8020,
-							"Line": 344,
-							"Column": 14
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 25,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 13659,
-							"Line": 567,
-							"Column": 23
-						},
-						"Resolved": true
-					},
-					{
-						"Parent": 26,
-						"Name": "unmarshal",
-						"RecvType": "",
-						"Pos": {
-							"Filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
-							"Offset": 8321,
-							"Line": 356,
-							"Column": 20
-						},
-						"Resolved": true
-					}
-				]
-			}
-		},
-		"Entries": [
-			1,
-			2,
-			3,
-			4,
-			5
-		]
-	},
-	"Imports": {
-		"Packages": {
-			"1": {
-				"ID": 1,
-				"Name": "gjson",
-				"Path": "github.com/tidwall/gjson",
-				"Module": 1,
-				"ImportedBy": [
-					2,
-					4
-				]
-			},
-			"2": {
-				"ID": 2,
-				"Name": "json",
-				"Path": "github.com/Templum/playground/pkg/json",
-				"Module": 2,
-				"ImportedBy": [
-					8
-				]
-			},
-			"3": {
-				"ID": 3,
-				"Name": "language",
-				"Path": "golang.org/x/text/language",
-				"Module": 3,
-				"ImportedBy": [
-					4,
-					5,
-					8
-				]
-			},
-			"4": {
-				"ID": 4,
-				"Name": "seconds",
-				"Path": "github.com/Templum/playground/pkg/seconds",
-				"Module": 2,
-				"ImportedBy": [
-					8
-				]
-			},
-			"5": {
-				"ID": 5,
-				"Name": "text",
-				"Path": "github.com/Templum/playground/pkg/text",
-				"Module": 2,
-				"ImportedBy": [
-					8
-				]
-			},
-			"6": {
-				"ID": 6,
-				"Name": "yaml",
-				"Path": "gopkg.in/yaml.v2",
-				"Module": 4,
-				"ImportedBy": [
-					7
-				]
-			},
-			"7": {
-				"ID": 7,
-				"Name": "yaml",
-				"Path": "github.com/Templum/playground/pkg/yaml",
-				"Module": 2,
-				"ImportedBy": [
-					8
-				]
-			},
-			"8": {
-				"ID": 8,
-				"Name": "main",
-				"Path": "github.com/Templum/playground",
-				"Module": 2,
-				"ImportedBy": null
-			}
-		},
-		"Entries": [
-			8,
-			2,
-			4,
-			5,
-			7
-		]
-	},
-	"Requires": {
-		"Modules": {
-			"1": {
-				"ID": 1,
-				"Path": "github.com/tidwall/gjson",
-				"Version": "v1.6.4",
-				"Replace": 0,
-				"RequiredBy": [
-					2
-				]
-			},
-			"2": {
-				"ID": 2,
-				"Path": "github.com/Templum/playground",
-				"Version": "",
-				"Replace": 0,
-				"RequiredBy": null
-			},
-			"3": {
-				"ID": 3,
-				"Path": "golang.org/x/text",
-				"Version": "v0.3.6",
-				"Replace": 0,
-				"RequiredBy": [
-					2
-				]
-			},
-			"4": {
-				"ID": 4,
-				"Path": "gopkg.in/yaml.v2",
-				"Version": "v2.2.0",
-				"Replace": 0,
-				"RequiredBy": [
-					2
-				]
-			}
-		},
-		"Entries": [
-			2
-		]
-	},
 	"Vulns": [
 		{
 			"OSV": {
+				"id": "GO-2022-1095",
+				"published": "2022-11-01T23:55:57Z",
+				"modified": "2022-11-01T23:55:57Z",
+				"aliases": [
+					"CVE-2022-41716"
+				],
+				"details": "Due to unsanitized NUL values, attackers may be able to maliciously set environment variables on Windows.\n\nIn syscall.StartProcess and os/exec.Cmd, invalid environment variable values containing NUL values are not properly checked for. A malicious environment variable value can exploit this behavior to set a value for a different environment variable. For example, the environment variable string \"A=B\\x00C=D\" sets the variables \"A=B\" and \"C=D\".",
+				"affected": [
+					{
+						"package": {
+							"name": "stdlib",
+							"ecosystem": "Go"
+						},
+						"ranges": [
+							{
+								"type": "SEMVER",
+								"events": [
+									{
+										"introduced": "0"
+									},
+									{
+										"fixed": "1.18.8"
+									},
+									{
+										"introduced": "1.19.0"
+									},
+									{
+										"fixed": "1.19.3"
+									}
+								]
+							}
+						],
+						"database_specific": {
+							"url": "https://pkg.go.dev/vuln/GO-2022-1095"
+						},
+						"ecosystem_specific": {
+							"imports": [
+								{
+									"path": "syscall",
+									"goos": [
+										"windows"
+									],
+									"symbols": [
+										"StartProcess"
+									]
+								},
+								{
+									"path": "os/exec",
+									"goos": [
+										"windows"
+									],
+									"symbols": [
+										"Cmd.CombinedOutput",
+										"Cmd.Environ",
+										"Cmd.Output",
+										"Cmd.Run",
+										"Cmd.Start",
+										"Cmd.environ",
+										"dedupEnv",
+										"dedupEnvCase"
+									]
+								}
+							]
+						}
+					}
+				],
+				"references": [
+					{
+						"type": "REPORT",
+						"url": "https://go.dev/issue/56284"
+					},
+					{
+						"type": "FIX",
+						"url": "https://go.dev/cl/446916"
+					},
+					{
+						"type": "WEB",
+						"url": "https://groups.google.com/g/golang-announce/c/mbHY1UY3BaM/m/hSpmRzk-AgAJ"
+					}
+				],
+				"credits": [
+					{
+						"name": "RyotaK (https://twitter.com/ryotkak)"
+					}
+				]
+			},
+			"Modules": [
+				{
+					"Path": "stdlib",
+					"FoundVersion": "go1.19.2",
+					"FixedVersion": "go1.19.3",
+					"Packages": [
+						{
+							"Path": "syscall",
+							"CallStacks": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"OSV": {
+				"id": "GO-2022-1059",
+				"published": "2022-10-11T18:16:24Z",
+				"modified": "2022-11-01T16:41:19Z",
+				"aliases": [
+					"CVE-2022-32149",
+					"GHSA-69ch-w2m2-3vjp"
+				],
+				"details": "An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse.",
+				"affected": [
+					{
+						"package": {
+							"name": "golang.org/x/text",
+							"ecosystem": "Go"
+						},
+						"ranges": [
+							{
+								"type": "SEMVER",
+								"events": [
+									{
+										"introduced": "0"
+									},
+									{
+										"fixed": "0.3.8"
+									}
+								]
+							}
+						],
+						"database_specific": {
+							"url": "https://pkg.go.dev/vuln/GO-2022-1059"
+						},
+						"ecosystem_specific": {
+							"imports": [
+								{
+									"path": "golang.org/x/text/language",
+									"symbols": [
+										"MatchStrings",
+										"ParseAcceptLanguage"
+									]
+								}
+							]
+						}
+					}
+				],
+				"references": [
+					{
+						"type": "REPORT",
+						"url": "https://go.dev/issue/56152"
+					},
+					{
+						"type": "FIX",
+						"url": "https://go.dev/cl/442235"
+					},
+					{
+						"type": "WEB",
+						"url": "https://groups.google.com/g/golang-announce/c/-hjNw559_tE/m/KlGTfid5CAAJ"
+					}
+				],
+				"credits": [
+					{
+						"name": "Adam Korczynski (ADA Logics) and OSS-Fuzz"
+					}
+				]
+			},
+			"Modules": [
+				{
+					"Path": "golang.org/x/text",
+					"FoundVersion": "v0.3.6",
+					"FixedVersion": "v0.3.8",
+					"Packages": [
+						{
+							"Path": "golang.org/x/text/language",
+							"CallStacks": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"OSV": {
 				"id": "GO-2022-0957",
 				"published": "2022-08-25T06:28:20Z",
-				"modified": "2022-08-29T16:50:59Z",
+				"modified": "2022-09-20T15:16:04Z",
 				"aliases": [
 					"CVE-2020-36066",
 					"GHSA-wjm3-fq3r-5x46"
@@ -3018,238 +246,58 @@
 					}
 				]
 			},
-			"Symbol": "Get",
-			"PkgPath": "github.com/tidwall/gjson",
-			"ModPath": "github.com/tidwall/gjson",
-			"CallSink": 12,
-			"ImportSink": 1,
-			"RequireSink": 1
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-0957",
-				"published": "2022-08-25T06:28:20Z",
-				"modified": "2022-08-29T16:50:59Z",
-				"aliases": [
-					"CVE-2020-36066",
-					"GHSA-wjm3-fq3r-5x46"
-				],
-				"details": "A maliciously crafted JSON input can cause a denial of service attack.",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "1.6.5"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-0957"
-						},
-						"ecosystem_specific": {
-							"imports": [
+			"Modules": [
+				{
+					"Path": "github.com/tidwall/gjson",
+					"FoundVersion": "v1.6.4",
+					"FixedVersion": "v1.6.5",
+					"Packages": [
+						{
+							"Path": "github.com/tidwall/gjson",
+							"CallStacks": [
 								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Get",
-										"GetBytes",
-										"GetMany",
-										"GetManyBytes",
-										"Result.Get",
-										"parseObject",
-										"queryMatches"
+									"Symbol": "Get",
+									"Summary": "pkg/seconds/mixer.go:15:18: github.com/Templum/playground/pkg/seconds.Testcase calls github.com/tidwall/gjson.Get",
+									"Frames": [
+										{
+											"PkgPath": "github.com/Templum/playground/pkg/seconds",
+											"FuncName": "Testcase",
+											"RecvType": "",
+											"Position": {
+												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
+												"Offset": 257,
+												"Line": 15,
+												"Column": 18
+											}
+										},
+										{
+											"PkgPath": "github.com/tidwall/gjson",
+											"FuncName": "Get",
+											"RecvType": "",
+											"Position": {
+												"Filename": "",
+												"Offset": 0,
+												"Line": 0,
+												"Column": 0
+											}
+										}
 									]
 								}
 							]
 						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/match/commit/c2f534168b739a7ec1821a33839fb2f029f26bbc"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/commit/9f58baa7a613f89dfdc764c39e47fd3a15606153"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/195"
-					}
-				]
-			},
-			"Symbol": "Result.Get",
-			"PkgPath": "github.com/tidwall/gjson",
-			"ModPath": "github.com/tidwall/gjson",
-			"CallSink": 7,
-			"ImportSink": 1,
-			"RequireSink": 1
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-0957",
-				"published": "2022-08-25T06:28:20Z",
-				"modified": "2022-08-29T16:50:59Z",
-				"aliases": [
-					"CVE-2020-36066",
-					"GHSA-wjm3-fq3r-5x46"
-				],
-				"details": "A maliciously crafted JSON input can cause a denial of service attack.",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "1.6.5"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-0957"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Get",
-										"GetBytes",
-										"GetMany",
-										"GetManyBytes",
-										"Result.Get",
-										"parseObject",
-										"queryMatches"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/match/commit/c2f534168b739a7ec1821a33839fb2f029f26bbc"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/commit/9f58baa7a613f89dfdc764c39e47fd3a15606153"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/195"
-					}
-				]
-			},
-			"Symbol": "parseObject",
-			"PkgPath": "github.com/tidwall/gjson",
-			"ModPath": "github.com/tidwall/gjson",
-			"CallSink": 16,
-			"ImportSink": 1,
-			"RequireSink": 1
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-0957",
-				"published": "2022-08-25T06:28:20Z",
-				"modified": "2022-08-29T16:50:59Z",
-				"aliases": [
-					"CVE-2020-36066",
-					"GHSA-wjm3-fq3r-5x46"
-				],
-				"details": "A maliciously crafted JSON input can cause a denial of service attack.",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "1.6.5"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-0957"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Get",
-										"GetBytes",
-										"GetMany",
-										"GetManyBytes",
-										"Result.Get",
-										"parseObject",
-										"queryMatches"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/match/commit/c2f534168b739a7ec1821a33839fb2f029f26bbc"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/commit/9f58baa7a613f89dfdc764c39e47fd3a15606153"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/195"
-					}
-				]
-			},
-			"Symbol": "queryMatches",
-			"PkgPath": "github.com/tidwall/gjson",
-			"ModPath": "github.com/tidwall/gjson",
-			"CallSink": 15,
-			"ImportSink": 1,
-			"RequireSink": 1
+					]
+				}
+			]
 		},
 		{
 			"OSV": {
 				"id": "GO-2022-0956",
 				"published": "2022-08-29T22:15:46Z",
-				"modified": "2022-08-30T18:28:49Z",
+				"modified": "2022-10-26T17:44:45Z",
 				"aliases": [
 					"CVE-2022-3064"
 				],
-				"details": "Parsing malicious or large YAML documents can consume excessive amounts of\nCPU or memory.\n",
+				"details": "Parsing malicious or large YAML documents can consume excessive amounts of CPU or memory.",
 				"affected": [
 					{
 						"package": {
@@ -3300,223 +348,61 @@
 					}
 				]
 			},
-			"Symbol": "Unmarshal",
-			"PkgPath": "gopkg.in/yaml.v2",
-			"ModPath": "gopkg.in/yaml.v2",
-			"CallSink": 8,
-			"ImportSink": 6,
-			"RequireSink": 4
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-0956",
-				"published": "2022-08-29T22:15:46Z",
-				"modified": "2022-08-30T18:28:49Z",
-				"aliases": [
-					"CVE-2022-3064"
-				],
-				"details": "Parsing malicious or large YAML documents can consume excessive amounts of\nCPU or memory.\n",
-				"affected": [
-					{
-						"package": {
-							"name": "gopkg.in/yaml.v2",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "2.2.4"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-0956"
-						},
-						"ecosystem_specific": {
-							"imports": [
+			"Modules": [
+				{
+					"Path": "gopkg.in/yaml.v2",
+					"FoundVersion": "v2.2.0",
+					"FixedVersion": "v2.2.4",
+					"Packages": [
+						{
+							"Path": "gopkg.in/yaml.v2",
+							"CallStacks": [
 								{
-									"path": "gopkg.in/yaml.v2",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"decoder.unmarshal",
-										"yaml_parser_increase_flow_level",
-										"yaml_parser_roll_indent"
+									"Symbol": "Unmarshal",
+									"Summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
+									"Frames": [
+										{
+											"PkgPath": "github.com/Templum/playground/pkg/yaml",
+											"FuncName": "Testcase",
+											"RecvType": "",
+											"Position": {
+												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
+												"Offset": 348,
+												"Line": 28,
+												"Column": 20
+											}
+										},
+										{
+											"PkgPath": "gopkg.in/yaml.v2",
+											"FuncName": "Unmarshal",
+											"RecvType": "",
+											"Position": {
+												"Filename": "",
+												"Offset": 0,
+												"Line": 0,
+												"Column": 0
+											}
+										}
 									]
 								}
 							]
 						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/commit/f221b8435cfb71e54062f6c6e99e9ade30b124d5"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/go-yaml/yaml/releases/tag/v2.2.4"
-					}
-				]
-			},
-			"Symbol": "yaml_parser_roll_indent",
-			"PkgPath": "gopkg.in/yaml.v2",
-			"ModPath": "gopkg.in/yaml.v2",
-			"CallSink": 10,
-			"ImportSink": 6,
-			"RequireSink": 4
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-0956",
-				"published": "2022-08-29T22:15:46Z",
-				"modified": "2022-08-30T18:28:49Z",
-				"aliases": [
-					"CVE-2022-3064"
-				],
-				"details": "Parsing malicious or large YAML documents can consume excessive amounts of\nCPU or memory.\n",
-				"affected": [
-					{
-						"package": {
-							"name": "gopkg.in/yaml.v2",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "2.2.4"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-0956"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "gopkg.in/yaml.v2",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"decoder.unmarshal",
-										"yaml_parser_increase_flow_level",
-										"yaml_parser_roll_indent"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/commit/f221b8435cfb71e54062f6c6e99e9ade30b124d5"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/go-yaml/yaml/releases/tag/v2.2.4"
-					}
-				]
-			},
-			"Symbol": "yaml_parser_increase_flow_level",
-			"PkgPath": "gopkg.in/yaml.v2",
-			"ModPath": "gopkg.in/yaml.v2",
-			"CallSink": 13,
-			"ImportSink": 6,
-			"RequireSink": 4
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-0956",
-				"published": "2022-08-29T22:15:46Z",
-				"modified": "2022-08-30T18:28:49Z",
-				"aliases": [
-					"CVE-2022-3064"
-				],
-				"details": "Parsing malicious or large YAML documents can consume excessive amounts of\nCPU or memory.\n",
-				"affected": [
-					{
-						"package": {
-							"name": "gopkg.in/yaml.v2",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "2.2.4"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-0956"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "gopkg.in/yaml.v2",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"decoder.unmarshal",
-										"yaml_parser_increase_flow_level",
-										"yaml_parser_roll_indent"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/commit/f221b8435cfb71e54062f6c6e99e9ade30b124d5"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/go-yaml/yaml/releases/tag/v2.2.4"
-					}
-				]
-			},
-			"Symbol": "decoder.unmarshal",
-			"PkgPath": "gopkg.in/yaml.v2",
-			"ModPath": "gopkg.in/yaml.v2",
-			"CallSink": 9,
-			"ImportSink": 6,
-			"RequireSink": 4
+					]
+				}
+			]
 		},
 		{
 			"OSV": {
 				"id": "GO-2021-0265",
 				"published": "2022-08-15T18:06:07Z",
-				"modified": "2022-08-29T16:50:59Z",
+				"modified": "2022-10-26T17:44:45Z",
 				"aliases": [
 					"CVE-2021-42248",
 					"CVE-2021-42836",
 					"GHSA-c9gm-7rfj-8w5h",
 					"GHSA-ppj4-34rq-v8j9"
 				],
-				"details": "A maliciously crafted path can cause Get and other query functions\nto consume excessive amounts of CPU and time.\n",
+				"details": "A maliciously crafted path can cause Get and other query functions to consume excessive amounts of CPU and time.",
 				"affected": [
 					{
 						"package": {
@@ -3576,256 +462,58 @@
 					}
 				]
 			},
-			"Symbol": "Result.Get",
-			"PkgPath": "github.com/tidwall/gjson",
-			"ModPath": "github.com/tidwall/gjson",
-			"CallSink": 7,
-			"ImportSink": 1,
-			"RequireSink": 1
-		},
-		{
-			"OSV": {
-				"id": "GO-2021-0265",
-				"published": "2022-08-15T18:06:07Z",
-				"modified": "2022-08-29T16:50:59Z",
-				"aliases": [
-					"CVE-2021-42248",
-					"CVE-2021-42836",
-					"GHSA-c9gm-7rfj-8w5h",
-					"GHSA-ppj4-34rq-v8j9"
-				],
-				"details": "A maliciously crafted path can cause Get and other query functions\nto consume excessive amounts of CPU and time.\n",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "1.9.3"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0265"
-						},
-						"ecosystem_specific": {
-							"imports": [
+			"Modules": [
+				{
+					"Path": "github.com/tidwall/gjson",
+					"FoundVersion": "v1.6.4",
+					"FixedVersion": "v1.9.3",
+					"Packages": [
+						{
+							"Path": "github.com/tidwall/gjson",
+							"CallStacks": [
 								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Get",
-										"GetBytes",
-										"GetMany",
-										"GetManyBytes",
-										"Result.Get",
-										"parseObject",
-										"queryMatches"
+									"Symbol": "Get",
+									"Summary": "pkg/seconds/mixer.go:15:18: github.com/Templum/playground/pkg/seconds.Testcase calls github.com/tidwall/gjson.Get",
+									"Frames": [
+										{
+											"PkgPath": "github.com/Templum/playground/pkg/seconds",
+											"FuncName": "Testcase",
+											"RecvType": "",
+											"Position": {
+												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
+												"Offset": 257,
+												"Line": 15,
+												"Column": 18
+											}
+										},
+										{
+											"PkgPath": "github.com/tidwall/gjson",
+											"FuncName": "Get",
+											"RecvType": "",
+											"Position": {
+												"Filename": "",
+												"Offset": 0,
+												"Line": 0,
+												"Column": 0
+											}
+										}
 									]
 								}
 							]
 						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/gjson/commit/77a57fda87dca6d0d7d4627d512a630f89a91c96"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/237"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/236"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/commit/590010fdac311cc8990ef5c97448d4fec8f29944"
-					}
-				]
-			},
-			"Symbol": "parseObject",
-			"PkgPath": "github.com/tidwall/gjson",
-			"ModPath": "github.com/tidwall/gjson",
-			"CallSink": 16,
-			"ImportSink": 1,
-			"RequireSink": 1
-		},
-		{
-			"OSV": {
-				"id": "GO-2021-0265",
-				"published": "2022-08-15T18:06:07Z",
-				"modified": "2022-08-29T16:50:59Z",
-				"aliases": [
-					"CVE-2021-42248",
-					"CVE-2021-42836",
-					"GHSA-c9gm-7rfj-8w5h",
-					"GHSA-ppj4-34rq-v8j9"
-				],
-				"details": "A maliciously crafted path can cause Get and other query functions\nto consume excessive amounts of CPU and time.\n",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "1.9.3"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0265"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Get",
-										"GetBytes",
-										"GetMany",
-										"GetManyBytes",
-										"Result.Get",
-										"parseObject",
-										"queryMatches"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/gjson/commit/77a57fda87dca6d0d7d4627d512a630f89a91c96"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/237"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/236"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/commit/590010fdac311cc8990ef5c97448d4fec8f29944"
-					}
-				]
-			},
-			"Symbol": "queryMatches",
-			"PkgPath": "github.com/tidwall/gjson",
-			"ModPath": "github.com/tidwall/gjson",
-			"CallSink": 15,
-			"ImportSink": 1,
-			"RequireSink": 1
-		},
-		{
-			"OSV": {
-				"id": "GO-2021-0265",
-				"published": "2022-08-15T18:06:07Z",
-				"modified": "2022-08-29T16:50:59Z",
-				"aliases": [
-					"CVE-2021-42248",
-					"CVE-2021-42836",
-					"GHSA-c9gm-7rfj-8w5h",
-					"GHSA-ppj4-34rq-v8j9"
-				],
-				"details": "A maliciously crafted path can cause Get and other query functions\nto consume excessive amounts of CPU and time.\n",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "1.9.3"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0265"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Get",
-										"GetBytes",
-										"GetMany",
-										"GetManyBytes",
-										"Result.Get",
-										"parseObject",
-										"queryMatches"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/gjson/commit/77a57fda87dca6d0d7d4627d512a630f89a91c96"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/237"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/236"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/commit/590010fdac311cc8990ef5c97448d4fec8f29944"
-					}
-				]
-			},
-			"Symbol": "Get",
-			"PkgPath": "github.com/tidwall/gjson",
-			"ModPath": "github.com/tidwall/gjson",
-			"CallSink": 12,
-			"ImportSink": 1,
-			"RequireSink": 1
+					]
+				}
+			]
 		},
 		{
 			"OSV": {
 				"id": "GO-2021-0113",
 				"published": "2021-10-06T17:51:21Z",
-				"modified": "2022-08-29T16:50:59Z",
+				"modified": "2022-10-26T17:44:45Z",
 				"aliases": [
 					"CVE-2021-38561"
 				],
-				"details": "Due to improper index calculation, an incorrectly formatted language tag can cause Parse\nto panic via an out of bounds read. If Parse is used to process untrusted user inputs,\nthis may be used as a vector for a denial of service attack.\n",
+				"details": "Due to improper index calculation, an incorrectly formatted language tag can cause Parse to panic via an out of bounds read. If Parse is used to process untrusted user inputs, this may be used as a vector for a denial of service attack.",
 				"affected": [
 					{
 						"package": {
@@ -3872,88 +560,65 @@
 						"type": "FIX",
 						"url": "https://go.googlesource.com/text/+/383b2e75a7a4198c42f8f87833eefb772868a56f"
 					}
+				],
+				"credits": [
+					{
+						"name": "Guido Vranken"
+					}
 				]
 			},
-			"Symbol": "MustParse",
-			"PkgPath": "golang.org/x/text/language",
-			"ModPath": "golang.org/x/text",
-			"CallSink": 14,
-			"ImportSink": 3,
-			"RequireSink": 3
-		},
-		{
-			"OSV": {
-				"id": "GO-2021-0113",
-				"published": "2021-10-06T17:51:21Z",
-				"modified": "2022-08-29T16:50:59Z",
-				"aliases": [
-					"CVE-2021-38561"
-				],
-				"details": "Due to improper index calculation, an incorrectly formatted language tag can cause Parse\nto panic via an out of bounds read. If Parse is used to process untrusted user inputs,\nthis may be used as a vector for a denial of service attack.\n",
-				"affected": [
-					{
-						"package": {
-							"name": "golang.org/x/text",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "0.3.7"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0113"
-						},
-						"ecosystem_specific": {
-							"imports": [
+			"Modules": [
+				{
+					"Path": "golang.org/x/text",
+					"FoundVersion": "v0.3.6",
+					"FixedVersion": "v0.3.7",
+					"Packages": [
+						{
+							"Path": "golang.org/x/text/language",
+							"CallStacks": [
 								{
-									"path": "golang.org/x/text/language",
-									"symbols": [
-										"MatchStrings",
-										"MustParse",
-										"Parse",
-										"ParseAcceptLanguage"
+									"Symbol": "MustParse",
+									"Summary": "pkg/seconds/mixer.go:12:29: github.com/Templum/playground/pkg/seconds.Testcase calls golang.org/x/text/language.MustParse",
+									"Frames": [
+										{
+											"PkgPath": "github.com/Templum/playground/pkg/seconds",
+											"FuncName": "Testcase",
+											"RecvType": "",
+											"Position": {
+												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
+												"Offset": 204,
+												"Line": 12,
+												"Column": 29
+											}
+										},
+										{
+											"PkgPath": "golang.org/x/text/language",
+											"FuncName": "MustParse",
+											"RecvType": "",
+											"Position": {
+												"Filename": "",
+												"Offset": 0,
+												"Line": 0,
+												"Column": 0
+											}
+										}
 									]
 								}
 							]
 						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://go.dev/cl/340830"
-					},
-					{
-						"type": "FIX",
-						"url": "https://go.googlesource.com/text/+/383b2e75a7a4198c42f8f87833eefb772868a56f"
-					}
-				]
-			},
-			"Symbol": "Parse",
-			"PkgPath": "golang.org/x/text/language",
-			"ModPath": "golang.org/x/text",
-			"CallSink": 6,
-			"ImportSink": 3,
-			"RequireSink": 3
+					]
+				}
+			]
 		},
 		{
 			"OSV": {
 				"id": "GO-2021-0061",
 				"published": "2021-04-14T20:04:52Z",
-				"modified": "2022-08-29T16:50:59Z",
+				"modified": "2022-10-26T17:44:45Z",
 				"aliases": [
 					"CVE-2021-4235"
 				],
-				"details": "Due to unbounded alias chasing, a maliciously crafted YAML file\ncan cause the system to consume significant system resources. If\nparsing user input, this may be used as a denial of service vector.\n",
+				"details": "Due to unbounded alias chasing, a maliciously crafted YAML file can cause the system to consume significant system resources. If parsing user input, this may be used as a denial of service vector.",
 				"affected": [
 					{
 						"package": {
@@ -3989,38 +654,6 @@
 								}
 							]
 						}
-					},
-					{
-						"package": {
-							"name": "github.com/go-yaml/yaml",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0061"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/go-yaml/yaml",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"decoder.unmarshal"
-									]
-								}
-							]
-						}
 					}
 				],
 				"references": [
@@ -4032,28 +665,69 @@
 						"type": "FIX",
 						"url": "https://github.com/go-yaml/yaml/commit/bb4e33bf68bf89cad44d386192cbed201f35b241"
 					}
+				],
+				"credits": [
+					{
+						"name": "@simonferquel"
+					}
 				]
 			},
-			"Symbol": "decoder.unmarshal",
-			"PkgPath": "gopkg.in/yaml.v2",
-			"ModPath": "gopkg.in/yaml.v2",
-			"CallSink": 9,
-			"ImportSink": 6,
-			"RequireSink": 4
+			"Modules": [
+				{
+					"Path": "gopkg.in/yaml.v2",
+					"FoundVersion": "v2.2.0",
+					"FixedVersion": "v2.2.3",
+					"Packages": [
+						{
+							"Path": "gopkg.in/yaml.v2",
+							"CallStacks": [
+								{
+									"Symbol": "Unmarshal",
+									"Summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
+									"Frames": [
+										{
+											"PkgPath": "github.com/Templum/playground/pkg/yaml",
+											"FuncName": "Testcase",
+											"RecvType": "",
+											"Position": {
+												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
+												"Offset": 348,
+												"Line": 28,
+												"Column": 20
+											}
+										},
+										{
+											"PkgPath": "gopkg.in/yaml.v2",
+											"FuncName": "Unmarshal",
+											"RecvType": "",
+											"Position": {
+												"Filename": "",
+												"Offset": 0,
+												"Line": 0,
+												"Column": 0
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
 		},
 		{
 			"OSV": {
-				"id": "GO-2021-0061",
+				"id": "GO-2021-0054",
 				"published": "2021-04-14T20:04:52Z",
-				"modified": "2022-08-29T16:50:59Z",
+				"modified": "2022-10-26T17:44:45Z",
 				"aliases": [
-					"CVE-2021-4235"
+					"CVE-2020-36067"
 				],
-				"details": "Due to unbounded alias chasing, a maliciously crafted YAML file\ncan cause the system to consume significant system resources. If\nparsing user input, this may be used as a denial of service vector.\n",
+				"details": "Due to improper bounds checking, maliciously crafted JSON objects can cause an out-of-bounds panic. If parsing user input, this may be used as a denial of service vector.",
 				"affected": [
 					{
 						"package": {
-							"name": "gopkg.in/yaml.v2",
+							"name": "github.com/tidwall/gjson",
 							"ecosystem": "Go"
 						},
 						"ranges": [
@@ -4064,55 +738,21 @@
 										"introduced": "0"
 									},
 									{
-										"fixed": "2.2.3"
+										"fixed": "1.6.6"
 									}
 								]
 							}
 						],
 						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0061"
+							"url": "https://pkg.go.dev/vuln/GO-2021-0054"
 						},
 						"ecosystem_specific": {
 							"imports": [
 								{
-									"path": "gopkg.in/yaml.v2",
+									"path": "github.com/tidwall/gjson",
 									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"decoder.unmarshal"
-									]
-								}
-							]
-						}
-					},
-					{
-						"package": {
-							"name": "github.com/go-yaml/yaml",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0061"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/go-yaml/yaml",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"decoder.unmarshal"
+										"Result.ForEach",
+										"unwrap"
 									]
 								}
 							]
@@ -4122,31 +762,43 @@
 				"references": [
 					{
 						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/pull/375"
+						"url": "https://github.com/tidwall/gjson/commit/bf4efcb3c18d1825b2988603dea5909140a5302b"
 					},
 					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/commit/bb4e33bf68bf89cad44d386192cbed201f35b241"
+						"type": "WEB",
+						"url": "https://github.com/tidwall/gjson/issues/196"
+					}
+				],
+				"credits": [
+					{
+						"name": "@toptotu"
 					}
 				]
 			},
-			"Symbol": "Unmarshal",
-			"PkgPath": "gopkg.in/yaml.v2",
-			"ModPath": "gopkg.in/yaml.v2",
-			"CallSink": 8,
-			"ImportSink": 6,
-			"RequireSink": 4
+			"Modules": [
+				{
+					"Path": "github.com/tidwall/gjson",
+					"FoundVersion": "v1.6.4",
+					"FixedVersion": "v1.6.6",
+					"Packages": [
+						{
+							"Path": "github.com/tidwall/gjson",
+							"CallStacks": null
+						}
+					]
+				}
+			]
 		},
 		{
 			"OSV": {
 				"id": "GO-2020-0036",
 				"published": "2021-04-14T20:04:52Z",
-				"modified": "2022-08-29T16:50:59Z",
+				"modified": "2022-10-26T17:44:45Z",
 				"aliases": [
 					"CVE-2019-11254",
 					"GHSA-wxc4-f4m6-wwqv"
 				],
-				"details": "Due to unbounded aliasing, a crafted YAML file can cause consumption\nof significant system resources. If parsing user supplied input, this\nmay be used as a denial of service vector.\n",
+				"details": "Due to unbounded aliasing, a crafted YAML file can cause consumption of significant system resources. If parsing user supplied input, this may be used as a denial of service vector.",
 				"affected": [
 					{
 						"package": {
@@ -4182,38 +834,6 @@
 								}
 							]
 						}
-					},
-					{
-						"package": {
-							"name": "github.com/go-yaml/yaml",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2020-0036"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/go-yaml/yaml",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"yaml_parser_fetch_more_tokens"
-									]
-								}
-							]
-						}
 					}
 				],
 				"references": [
@@ -4231,157 +851,48 @@
 					}
 				]
 			},
-			"Symbol": "yaml_parser_fetch_more_tokens",
-			"PkgPath": "gopkg.in/yaml.v2",
-			"ModPath": "gopkg.in/yaml.v2",
-			"CallSink": 11,
-			"ImportSink": 6,
-			"RequireSink": 4
-		},
-		{
-			"OSV": {
-				"id": "GO-2020-0036",
-				"published": "2021-04-14T20:04:52Z",
-				"modified": "2022-08-29T16:50:59Z",
-				"aliases": [
-					"CVE-2019-11254",
-					"GHSA-wxc4-f4m6-wwqv"
-				],
-				"details": "Due to unbounded aliasing, a crafted YAML file can cause consumption\nof significant system resources. If parsing user supplied input, this\nmay be used as a denial of service vector.\n",
-				"affected": [
-					{
-						"package": {
-							"name": "gopkg.in/yaml.v2",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "2.2.8"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2020-0036"
-						},
-						"ecosystem_specific": {
-							"imports": [
+			"Modules": [
+				{
+					"Path": "gopkg.in/yaml.v2",
+					"FoundVersion": "v2.2.0",
+					"FixedVersion": "v2.2.8",
+					"Packages": [
+						{
+							"Path": "gopkg.in/yaml.v2",
+							"CallStacks": [
 								{
-									"path": "gopkg.in/yaml.v2",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"yaml_parser_fetch_more_tokens"
+									"Symbol": "Unmarshal",
+									"Summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
+									"Frames": [
+										{
+											"PkgPath": "github.com/Templum/playground/pkg/yaml",
+											"FuncName": "Testcase",
+											"RecvType": "",
+											"Position": {
+												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
+												"Offset": 348,
+												"Line": 28,
+												"Column": 20
+											}
+										},
+										{
+											"PkgPath": "gopkg.in/yaml.v2",
+											"FuncName": "Unmarshal",
+											"RecvType": "",
+											"Position": {
+												"Filename": "",
+												"Offset": 0,
+												"Line": 0,
+												"Column": 0
+											}
+										}
 									]
 								}
 							]
 						}
-					},
-					{
-						"package": {
-							"name": "github.com/go-yaml/yaml",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2020-0036"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/go-yaml/yaml",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"yaml_parser_fetch_more_tokens"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/pull/555"
-					},
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/commit/53403b58ad1b561927d19068c655246f2db79d48"
-					},
-					{
-						"type": "WEB",
-						"url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=18496"
-					}
-				]
-			},
-			"Symbol": "Unmarshal",
-			"PkgPath": "gopkg.in/yaml.v2",
-			"ModPath": "gopkg.in/yaml.v2",
-			"CallSink": 8,
-			"ImportSink": 6,
-			"RequireSink": 4
-		}
-	],
-	"Modules": [
-		{
-			"Path": "github.com/Templum/playground",
-			"Version": "",
-			"Dir": "",
-			"Replace": null
-		},
-		{
-			"Path": "github.com/tidwall/gjson",
-			"Version": "v1.6.4",
-			"Dir": "",
-			"Replace": null
-		},
-		{
-			"Path": "github.com/tidwall/match",
-			"Version": "v1.0.1",
-			"Dir": "",
-			"Replace": null
-		},
-		{
-			"Path": "github.com/tidwall/pretty",
-			"Version": "v1.0.2",
-			"Dir": "",
-			"Replace": null
-		},
-		{
-			"Path": "golang.org/x/text",
-			"Version": "v0.3.6",
-			"Dir": "",
-			"Replace": null
-		},
-		{
-			"Path": "gopkg.in/yaml.v2",
-			"Version": "v2.2.0",
-			"Dir": "",
-			"Replace": null
-		},
-		{
-			"Path": "stdlib",
-			"Version": "v1.19.1",
-			"Dir": "",
-			"Replace": null
+					]
+				}
+			]
 		}
 	]
 }
