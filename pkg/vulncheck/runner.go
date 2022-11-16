@@ -6,8 +6,8 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/Templum/govulncheck-action/pkg/types"
 	"github.com/rs/zerolog"
-	"golang.org/x/vuln/vulncheck"
 )
 
 const (
@@ -17,7 +17,7 @@ const (
 )
 
 type Scanner interface {
-	Scan() (*vulncheck.Result, error)
+	Scan() (*types.Result, error)
 }
 
 type CmdScanner struct {
@@ -29,7 +29,7 @@ func NewScanner(logger zerolog.Logger, workDir string) Scanner {
 	return &CmdScanner{log: logger, workDir: workDir}
 }
 
-func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
+func (r *CmdScanner) Scan() (*types.Result, error) {
 	pkg := os.Getenv(envPackage)
 	r.log.Info().Msgf("Running govulncheck for package %s in dir %s", pkg, r.workDir)
 
@@ -49,29 +49,33 @@ func (r *CmdScanner) Scan() (*vulncheck.Result, error) {
 		return nil, cmdErr
 	}
 
-	var result vulncheck.Result
+	var result types.Result
 	err := json.Unmarshal(out, &result)
 	if err != nil {
 		r.log.Error().Err(err).Msg("parsing govulncheck output yielded error")
 		return nil, errors.New("scan failed to produce proper report")
 	}
 
+	r.log.Info().Msg("Successfully scanned project")
+
 	if os.Getenv("DEBUG") == "true" {
 		fileName := "raw-report.json"
 		reportFile, err := os.Create(fileName)
 
+		r.log.Debug().Str("fileName", fileName).Msg("Making a copy of the raw vulncheck json report which can be exposed for debugging")
+
 		if err != nil {
-			r.log.Debug().Err(err).Msg("Failed to create raw-report.json")
+			r.log.Debug().Err(err).Msg("Failed to create copy will proceed with normal flow")
+			return &result, nil
 		}
 
 		defer reportFile.Close()
 
 		_, err = reportFile.Write(out)
 		if err != nil {
-			r.log.Debug().Err(err).Msg("Writing raw report to file yielded error")
+			r.log.Debug().Err(err).Msg("Failed to write copy to disk will proceed with normal flow")
 		}
 	}
 
-	r.log.Info().Msg("Successfully scanned project")
 	return &result, nil
 }
