@@ -2,6 +2,108 @@
 	"Vulns": [
 		{
 			"OSV": {
+				"id": "GO-2022-1095",
+				"published": "2022-11-01T23:55:57Z",
+				"modified": "2022-11-01T23:55:57Z",
+				"aliases": [
+					"CVE-2022-41716"
+				],
+				"details": "Due to unsanitized NUL values, attackers may be able to maliciously set environment variables on Windows.\n\nIn syscall.StartProcess and os/exec.Cmd, invalid environment variable values containing NUL values are not properly checked for. A malicious environment variable value can exploit this behavior to set a value for a different environment variable. For example, the environment variable string \"A=B\\x00C=D\" sets the variables \"A=B\" and \"C=D\".",
+				"affected": [
+					{
+						"package": {
+							"name": "stdlib",
+							"ecosystem": "Go"
+						},
+						"ranges": [
+							{
+								"type": "SEMVER",
+								"events": [
+									{
+										"introduced": "0"
+									},
+									{
+										"fixed": "1.18.8"
+									},
+									{
+										"introduced": "1.19.0"
+									},
+									{
+										"fixed": "1.19.3"
+									}
+								]
+							}
+						],
+						"database_specific": {
+							"url": "https://pkg.go.dev/vuln/GO-2022-1095"
+						},
+						"ecosystem_specific": {
+							"imports": [
+								{
+									"path": "syscall",
+									"goos": [
+										"windows"
+									],
+									"symbols": [
+										"StartProcess"
+									]
+								},
+								{
+									"path": "os/exec",
+									"goos": [
+										"windows"
+									],
+									"symbols": [
+										"Cmd.CombinedOutput",
+										"Cmd.Environ",
+										"Cmd.Output",
+										"Cmd.Run",
+										"Cmd.Start",
+										"Cmd.environ",
+										"dedupEnv",
+										"dedupEnvCase"
+									]
+								}
+							]
+						}
+					}
+				],
+				"references": [
+					{
+						"type": "REPORT",
+						"url": "https://go.dev/issue/56284"
+					},
+					{
+						"type": "FIX",
+						"url": "https://go.dev/cl/446916"
+					},
+					{
+						"type": "WEB",
+						"url": "https://groups.google.com/g/golang-announce/c/mbHY1UY3BaM/m/hSpmRzk-AgAJ"
+					}
+				],
+				"credits": [
+					{
+						"name": "RyotaK (https://twitter.com/ryotkak)"
+					}
+				]
+			},
+			"Modules": [
+				{
+					"Path": "stdlib",
+					"FoundVersion": "go1.19.2",
+					"FixedVersion": "go1.19.3",
+					"Packages": [
+						{
+							"Path": "syscall",
+							"CallStacks": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"OSV": {
 				"id": "GO-2022-1059",
 				"published": "2022-10-11T18:16:24Z",
 				"modified": "2022-11-01T16:41:19Z",
@@ -162,7 +264,7 @@
 											"FuncName": "Testcase",
 											"RecvType": "",
 											"Position": {
-												"Filename": "/github/workspace/pkg/seconds/mixer.go",
+												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
 												"Offset": 257,
 												"Line": 15,
 												"Column": 18
@@ -264,7 +366,7 @@
 											"FuncName": "Testcase",
 											"RecvType": "",
 											"Position": {
-												"Filename": "/github/workspace/pkg/yaml/testcase.go",
+												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
 												"Offset": 348,
 												"Line": 28,
 												"Column": 20
@@ -378,7 +480,7 @@
 											"FuncName": "Testcase",
 											"RecvType": "",
 											"Position": {
-												"Filename": "/github/workspace/pkg/seconds/mixer.go",
+												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
 												"Offset": 257,
 												"Line": 15,
 												"Column": 18
@@ -483,7 +585,7 @@
 											"FuncName": "Testcase",
 											"RecvType": "",
 											"Position": {
-												"Filename": "/github/workspace/pkg/seconds/mixer.go",
+												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
 												"Offset": 204,
 												"Line": 12,
 												"Column": 29
@@ -588,7 +690,7 @@
 											"FuncName": "Testcase",
 											"RecvType": "",
 											"Position": {
-												"Filename": "/github/workspace/pkg/yaml/testcase.go",
+												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
 												"Offset": 348,
 												"Line": 28,
 												"Column": 20
@@ -767,7 +869,7 @@
 											"FuncName": "Testcase",
 											"RecvType": "",
 											"Position": {
-												"Filename": "/github/workspace/pkg/yaml/testcase.go",
+												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
 												"Offset": 348,
 												"Line": 28,
 												"Column": 20
