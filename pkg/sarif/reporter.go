@@ -174,7 +174,7 @@ func (sr *SarifReporter) generateRuleHelp(vuln *osv.Entry) (text string, markdow
 	uri := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.ID)
 
 	return fmt.Sprintf("Vulnerability %s \n Package: %s \n Fixed in Version: %s \n", vuln.ID, pkg, fixVersion),
-		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Package | Fixed in Version |\n| --- | --- |:---:|\n|%s|%s|\n", vuln.ID, uri, vuln.Details, pkg, fixVersion)
+		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Package | Fixed in Version |\n| --- |:---:|\n|%s|%s|\n", vuln.ID, uri, vuln.Details, pkg, fixVersion)
 }
 
 func (sr *SarifReporter) generateResultHelp(vuln *osv.Entry, callStack types.CallStack) (text string, markdown string) {
