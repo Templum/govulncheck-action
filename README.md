@@ -19,6 +19,19 @@ For a full list of currently known limitations please head over to [here](https:
 
 ## Usage
 
+<details>
+  <summary>
+  Where can I find the scan results of this action ?
+  </summary>
+
+Please be aware there will be no direct output to the console, all found vulnerabilities will be reported to Github via an Sarif Report. Therefore all findings should be located in the *Security*-Tab under the *Code Scanning*-Section.
+
+![Locating Code Scanning](docs/locate_results.png)
+
+![Result List](docs/results.png)
+
+</details>
+
 ### Example Workflows
 
 <details>
