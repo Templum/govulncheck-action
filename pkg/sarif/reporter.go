@@ -41,10 +41,15 @@ func (sr *SarifReporter) Convert(result *types.Result) error {
 		sr.addRule(vuln.Osv)
 
 		for _, mods := range vuln.Modules {
-			for _, pkgs := range mods.Packages {
-				for _, callStack := range pkgs.CallStacks {
-					text, markdown := sr.generateResultHelp(vuln.Osv, callStack)
-					sr.addResult(vuln.Osv, callStack, text, markdown)
+			for _, pkg := range mods.Packages {
+				if len(pkg.CallStacks) > 0 {
+					for _, callStack := range pkg.CallStacks {
+						// Vulnerable code is directly called
+						sr.addDirectCallResult(vuln.Osv.ID, pkg, callStack)
+					}
+				} else {
+					// Vulnerable code is direct or indirect imported
+					sr.addImportResult(vuln.Osv.ID, pkg)
 				}
 			}
 		}
@@ -96,37 +101,59 @@ func (sr *SarifReporter) addRule(vuln *osv.Entry) {
 		WithHelpURI(fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.ID))
 }
 
-func (sr *SarifReporter) addResult(vuln *osv.Entry, callStack types.CallStack, text string, markdown string) {
+func (sr *SarifReporter) addDirectCallResult(vulnID string, pkg *types.Package, callStack types.CallStack) {
 	entry := callStack.Frames[0]
 
-	result := sarif.NewRuleResult(vuln.ID).
+	result := sarif.NewRuleResult(vulnID).
 		WithLevel(severity).
-		WithMessage(sarif.NewMessage().WithMarkdown(markdown).WithText(text))
+		WithMessage(sarif.NewMessage().WithText(callStack.Summary))
 
-	if entry != nil {
-		sr.log.Debug().
-			Str("Symbol", callStack.Symbol).
-			Msgf("Add result for %s called from %s", vuln.ID, entry.Position)
+	sr.log.Debug().
+		Str("Symbol", callStack.Symbol).
+		Msgf("Adding a result for %s called from %s", vulnID, entry.Position)
 
-		region := sarif.NewRegion().
-			WithStartLine(entry.Position.Line).
-			WithEndLine(entry.Position.Line).
-			WithStartColumn(entry.Position.Column).
-			WithEndColumn(entry.Position.Column).
-			WithCharOffset(entry.Position.Offset)
+	region := sarif.NewRegion().
+		WithStartLine(entry.Position.Line).
+		WithEndLine(entry.Position.Line).
+		WithStartColumn(entry.Position.Column).
+		WithEndColumn(entry.Position.Column).
+		WithCharOffset(entry.Position.Offset)
 
-		location := sarif.NewPhysicalLocation().
-			WithArtifactLocation(sarif.NewSimpleArtifactLocation(sr.makePathRelative(entry.Position.Filename)).WithUriBaseId(baseURI)).
-			WithRegion(region)
+	location := sarif.NewPhysicalLocation().
+		WithArtifactLocation(sarif.NewSimpleArtifactLocation(sr.makePathRelative(entry.Position.Filename)).WithUriBaseId(baseURI)).
+		WithRegion(region)
 
-		result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
+	result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
+
+	if ruleIdx := sr.getRule(vulnID); ruleIdx >= 0 {
+		result.WithRuleIndex(ruleIdx)
+		sr.run.AddResult(result)
 	}
+}
 
-	// TODO: Research option to provide fix instructions
-	// result.Fixes = append(result.Fixes, sarif.NewFix().WithDescription(fmt.Sprintf("Was fixed with version %s")))
+func (sr *SarifReporter) addImportResult(vulnID string, pkg *types.Package) {
+	result := sarif.NewRuleResult(vulnID).
+		WithLevel(severity).
+		WithMessage(sarif.NewMessage().WithText(fmt.Sprintf("Package %s is vulnerable to %s, but your code doesn't appear to call any vulnerable function directly. You may not need to take any action.", pkg.Path, vulnID)))
 
-	ruleIdx := sr.getRule(vuln.ID)
-	if ruleIdx >= 0 {
+	sr.log.Debug().
+		Str("Path", pkg.Path).
+		Msgf("Adding a result related to an import exposed to %s", vulnID)
+
+	region := sarif.NewRegion().
+		WithStartLine(0).
+		WithEndLine(0).
+		WithStartColumn(0).
+		WithEndColumn(0).
+		WithCharOffset(0)
+
+	location := sarif.NewPhysicalLocation().
+		WithArtifactLocation(sarif.NewSimpleArtifactLocation("go.mod").WithUriBaseId(baseURI)).
+		WithRegion(region)
+
+	result.WithLocations([]*sarif.Location{sarif.NewLocationWithPhysicalLocation(location)})
+
+	if ruleIdx := sr.getRule(vulnID); ruleIdx >= 0 {
 		result.WithRuleIndex(ruleIdx)
 		sr.run.AddResult(result)
 	}
@@ -175,20 +202,4 @@ func (sr *SarifReporter) generateRuleHelp(vuln *osv.Entry) (text string, markdow
 
 	return fmt.Sprintf("Vulnerability %s \n Package: %s \n Fixed in Version: %s \n", vuln.ID, pkg, fixVersion),
 		fmt.Sprintf("**Vulnerability [%s](%s)**\n%s\n| Package | Fixed in Version |\n| --- |:---:|\n|%s|%s|\n", vuln.ID, uri, vuln.Details, pkg, fixVersion)
-}
-
-func (sr *SarifReporter) generateResultHelp(vuln *osv.Entry, callStack types.CallStack) (text string, markdown string) {
-	// entry := callStack.Frames[0]
-
-	// relativeFile := sr.makePathRelative(entry.Position.String())
-	// linkToFile := fmt.Sprintf("https://github.com/%s/blob/main/%s#L%d", os.Getenv(envRepo), sr.makePathRelative(entry.Position.Filename), entry.Position.Line)
-	// linkToVuln := fmt.Sprintf("https://pkg.go.dev/vuln/%s", vuln.ID)
-
-	var txtBuilder strings.Builder
-	var markBuilder strings.Builder
-
-	txtBuilder.WriteString(callStack.Summary)
-	markBuilder.WriteString(callStack.Summary)
-
-	return txtBuilder.String(), markBuilder.String()
 }
