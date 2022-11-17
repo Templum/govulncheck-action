@@ -2,8 +2,8 @@ package main
 
 import (
 	"os"
-	"runtime"
 
+	"github.com/Templum/govulncheck-action/pkg/action"
 	"github.com/Templum/govulncheck-action/pkg/github"
 	"github.com/Templum/govulncheck-action/pkg/sarif"
 	"github.com/Templum/govulncheck-action/pkg/vulncheck"
@@ -33,10 +33,16 @@ func main() {
 		logger.Debug().Msg("Enabled Local Development mode, scanner will return static result based on found.json")
 	}
 
+	info, err := action.ReadRuntimeInfoFromEnv()
+
+	if err != nil {
+		logger.Warn().Err(err).Msg("Could not determine go runtime information")
+	}
+
 	logger.Info().
-		Str("Go-Version", runtime.Version()).
-		Str("Go-Os", runtime.GOOS).
-		Str("Go-Arch", runtime.GOARCH).
+		Str("Go-Version", info.Version).
+		Str("Go-Os", info.Os).
+		Str("Go-Arch", info.Arch).
 		Msg("GoEnvironment Details:")
 
 	logger.Debug().
