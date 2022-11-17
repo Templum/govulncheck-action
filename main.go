@@ -33,11 +33,7 @@ func main() {
 		logger.Debug().Msg("Enabled Local Development mode, scanner will return static result based on found.json")
 	}
 
-	info, err := action.ReadRuntimeInfoFromEnv()
-
-	if err != nil {
-		logger.Warn().Err(err).Msg("Could not determine go runtime information")
-	}
+	info := action.ReadRuntimeInfoFromEnv()
 
 	logger.Info().
 		Str("Go-Version", info.Version).

@@ -11,15 +11,12 @@ type RuntimeInfos struct {
 	Arch    string
 }
 
-func ReadRuntimeInfoFromEnv() (*RuntimeInfos, error) {
+// ReadRuntimeInfoFromEnv using go env this ensures the real information are used and no compile time versions
+func ReadRuntimeInfoFromEnv() *RuntimeInfos {
 	cmd := exec.Command("go", "env")
-	out, err := cmd.Output()
+	out, _ := cmd.Output()
 
-	if err != nil {
-		return nil, err
-	}
-
-	info := RuntimeInfos{}
+	info := RuntimeInfos{Version: "Unknown", Os: "Unknown", Arch: "Unknown"}
 
 	envs := strings.Split(string(out), "\n")
 
@@ -42,5 +39,5 @@ func ReadRuntimeInfoFromEnv() (*RuntimeInfos, error) {
 
 	}
 
-	return &info, nil
+	return &info
 }
