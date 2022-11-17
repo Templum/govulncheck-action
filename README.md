@@ -36,7 +36,7 @@ Please be aware there will be no direct output to the console, all found vulnera
 
 <details>
   <summary>
-  This configuration uses a different version of go (1.18) scans ./... and will fail if at least one vulnerability was found. Also it explicitly sets the github-token.
+  This configuration uses a different version of go (1.18) scans ./... and will fail if at least one vulnerability was found.
   </summary>
 
 ```yaml
@@ -47,21 +47,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Running govulncheck
+      - name: Scan for Vulnerabilities in Code
         uses: Templum/govulncheck-action@<version>
         with:
           go-version: 1.18
           vulncheck-version: latest
           package: ./...
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           fail-on-vuln: true
 ```
 </details>
 
 <details>
   <summary>
-  This configuration uses most of the default values, which are specified below. However it skips the upload to Github and instead uses the upload-artifact-action
-  to upload the result directly as build artifact.
+  This configuration uses most of the default values, which are specified below. However it skips the upload to Github and instead uses the upload-artifact-action to upload the result directly as build artifact.
   </summary>
 
 ```yaml
@@ -72,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Running govulncheck
+      - name: Scan for Vulnerabilities in Code
         uses: Templum/govulncheck-action@<version>
         with:
           skip-upload: true
@@ -81,6 +79,53 @@ jobs:
         with:
           name: sarif-report
           path: govulncheck-report.sarif
+```
+</details>
+
+<details>
+  <summary>
+  This configuration shows how to grant required permissions to the action in case you run into permission issues.
+  </summary>
+
+```yaml
+name: My Workflow
+on: [push, pull_request]
+permissions: 
+  security-events: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Scan for Vulnerabilities in Code
+        uses: Templum/govulncheck-action@<version>
+```
+</details>
+
+<details>
+  <summary>
+  The following configuration sets the action into DEBUG Mode. Which features verbose logging and allows access to the raw govulncheck JSON report.
+  </summary>
+
+```yaml
+name: My Debug Workflow
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Scan for Vulnerabilities in Code
+        uses: Templum/govulncheck-action@<version>
+        with:
+          skip-upload: true
+        env:
+          DEBUG: "true"
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: raw-report
+          path: raw-report.json
 ```
 </details>
 
