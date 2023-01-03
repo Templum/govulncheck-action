@@ -1,6 +1,6 @@
 name: "Golang Vulncheck"
 description: "Performs vulnerability scan using govulncheck and afterwards uploads it as Sarif Report to Github"
-author: "Templum"
+author: "connectRN"
 inputs:
   package:
     description: "The package you want to scan, by default will be ./..."
@@ -31,10 +31,10 @@ runs:
   using: "composite"
   steps:
     - id: build
-      run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -q -f $GITHUB_ACTION_PATH/Dockerfile -t templum/govulncheck-action:local $GITHUB_ACTION_PATH
+      run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -q -f $GITHUB_ACTION_PATH/Dockerfile -t connectRN/govulncheck-action:local $GITHUB_ACTION_PATH
       shell: bash
     - id: run
-      run: docker run --rm -v $(pwd):/github/workspace --workdir /github/workspace -e GITHUB_TOKEN=${{ inputs.github-token }} -e STRICT=${{ inputs.fail-on-vuln }} -e PACKAGE=${{ inputs.package }} -e SKIP_UPLOAD=${{ inputs.skip-upload }} -e DEBUG=${DEBUG} -e GITHUB_REPOSITORY=${{ github.repository }} -e GITHUB_REF=${{ github.ref }} -e GITHUB_SHA=${{ github.sha }} templum/govulncheck-action:local
+      run: docker run --rm -v $(pwd):/github/workspace --workdir /github/workspace -e GITHUB_TOKEN=${{ inputs.github-token }} -e STRICT=${{ inputs.fail-on-vuln }} -e PACKAGE=${{ inputs.package }} -e SKIP_UPLOAD=${{ inputs.skip-upload }} -e DEBUG=${DEBUG} -e GITHUB_REPOSITORY=${{ github.repository }} -e GITHUB_REF=${{ github.ref }} -e GITHUB_SHA=${{ github.sha }} connectRN/govulncheck-action:local
       shell: bash
 
 branding:
