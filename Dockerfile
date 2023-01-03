@@ -4,6 +4,13 @@ FROM golang:1.19 as builder
 WORKDIR /go/src/github.com/Templum/govulncheck-action/
 ENV GO111MODULE=on
 
+ARG PRIVATE_GIT_URL_OVERRIDE
+RUN if [[ -z "$PRIVATE_GIT_URL_OVERRIDE" ]] ; then git config --global url.$PRIVATE_GIT_URL_OVERRIDE; else echo "Will not override git config url"; fi
+
+ARG GOPRIVATE
+
+ENV GOPRIVATE=$GOPRIVATE
+
 COPY go.mod go.sum  ./
 RUN go mod download
 
