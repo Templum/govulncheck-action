@@ -31,7 +31,7 @@ runs:
   using: "composite"
   steps:
     - id: build
-      run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg PRIVATE_GIT_URL_OVERRIDE=$PRIVATE_GIT_URL_OVERRIDE --build-arg GOPRIVATE=$GOPRIVATE --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -q -f $GITHUB_ACTION_PATH/Dockerfile -t templum/govulncheck-action:local $GITHUB_ACTION_PATH
+      run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg PRIVATE_GIT_URL_OVERRIDE="$PRIVATE_GIT_URL_OVERRIDE" --build-arg GOPRIVATE=$GOPRIVATE --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -q -f $GITHUB_ACTION_PATH/Dockerfile -t templum/govulncheck-action:local $GITHUB_ACTION_PATH
       shell: bash
     - id: run
       run: docker run --rm -v $(pwd):/github/workspace --workdir /github/workspace -e GITHUB_TOKEN=${{ inputs.github-token }} -e STRICT=${{ inputs.fail-on-vuln }} -e PACKAGE=${{ inputs.package }} -e SKIP_UPLOAD=${{ inputs.skip-upload }} -e DEBUG=${DEBUG} -e GITHUB_REPOSITORY=${{ github.repository }} -e GITHUB_REF=${{ github.ref }} -e GITHUB_SHA=${{ github.sha }} templum/govulncheck-action:local
