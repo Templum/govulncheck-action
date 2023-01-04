@@ -20,11 +20,11 @@ inputs:
     required: false
   fail-on-vuln:
     description: "This allows you to specify if the action should fail on encountering any vulnerability, by default it will not"
-    default: false
+    default: "false"
     required: false
   skip-upload:
     description: "This flag allows you to skip the sarif upload, it will be instead written to disk"
-    default: false
+    default: "false"
     required: false
 
 runs:
