@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"os/exec"
 
 	"github.com/Templum/govulncheck-action/pkg/action"
 	"github.com/Templum/govulncheck-action/pkg/github"
@@ -34,6 +35,21 @@ func main() {
 	}
 
 	info := action.ReadRuntimeInfoFromEnv()
+
+	// Temporary
+	global := exec.Command("git", "config", "--global", "--list")
+	system := exec.Command("git", "config", "--system", "--list")
+	local := exec.Command("git", "config", "--local", "--list")
+
+	globalConf, _ := global.Output()
+	sysConf, _ := system.Output()
+	localConf, _ := local.Output()
+
+	logger.Info().
+		Str("Local", string(localConf)).
+		Str("System", string(sysConf)).
+		Str("Global", string(globalConf)).
+		Msg("Git Configs")
 
 	logger.Info().
 		Str("Go-Version", info.Version).
