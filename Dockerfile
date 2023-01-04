@@ -16,8 +16,8 @@ FROM golang:$GOLANG_VERSION
 ARG VULNCHECK_VERSION=latest 
 RUN go install golang.org/x/vuln/cmd/govulncheck@$VULNCHECK_VERSION
 
-ARG PRIVATE_GIT_URL_OVERRIDE
-RUN if [[ -z "$PRIVATE_GIT_URL_OVERRIDE" ]] ; then git config --global url.$PRIVATE_GIT_URL_OVERRIDE; else echo "Will not override git config url"; fi
+ARG GH_ACCESS_TOKEN
+RUN if [[ -z "$GH_ACCESS_TOKEN" ]]; then git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/; else echo "Will not override git config url"; fi
 
 ARG GOPRIVATE
 ENV GOPRIVATE=$GOPRIVATE
