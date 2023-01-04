@@ -17,7 +17,7 @@ ARG VULNCHECK_VERSION=latest
 RUN go install golang.org/x/vuln/cmd/govulncheck@$VULNCHECK_VERSION
 
 ARG GH_ACCESS_TOKEN
-RUN if [[ -z "$GH_ACCESS_TOKEN" ]]; then git config --global --add url."https://$GH_ACCESS_TOKEN@github.com/".insteadOf "https://github.com/"; else echo "Will not override git config url"; fi
+RUN if [[ -n "$GH_ACCESS_TOKEN" ]]; then echo "No token was provided"; else git config --global --add url."https://$GH_ACCESS_TOKEN@github.com/".insteadOf "https://github.com/"; fi
 
 ARG GOPRIVATE
 ENV GOPRIVATE=$GOPRIVATE
