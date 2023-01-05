@@ -59,6 +59,30 @@ jobs:
 
 <details>
   <summary>
+  Example configuration for repository that relies on a private library.
+  </summary>
+
+> :information_source: This action for the moment works with [personal access token]() while creating one make sure it has write-read access to the dependent repositories as this is required for `$ go get`. Further following best practices create the token with the smallest possible scope.
+
+```yaml
+name: My Workflow
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Scan for Vulnerabilities in Code
+        uses: Templum/govulncheck-action@<version>
+        env:
+          GH_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GOPRIVATE: "github.com/your-name/private-lib"
+
+```
+</details>
+
+<details>
+  <summary>
   This configuration uses most of the default values, which are specified below. However it skips the upload to Github and instead uses the upload-artifact-action to upload the result directly as build artifact.
   </summary>
 
