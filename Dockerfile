@@ -16,8 +16,8 @@ FROM golang:$GOLANG_VERSION
 ARG VULNCHECK_VERSION=latest 
 RUN go install golang.org/x/vuln/cmd/govulncheck@$VULNCHECK_VERSION
 
-ARG GH_ACCESS_TOKEN
-RUN if [[ -n "$GH_ACCESS_TOKEN" ]]; then echo "No token was provided"; else git config --global --add url."https://govulncheck_action:$GH_ACCESS_TOKEN@github.com/".insteadOf "https://github.com/"; fi
+ARG GH_PAT_TOKEN
+RUN if [[ -n "$GH_PAT_TOKEN" ]]; then echo "No token was provided"; else git config --global --add url."https://govulncheck_action:$GH_PAT_TOKEN@github.com/".insteadOf "https://github.com/"; fi
 
 ARG GOPRIVATE
 ENV GOPRIVATE=$GOPRIVATE
