@@ -62,7 +62,7 @@ jobs:
   Example configuration for repository that relies on a private library.
   </summary>
 
-> :information_source: This action for the moment works with [personal access token]() while creating one make sure it has write-read access to the dependent repositories as this is required for `$ go get`. Further following best practices create the token with the smallest possible scope.
+> :information_source: This action for the moment works with [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) while creating one make sure it has write-read access to the dependent repositories as this is required for `$ go get`. Further following best practices create the token with the smallest possible scope.
 
 ```yaml
 name: My Workflow
