@@ -25,5 +25,5 @@ jobs:
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:
-          name: raw-report
-          path: raw-report.json
+          name: sarif-report
+          path: govulncheck-report.sarif
