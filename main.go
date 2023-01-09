@@ -39,6 +39,7 @@ func main() {
 		Str("Go-Version", info.Version).
 		Str("Go-Os", info.Os).
 		Str("Go-Arch", info.Arch).
+		Str("GOPRIVATE", os.Getenv("GOPRIVATE")).
 		Msg("GoEnvironment Details:")
 
 	logger.Debug().
