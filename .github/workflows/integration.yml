@@ -30,7 +30,7 @@ jobs:
           occurrences=$(cat govulncheck-report.sarif | jq '.runs[0].results | length')
           if [[ $rules -ge 8 ]]; then echo "Found expected number of rules"; else echo "Found unexpected number of rules $rules expected 8"; exit 1; fi
           if [[ $occurrences -ge 8 ]]; then echo "Found expected number of call sites"; else echo "Found unexpected number of call sites ($occurrences expected 8)"; exit 1; fi
-      - name: Upload Report
+      - name: Upload Report if Test failed
         if: ${{ failure() }}
         uses: actions/upload-artifact@v3
         with:
