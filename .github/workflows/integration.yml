@@ -5,14 +5,33 @@ on:
       - main
     tags:
       - v*
+  schedule:
+    - cron: '0 22 */3 * *'
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-      - name: Debug
-        run: pwd && ls
-        shell: bash
-      - name: Integration Test
-        id: integration-test
+      - name: Checkout playground repository
+        uses: actions/checkout@main
+        with:
+          repository: Templum/playground
+      - name: Run Action against known repository and skip upload to compare generated file
         uses: Templum/govulncheck-action@main
+        with:
+          skip-upload: true
+          go-version: 1.19
+        env:
+          GH_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GOPRIVATE: "github.com/Templum/private-lib"
+      - name: Ensure at least 8 Vulnerabilities are discovered
+        run: |
+          rules=$(cat govulncheck-report.sarif | jq '.runs[0].tool.driver.rules | length')
+          occurrences=$(cat govulncheck-report.sarif | jq '.runs[0].results | length')
+          if [[ $rules -ge 8 ]]; then echo "Found expected number of rules"; else echo "Found unexpected number of rules $rules expected 8"; exit 1; fi
+          if [[ $occurrences -ge 8 ]]; then echo "Found expected number of call sites"; else echo "Found unexpected number of call sites ($occurrences expected 8)"; exit 1; fi
+      - name: Upload Report if Test failed
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: sarif-report
+          path: govulncheck-report.sarif
