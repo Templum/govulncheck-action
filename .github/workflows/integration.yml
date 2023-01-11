@@ -6,6 +6,8 @@ on:
       - feature/integration-test # Temporary for testing
     tags:
       - v*
+  schedule:
+    - cron: '0 22 */3 * *'
 jobs:
   test:
     runs-on: ubuntu-latest
