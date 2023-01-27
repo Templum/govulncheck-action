@@ -22,7 +22,7 @@ require (
 require (
 	github.com/google/go-github/v47 v47.1.0
 	github.com/owenrumney/go-sarif/v2 v2.1.2
-	github.com/rs/zerolog v1.28.0
+	github.com/rs/zerolog v1.29.0
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/mod v0.6.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20220909003341-f21342109be1
