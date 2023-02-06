@@ -1,5 +1,5 @@
 ARG GOLANG_VERSION=1.19
-FROM golang:1.19 as builder
+FROM golang:1.20 as builder
 
 WORKDIR /go/src/github.com/Templum/govulncheck-action/
 ENV GO111MODULE=on
