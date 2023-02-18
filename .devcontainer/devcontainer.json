@@ -8,7 +8,7 @@
             // Update the VARIANT arg to pick a version of Go: 1, 1.18, 1.17
             // Append -bullseye or -buster to pin to an OS version.
             // Use -bullseye variants on local arm64/Apple Silicon.
-            "VARIANT": "1.19-bullseye",
+            "VARIANT": "1.20-bullseye",
             // Options
             "NODE_VERSION": "none"
         }
@@ -18,42 +18,46 @@
         "--security-opt",
         "seccomp=unconfined"
     ],
-    // Set *default* container specific settings.json values on container create.
-    "settings": {
-        "go.gocodeAutoBuild": false,
-        "files.autoSave": "afterDelay",
-        "editor.formatOnPaste": true,
-        "editor.formatOnSave": true,
-        "go.gopath": "/go",
-        "go.goroot": "/usr/local/go",
-        "go.toolsGopath": "/go/bin",
-        "go.buildOnSave": "workspace",
-        "go.lintOnSave": "package",
-        "go.vetOnSave": "package",
-        "go.coverOnSave": false,
-        "go.useCodeSnippetsOnFunctionSuggest": false,
-        "go.lintTool": "golangci-lint",
-        "go.formatTool": "goimports",
-        "[go]": {
-            "editor.codeActionsOnSave": {
-                "source.organizeImports": true
-            }
-        },
-        "[go.mod]": {
-            "editor.minimap.enabled": false
-        },
-        "[go.sum]": {
-            "editor.minimap.enabled": false
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "go.gocodeAutoBuild": false,
+                "files.autoSave": "afterDelay",
+                "editor.formatOnPaste": true,
+                "editor.formatOnSave": true,
+                "go.gopath": "/go",
+                "go.goroot": "/usr/local/go",
+                "go.toolsGopath": "/go/bin",
+                "go.buildOnSave": "workspace",
+                "go.lintOnSave": "package",
+                "go.vetOnSave": "package",
+                "go.coverOnSave": false,
+                "go.useCodeSnippetsOnFunctionSuggest": false,
+                "go.lintTool": "golangci-lint",
+                "go.formatTool": "goimports",
+                "[go]": {
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": true
+                    }
+                },
+                "[go.mod]": {
+                    "editor.minimap.enabled": false
+                },
+                "[go.sum]": {
+                    "editor.minimap.enabled": false
+                }
+            },
+            "extensions": [
+                "golang.Go",
+                "streetsidesoftware.code-spell-checker",
+                "premparihar.gotestexplorer",
+                "wayou.vscode-todo-highlight",
+                "bierner.github-markdown-preview"
+            ]
         }
     },
+    // Set *default* container specific settings.json values on container create.
     // Add the IDs of extensions you want installed when the container is created.
-    "extensions": [
-		"golang.Go",
-		"streetsidesoftware.code-spell-checker",
-		"premparihar.gotestexplorer",
-		"wayou.vscode-todo-highlight",
-		"bierner.github-markdown-preview"
-	],
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
