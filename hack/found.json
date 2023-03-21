@@ -1,898 +1,569 @@
-{
-	"Vulns": [
-		{
-			"OSV": {
-				"id": "GO-2022-1095",
-				"published": "2022-11-01T23:55:57Z",
-				"modified": "2022-11-01T23:55:57Z",
-				"aliases": [
-					"CVE-2022-41716"
-				],
-				"details": "Due to unsanitized NUL values, attackers may be able to maliciously set environment variables on Windows.\n\nIn syscall.StartProcess and os/exec.Cmd, invalid environment variable values containing NUL values are not properly checked for. A malicious environment variable value can exploit this behavior to set a value for a different environment variable. For example, the environment variable string \"A=B\\x00C=D\" sets the variables \"A=B\" and \"C=D\".",
-				"affected": [
-					{
-						"package": {
-							"name": "stdlib",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "1.18.8"
-									},
-									{
-										"introduced": "1.19.0"
-									},
-									{
-										"fixed": "1.19.3"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-1095"
-						},
-						"ecosystem_specific": {
-							"imports": [
+[
+	{
+		"OSV": {
+			"id": "GO-2023-1621",
+			"published": "2023-03-08T19:30:53Z",
+			"modified": "2023-03-08T19:30:53Z",
+			"aliases": [
+				"CVE-2023-24532"
+			],
+			"details": "The ScalarMult and ScalarBaseMult methods of the P256 Curve may return an incorrect result if called with some specific unreduced scalars (a scalar larger than the order of the curve).\n\nThis does not impact usages of crypto/ecdsa or crypto/ecdh.",
+			"affected": [
+				{
+					"package": {
+						"name": "stdlib",
+						"ecosystem": "Go"
+					},
+					"ranges": [
+						{
+							"type": "SEMVER",
+							"events": [
 								{
-									"path": "syscall",
-									"goos": [
-										"windows"
-									],
-									"symbols": [
-										"StartProcess"
-									]
+									"introduced": "0"
 								},
 								{
-									"path": "os/exec",
-									"goos": [
-										"windows"
-									],
-									"symbols": [
-										"Cmd.CombinedOutput",
-										"Cmd.Environ",
-										"Cmd.Output",
-										"Cmd.Run",
-										"Cmd.Start",
-										"Cmd.environ",
-										"dedupEnv",
-										"dedupEnvCase"
-									]
+									"fixed": "1.19.7"
+								},
+								{
+									"introduced": "1.20.0"
+								},
+								{
+									"fixed": "1.20.2"
 								}
 							]
 						}
-					}
-				],
-				"references": [
-					{
-						"type": "REPORT",
-						"url": "https://go.dev/issue/56284"
+					],
+					"database_specific": {
+						"url": "https://pkg.go.dev/vuln/GO-2023-1621"
 					},
-					{
-						"type": "FIX",
-						"url": "https://go.dev/cl/446916"
-					},
-					{
-						"type": "WEB",
-						"url": "https://groups.google.com/g/golang-announce/c/mbHY1UY3BaM/m/hSpmRzk-AgAJ"
-					}
-				],
-				"credits": [
-					{
-						"name": "RyotaK (https://twitter.com/ryotkak)"
-					}
-				]
-			},
-			"Modules": [
-				{
-					"Path": "stdlib",
-					"FoundVersion": "go1.19.2",
-					"FixedVersion": "go1.19.3",
-					"Packages": [
-						{
-							"Path": "syscall",
-							"CallStacks": null
-						}
-					]
-				}
-			]
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-1059",
-				"published": "2022-10-11T18:16:24Z",
-				"modified": "2022-11-01T16:41:19Z",
-				"aliases": [
-					"CVE-2022-32149",
-					"GHSA-69ch-w2m2-3vjp"
-				],
-				"details": "An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse.",
-				"affected": [
-					{
-						"package": {
-							"name": "golang.org/x/text",
-							"ecosystem": "Go"
-						},
-						"ranges": [
+					"ecosystem_specific": {
+						"imports": [
 							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "0.3.8"
-									}
+								"path": "crypto/internal/nistec",
+								"symbols": [
+									"P256OrdInverse",
+									"P256Point.ScalarBaseMult",
+									"P256Point.ScalarMult"
 								]
 							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-1059"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "golang.org/x/text/language",
-									"symbols": [
-										"MatchStrings",
-										"ParseAcceptLanguage"
-									]
-								}
-							]
-						}
+						]
 					}
-				],
-				"references": [
-					{
-						"type": "REPORT",
-						"url": "https://go.dev/issue/56152"
-					},
-					{
-						"type": "FIX",
-						"url": "https://go.dev/cl/442235"
-					},
-					{
-						"type": "WEB",
-						"url": "https://groups.google.com/g/golang-announce/c/-hjNw559_tE/m/KlGTfid5CAAJ"
-					}
-				],
-				"credits": [
-					{
-						"name": "Adam Korczynski (ADA Logics) and OSS-Fuzz"
-					}
-				]
-			},
-			"Modules": [
-				{
-					"Path": "golang.org/x/text",
-					"FoundVersion": "v0.3.6",
-					"FixedVersion": "v0.3.8",
-					"Packages": [
-						{
-							"Path": "golang.org/x/text/language",
-							"CallStacks": null
-						}
-					]
 				}
-			]
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-0957",
-				"published": "2022-08-25T06:28:20Z",
-				"modified": "2022-09-20T15:16:04Z",
-				"aliases": [
-					"CVE-2020-36066",
-					"GHSA-wjm3-fq3r-5x46"
-				],
-				"details": "A maliciously crafted JSON input can cause a denial of service attack.",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "1.6.5"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-0957"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Get",
-										"GetBytes",
-										"GetMany",
-										"GetManyBytes",
-										"Result.Get",
-										"parseObject",
-										"queryMatches"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/match/commit/c2f534168b739a7ec1821a33839fb2f029f26bbc"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/commit/9f58baa7a613f89dfdc764c39e47fd3a15606153"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/195"
-					}
-				]
-			},
-			"Modules": [
+			],
+			"references": [
 				{
-					"Path": "github.com/tidwall/gjson",
-					"FoundVersion": "v1.6.4",
-					"FixedVersion": "v1.6.5",
-					"Packages": [
-						{
-							"Path": "github.com/tidwall/gjson",
-							"CallStacks": [
-								{
-									"Symbol": "Get",
-									"Summary": "pkg/seconds/mixer.go:15:18: github.com/Templum/playground/pkg/seconds.Testcase calls github.com/tidwall/gjson.Get",
-									"Frames": [
-										{
-											"PkgPath": "github.com/Templum/playground/pkg/seconds",
-											"FuncName": "Testcase",
-											"RecvType": "",
-											"Position": {
-												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
-												"Offset": 257,
-												"Line": 15,
-												"Column": 18
-											}
-										},
-										{
-											"PkgPath": "github.com/tidwall/gjson",
-											"FuncName": "Get",
-											"RecvType": "",
-											"Position": {
-												"Filename": "",
-												"Offset": 0,
-												"Line": 0,
-												"Column": 0
-											}
+					"type": "REPORT",
+					"url": "https://go.dev/issue/58647"
+				},
+				{
+					"type": "FIX",
+					"url": "https://go.dev/cl/471255"
+				},
+				{
+					"type": "WEB",
+					"url": "https://groups.google.com/g/golang-announce/c/3-TpUx48iQY"
+				}
+			],
+			"credits": [
+				{
+					"name": "Guido Vranken, via the Ethereum Foundation bug bounty program"
+				}
+			],
+			"schema_version": "1.3.1"
+		},
+		"Modules": [
+			{
+				"Path": "stdlib",
+				"FoundVersion": "go1.20.1",
+				"FixedVersion": "go1.20.2",
+				"Packages": [
+					{
+						"Path": "crypto/internal/nistec",
+						"CallStacks": [
+							{
+								"Symbol": "P256OrdInverse",
+								"Summary": "pkg/github/sarif_report.go:60:47: github.com/Templum/govulncheck-action/pkg/github.GithubSarifUploader.UploadReport calls github.com/google/go-github/v47/github.CodeScanningService.UploadSarif, which eventually calls crypto/internal/nistec.P256OrdInverse",
+								"Frames": [
+									{
+										"PkgPath": "github.com/Templum/govulncheck-action/pkg/github",
+										"FuncName": "UploadReport",
+										"RecvType": "*github.com/Templum/govulncheck-action/pkg/github.GithubSarifUploader",
+										"Position": {
+											"Filename": "/workspaces/govulncheck-action/pkg/github/sarif_report.go",
+											"Offset": 1290,
+											"Line": 60,
+											"Column": 47
 										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"OSV": {
-				"id": "GO-2022-0956",
-				"published": "2022-08-29T22:15:46Z",
-				"modified": "2022-10-26T17:44:45Z",
-				"aliases": [
-					"CVE-2022-3064"
-				],
-				"details": "Parsing malicious or large YAML documents can consume excessive amounts of CPU or memory.",
-				"affected": [
-					{
-						"package": {
-							"name": "gopkg.in/yaml.v2",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
 									},
 									{
-										"fixed": "2.2.4"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2022-0956"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "gopkg.in/yaml.v2",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"decoder.unmarshal",
-										"yaml_parser_increase_flow_level",
-										"yaml_parser_roll_indent"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/commit/f221b8435cfb71e54062f6c6e99e9ade30b124d5"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/go-yaml/yaml/releases/tag/v2.2.4"
-					}
-				]
-			},
-			"Modules": [
-				{
-					"Path": "gopkg.in/yaml.v2",
-					"FoundVersion": "v2.2.0",
-					"FixedVersion": "v2.2.4",
-					"Packages": [
-						{
-							"Path": "gopkg.in/yaml.v2",
-							"CallStacks": [
-								{
-									"Symbol": "Unmarshal",
-									"Summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
-									"Frames": [
-										{
-											"PkgPath": "github.com/Templum/playground/pkg/yaml",
-											"FuncName": "Testcase",
-											"RecvType": "",
-											"Position": {
-												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
-												"Offset": 348,
-												"Line": 28,
-												"Column": 20
-											}
-										},
-										{
-											"PkgPath": "gopkg.in/yaml.v2",
-											"FuncName": "Unmarshal",
-											"RecvType": "",
-											"Position": {
-												"Filename": "",
-												"Offset": 0,
-												"Line": 0,
-												"Column": 0
-											}
+										"PkgPath": "github.com/google/go-github/v47/github",
+										"FuncName": "UploadSarif",
+										"RecvType": "*github.com/google/go-github/v47/github.CodeScanningService",
+										"Position": {
+											"Filename": "/go/pkg/mod/github.com/google/go-github/v47@v47.1.0/github/code-scanning.go",
+											"Offset": 10706,
+											"Line": 275,
+											"Column": 26
 										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"OSV": {
-				"id": "GO-2021-0265",
-				"published": "2022-08-15T18:06:07Z",
-				"modified": "2022-10-26T17:44:45Z",
-				"aliases": [
-					"CVE-2021-42248",
-					"CVE-2021-42836",
-					"GHSA-c9gm-7rfj-8w5h",
-					"GHSA-ppj4-34rq-v8j9"
-				],
-				"details": "A maliciously crafted path can cause Get and other query functions to consume excessive amounts of CPU and time.",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
 									},
 									{
-										"fixed": "1.9.3"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0265"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Get",
-										"GetBytes",
-										"GetMany",
-										"GetManyBytes",
-										"Result.Get",
-										"parseObject",
-										"queryMatches"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/gjson/commit/77a57fda87dca6d0d7d4627d512a630f89a91c96"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/237"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/236"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/commit/590010fdac311cc8990ef5c97448d4fec8f29944"
-					}
-				]
-			},
-			"Modules": [
-				{
-					"Path": "github.com/tidwall/gjson",
-					"FoundVersion": "v1.6.4",
-					"FixedVersion": "v1.9.3",
-					"Packages": [
-						{
-							"Path": "github.com/tidwall/gjson",
-							"CallStacks": [
-								{
-									"Symbol": "Get",
-									"Summary": "pkg/seconds/mixer.go:15:18: github.com/Templum/playground/pkg/seconds.Testcase calls github.com/tidwall/gjson.Get",
-									"Frames": [
-										{
-											"PkgPath": "github.com/Templum/playground/pkg/seconds",
-											"FuncName": "Testcase",
-											"RecvType": "",
-											"Position": {
-												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
-												"Offset": 257,
-												"Line": 15,
-												"Column": 18
-											}
-										},
-										{
-											"PkgPath": "github.com/tidwall/gjson",
-											"FuncName": "Get",
-											"RecvType": "",
-											"Position": {
-												"Filename": "",
-												"Offset": 0,
-												"Line": 0,
-												"Column": 0
-											}
+										"PkgPath": "github.com/google/go-github/v47/github",
+										"FuncName": "Do",
+										"RecvType": "*github.com/google/go-github/v47/github.Client",
+										"Position": {
+											"Filename": "/go/pkg/mod/github.com/google/go-github/v47@v47.1.0/github/github.go",
+											"Offset": 25751,
+											"Line": 745,
+											"Column": 19
 										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"OSV": {
-				"id": "GO-2021-0113",
-				"published": "2021-10-06T17:51:21Z",
-				"modified": "2022-10-26T17:44:45Z",
-				"aliases": [
-					"CVE-2021-38561"
-				],
-				"details": "Due to improper index calculation, an incorrectly formatted language tag can cause Parse to panic via an out of bounds read. If Parse is used to process untrusted user inputs, this may be used as a vector for a denial of service attack.",
-				"affected": [
-					{
-						"package": {
-							"name": "golang.org/x/text",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
 									},
 									{
-										"fixed": "0.3.7"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0113"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "golang.org/x/text/language",
-									"symbols": [
-										"MatchStrings",
-										"MustParse",
-										"Parse",
-										"ParseAcceptLanguage"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://go.dev/cl/340830"
-					},
-					{
-						"type": "FIX",
-						"url": "https://go.googlesource.com/text/+/383b2e75a7a4198c42f8f87833eefb772868a56f"
-					}
-				],
-				"credits": [
-					{
-						"name": "Guido Vranken"
-					}
-				]
-			},
-			"Modules": [
-				{
-					"Path": "golang.org/x/text",
-					"FoundVersion": "v0.3.6",
-					"FixedVersion": "v0.3.7",
-					"Packages": [
-						{
-							"Path": "golang.org/x/text/language",
-							"CallStacks": [
-								{
-									"Symbol": "MustParse",
-									"Summary": "pkg/seconds/mixer.go:12:29: github.com/Templum/playground/pkg/seconds.Testcase calls golang.org/x/text/language.MustParse",
-									"Frames": [
-										{
-											"PkgPath": "github.com/Templum/playground/pkg/seconds",
-											"FuncName": "Testcase",
-											"RecvType": "",
-											"Position": {
-												"Filename": "/workspaces/playground/pkg/seconds/mixer.go",
-												"Offset": 204,
-												"Line": 12,
-												"Column": 29
-											}
-										},
-										{
-											"PkgPath": "golang.org/x/text/language",
-											"FuncName": "MustParse",
-											"RecvType": "",
-											"Position": {
-												"Filename": "",
-												"Offset": 0,
-												"Line": 0,
-												"Column": 0
-											}
+										"PkgPath": "io",
+										"FuncName": "Copy",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/io/io.go",
+											"Offset": 13877,
+											"Line": 386,
+											"Column": 19
 										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"OSV": {
-				"id": "GO-2021-0061",
-				"published": "2021-04-14T20:04:52Z",
-				"modified": "2022-10-26T17:44:45Z",
-				"aliases": [
-					"CVE-2021-4235"
-				],
-				"details": "Due to unbounded alias chasing, a maliciously crafted YAML file can cause the system to consume significant system resources. If parsing user input, this may be used as a denial of service vector.",
-				"affected": [
-					{
-						"package": {
-							"name": "gopkg.in/yaml.v2",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
 									},
 									{
-										"fixed": "2.2.3"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0061"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "gopkg.in/yaml.v2",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"decoder.unmarshal"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/pull/375"
-					},
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/commit/bb4e33bf68bf89cad44d386192cbed201f35b241"
-					}
-				],
-				"credits": [
-					{
-						"name": "@simonferquel"
-					}
-				]
-			},
-			"Modules": [
-				{
-					"Path": "gopkg.in/yaml.v2",
-					"FoundVersion": "v2.2.0",
-					"FixedVersion": "v2.2.3",
-					"Packages": [
-						{
-							"Path": "gopkg.in/yaml.v2",
-							"CallStacks": [
-								{
-									"Symbol": "Unmarshal",
-									"Summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
-									"Frames": [
-										{
-											"PkgPath": "github.com/Templum/playground/pkg/yaml",
-											"FuncName": "Testcase",
-											"RecvType": "",
-											"Position": {
-												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
-												"Offset": 348,
-												"Line": 28,
-												"Column": 20
-											}
-										},
-										{
-											"PkgPath": "gopkg.in/yaml.v2",
-											"FuncName": "Unmarshal",
-											"RecvType": "",
-											"Position": {
-												"Filename": "",
-												"Offset": 0,
-												"Line": 0,
-												"Column": 0
-											}
+										"PkgPath": "io",
+										"FuncName": "copyBuffer",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/io/io.go",
+											"Offset": 15158,
+											"Line": 427,
+											"Column": 21
 										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"OSV": {
-				"id": "GO-2021-0054",
-				"published": "2021-04-14T20:04:52Z",
-				"modified": "2022-10-26T17:44:45Z",
-				"aliases": [
-					"CVE-2020-36067"
-				],
-				"details": "Due to improper bounds checking, maliciously crafted JSON objects can cause an out-of-bounds panic. If parsing user input, this may be used as a denial of service vector.",
-				"affected": [
-					{
-						"package": {
-							"name": "github.com/tidwall/gjson",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
 									},
 									{
-										"fixed": "1.6.6"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2021-0054"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "github.com/tidwall/gjson",
-									"symbols": [
-										"Result.ForEach",
-										"unwrap"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/tidwall/gjson/commit/bf4efcb3c18d1825b2988603dea5909140a5302b"
-					},
-					{
-						"type": "WEB",
-						"url": "https://github.com/tidwall/gjson/issues/196"
-					}
-				],
-				"credits": [
-					{
-						"name": "@toptotu"
-					}
-				]
-			},
-			"Modules": [
-				{
-					"Path": "github.com/tidwall/gjson",
-					"FoundVersion": "v1.6.4",
-					"FixedVersion": "v1.6.6",
-					"Packages": [
-						{
-							"Path": "github.com/tidwall/gjson",
-							"CallStacks": null
-						}
-					]
-				}
-			]
-		},
-		{
-			"OSV": {
-				"id": "GO-2020-0036",
-				"published": "2021-04-14T20:04:52Z",
-				"modified": "2022-10-26T17:44:45Z",
-				"aliases": [
-					"CVE-2019-11254",
-					"GHSA-wxc4-f4m6-wwqv"
-				],
-				"details": "Due to unbounded aliasing, a crafted YAML file can cause consumption of significant system resources. If parsing user supplied input, this may be used as a denial of service vector.",
-				"affected": [
-					{
-						"package": {
-							"name": "gopkg.in/yaml.v2",
-							"ecosystem": "Go"
-						},
-						"ranges": [
-							{
-								"type": "SEMVER",
-								"events": [
-									{
-										"introduced": "0"
-									},
-									{
-										"fixed": "2.2.8"
-									}
-								]
-							}
-						],
-						"database_specific": {
-							"url": "https://pkg.go.dev/vuln/GO-2020-0036"
-						},
-						"ecosystem_specific": {
-							"imports": [
-								{
-									"path": "gopkg.in/yaml.v2",
-									"symbols": [
-										"Decoder.Decode",
-										"Unmarshal",
-										"UnmarshalStrict",
-										"yaml_parser_fetch_more_tokens"
-									]
-								}
-							]
-						}
-					}
-				],
-				"references": [
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/pull/555"
-					},
-					{
-						"type": "FIX",
-						"url": "https://github.com/go-yaml/yaml/commit/53403b58ad1b561927d19068c655246f2db79d48"
-					},
-					{
-						"type": "WEB",
-						"url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=18496"
-					}
-				]
-			},
-			"Modules": [
-				{
-					"Path": "gopkg.in/yaml.v2",
-					"FoundVersion": "v2.2.0",
-					"FixedVersion": "v2.2.8",
-					"Packages": [
-						{
-							"Path": "gopkg.in/yaml.v2",
-							"CallStacks": [
-								{
-									"Symbol": "Unmarshal",
-									"Summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
-									"Frames": [
-										{
-											"PkgPath": "github.com/Templum/playground/pkg/yaml",
-											"FuncName": "Testcase",
-											"RecvType": "",
-											"Position": {
-												"Filename": "/workspaces/playground/pkg/yaml/testcase.go",
-												"Offset": 348,
-												"Line": 28,
-												"Column": 20
-											}
-										},
-										{
-											"PkgPath": "gopkg.in/yaml.v2",
-											"FuncName": "Unmarshal",
-											"RecvType": "",
-											"Position": {
-												"Filename": "",
-												"Offset": 0,
-												"Line": 0,
-												"Column": 0
-											}
+										"PkgPath": "crypto/tls",
+										"FuncName": "Read",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 40822,
+											"Line": 1320,
+											"Column": 42
 										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
-		}
-	]
-}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handlePostHandshakeMessage",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 38763,
+											"Line": 1239,
+											"Column": 31
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handleRenegotiation",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 38396,
+											"Line": 1229,
+											"Column": 39
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "clientHandshake",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client.go",
+											"Offset": 6983,
+											"Line": 228,
+											"Column": 22
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handshake",
+										"RecvType": "*crypto/tls.clientHandshakeStateTLS13",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client_tls13.go",
+											"Offset": 2301,
+											"Line": 96,
+											"Column": 36
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "readServerCertificate",
+										"RecvType": "*crypto/tls.clientHandshakeStateTLS13",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client_tls13.go",
+											"Offset": 14912,
+											"Line": 509,
+											"Column": 36
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "verifyHandshakeSignature",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/auth.go",
+											"Offset": 715,
+											"Line": 29,
+											"Column": 23
+										}
+									},
+									{
+										"PkgPath": "crypto/ecdsa",
+										"FuncName": "VerifyASN1",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/ecdsa/ecdsa.go",
+											"Offset": 15185,
+											"Line": 476,
+											"Column": 22
+										}
+									},
+									{
+										"PkgPath": "crypto/internal/nistec",
+										"FuncName": "P256OrdInverse",
+										"RecvType": "",
+										"Position": {
+											"Filename": "",
+											"Offset": 0,
+											"Line": 0,
+											"Column": 0
+										}
+									}
+								]
+							},
+							{
+								"Symbol": "P256Point.ScalarBaseMult",
+								"Summary": "pkg/github/sarif_report.go:60:47: github.com/Templum/govulncheck-action/pkg/github.GithubSarifUploader.UploadReport calls github.com/google/go-github/v47/github.CodeScanningService.UploadSarif, which eventually calls crypto/internal/nistec.P256Point.ScalarBaseMult",
+								"Frames": [
+									{
+										"PkgPath": "github.com/Templum/govulncheck-action/pkg/github",
+										"FuncName": "UploadReport",
+										"RecvType": "*github.com/Templum/govulncheck-action/pkg/github.GithubSarifUploader",
+										"Position": {
+											"Filename": "/workspaces/govulncheck-action/pkg/github/sarif_report.go",
+											"Offset": 1290,
+											"Line": 60,
+											"Column": 47
+										}
+									},
+									{
+										"PkgPath": "github.com/google/go-github/v47/github",
+										"FuncName": "UploadSarif",
+										"RecvType": "*github.com/google/go-github/v47/github.CodeScanningService",
+										"Position": {
+											"Filename": "/go/pkg/mod/github.com/google/go-github/v47@v47.1.0/github/code-scanning.go",
+											"Offset": 10706,
+											"Line": 275,
+											"Column": 26
+										}
+									},
+									{
+										"PkgPath": "github.com/google/go-github/v47/github",
+										"FuncName": "Do",
+										"RecvType": "*github.com/google/go-github/v47/github.Client",
+										"Position": {
+											"Filename": "/go/pkg/mod/github.com/google/go-github/v47@v47.1.0/github/github.go",
+											"Offset": 25751,
+											"Line": 745,
+											"Column": 19
+										}
+									},
+									{
+										"PkgPath": "io",
+										"FuncName": "Copy",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/io/io.go",
+											"Offset": 13877,
+											"Line": 386,
+											"Column": 19
+										}
+									},
+									{
+										"PkgPath": "io",
+										"FuncName": "copyBuffer",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/io/io.go",
+											"Offset": 15158,
+											"Line": 427,
+											"Column": 21
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "Read",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 40822,
+											"Line": 1320,
+											"Column": 42
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handlePostHandshakeMessage",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 38763,
+											"Line": 1239,
+											"Column": 31
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handleRenegotiation",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 38396,
+											"Line": 1229,
+											"Column": 39
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "clientHandshake",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client.go",
+											"Offset": 6983,
+											"Line": 228,
+											"Column": 22
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handshake",
+										"RecvType": "*crypto/tls.clientHandshakeStateTLS13",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client_tls13.go",
+											"Offset": 2301,
+											"Line": 96,
+											"Column": 36
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "readServerCertificate",
+										"RecvType": "*crypto/tls.clientHandshakeStateTLS13",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client_tls13.go",
+											"Offset": 14912,
+											"Line": 509,
+											"Column": 36
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "verifyHandshakeSignature",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/auth.go",
+											"Offset": 715,
+											"Line": 29,
+											"Column": 23
+										}
+									},
+									{
+										"PkgPath": "crypto/ecdsa",
+										"FuncName": "VerifyASN1",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/ecdsa/ecdsa.go",
+											"Offset": 15263,
+											"Line": 478,
+											"Column": 22
+										}
+									},
+									{
+										"PkgPath": "crypto/internal/nistec",
+										"FuncName": "ScalarBaseMult",
+										"RecvType": "*crypto/internal/nistec.P256Point",
+										"Position": {
+											"Filename": "",
+											"Offset": 0,
+											"Line": 0,
+											"Column": 0
+										}
+									}
+								]
+							},
+							{
+								"Symbol": "P256Point.ScalarMult",
+								"Summary": "pkg/github/sarif_report.go:60:47: github.com/Templum/govulncheck-action/pkg/github.GithubSarifUploader.UploadReport calls github.com/google/go-github/v47/github.CodeScanningService.UploadSarif, which eventually calls crypto/internal/nistec.P256Point.ScalarMult",
+								"Frames": [
+									{
+										"PkgPath": "github.com/Templum/govulncheck-action/pkg/github",
+										"FuncName": "UploadReport",
+										"RecvType": "*github.com/Templum/govulncheck-action/pkg/github.GithubSarifUploader",
+										"Position": {
+											"Filename": "/workspaces/govulncheck-action/pkg/github/sarif_report.go",
+											"Offset": 1290,
+											"Line": 60,
+											"Column": 47
+										}
+									},
+									{
+										"PkgPath": "github.com/google/go-github/v47/github",
+										"FuncName": "UploadSarif",
+										"RecvType": "*github.com/google/go-github/v47/github.CodeScanningService",
+										"Position": {
+											"Filename": "/go/pkg/mod/github.com/google/go-github/v47@v47.1.0/github/code-scanning.go",
+											"Offset": 10706,
+											"Line": 275,
+											"Column": 26
+										}
+									},
+									{
+										"PkgPath": "github.com/google/go-github/v47/github",
+										"FuncName": "Do",
+										"RecvType": "*github.com/google/go-github/v47/github.Client",
+										"Position": {
+											"Filename": "/go/pkg/mod/github.com/google/go-github/v47@v47.1.0/github/github.go",
+											"Offset": 25751,
+											"Line": 745,
+											"Column": 19
+										}
+									},
+									{
+										"PkgPath": "io",
+										"FuncName": "Copy",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/io/io.go",
+											"Offset": 13877,
+											"Line": 386,
+											"Column": 19
+										}
+									},
+									{
+										"PkgPath": "io",
+										"FuncName": "copyBuffer",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/io/io.go",
+											"Offset": 15158,
+											"Line": 427,
+											"Column": 21
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "Read",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 40822,
+											"Line": 1320,
+											"Column": 42
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handlePostHandshakeMessage",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 38763,
+											"Line": 1239,
+											"Column": 31
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handleRenegotiation",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/conn.go",
+											"Offset": 38396,
+											"Line": 1229,
+											"Column": 39
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "clientHandshake",
+										"RecvType": "*crypto/tls.Conn",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client.go",
+											"Offset": 6983,
+											"Line": 228,
+											"Column": 22
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "handshake",
+										"RecvType": "*crypto/tls.clientHandshakeStateTLS13",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client_tls13.go",
+											"Offset": 2301,
+											"Line": 96,
+											"Column": 36
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "readServerCertificate",
+										"RecvType": "*crypto/tls.clientHandshakeStateTLS13",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/handshake_client_tls13.go",
+											"Offset": 14912,
+											"Line": 509,
+											"Column": 36
+										}
+									},
+									{
+										"PkgPath": "crypto/tls",
+										"FuncName": "verifyHandshakeSignature",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/tls/auth.go",
+											"Offset": 715,
+											"Line": 29,
+											"Column": 23
+										}
+									},
+									{
+										"PkgPath": "crypto/ecdsa",
+										"FuncName": "VerifyASN1",
+										"RecvType": "",
+										"Position": {
+											"Filename": "/usr/local/go/src/crypto/ecdsa/ecdsa.go",
+											"Offset": 15263,
+											"Line": 478,
+											"Column": 22
+										}
+									},
+									{
+										"PkgPath": "crypto/internal/nistec",
+										"FuncName": "ScalarMult",
+										"RecvType": "*crypto/internal/nistec.P256Point",
+										"Position": {
+											"Filename": "",
+											"Offset": 0,
+											"Line": 0,
+											"Column": 0
+										}
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
