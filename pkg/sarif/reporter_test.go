@@ -27,8 +27,8 @@ func TestSarifReporter_Convert(t *testing.T) {
 		assert.NotNil(t, ref.report, "should have create an empty report")
 		assert.NotNil(t, ref.run, "should have filled a run with details")
 
-		assert.Equal(t, len(ref.run.Results), 9, "example report should have 9 calls to vulnerabilities")
-		assert.Equal(t, len(ref.run.Tool.Driver.Rules), 9, "example report should have 9 vulnerabilities")
+		assert.Equal(t, len(ref.run.Results), 8, "example report should have 8 calls to vulnerabilities")
+		assert.Equal(t, len(ref.run.Tool.Driver.Rules), 8, "example report should have 8 vulnerabilities")
 		assert.Equal(t, len(ref.report.Runs), 0, "should have not yet added the run to the report")
 	})
 
@@ -36,7 +36,7 @@ func TestSarifReporter_Convert(t *testing.T) {
 		target := NewSarifReporter(zerolog.Nop(), "/workspaces/govulncheck-action")
 		ref := target.(*SarifReporter)
 
-		_ = target.Convert(&types.Result{Vulns: []types.Vulns{}})
+		_ = target.Convert([]types.Finding{})
 
 		assert.NotNil(t, ref.report, "should have create an empty report")
 		assert.NotNil(t, ref.run, "should have filled a run with details")

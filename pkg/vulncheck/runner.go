@@ -17,7 +17,7 @@ const (
 )
 
 type Scanner interface {
-	Scan() (*types.Result, error)
+	Scan() ([]types.Finding, error)
 }
 
 type CmdScanner struct {
@@ -29,7 +29,7 @@ func NewScanner(logger zerolog.Logger, workDir string) Scanner {
 	return &CmdScanner{log: logger, workDir: workDir}
 }
 
-func (r *CmdScanner) Scan() (*types.Result, error) {
+func (r *CmdScanner) Scan() ([]types.Finding, error) {
 	pkg := os.Getenv(envPackage)
 	r.log.Info().Msgf("Running govulncheck for package %s in dir %s", pkg, r.workDir)
 
@@ -49,9 +49,10 @@ func (r *CmdScanner) Scan() (*types.Result, error) {
 		return nil, cmdErr
 	}
 
-	var result types.Result
+	var result []types.Finding
 	err := json.Unmarshal(out, &result)
 	if err != nil {
+		r.log.Debug().Str("Stdout", string(out)).Msg("govulncheck had following raw output")
 		r.log.Error().Err(err).Msg("parsing govulncheck output yielded error")
 		return nil, errors.New("scan failed to produce proper report")
 	}
@@ -66,7 +67,7 @@ func (r *CmdScanner) Scan() (*types.Result, error) {
 
 		if err != nil {
 			r.log.Debug().Err(err).Msg("Failed to create copy will proceed with normal flow")
-			return &result, nil
+			return result, nil
 		}
 
 		defer reportFile.Close()
@@ -77,5 +78,5 @@ func (r *CmdScanner) Scan() (*types.Result, error) {
 		}
 	}
 
-	return &result, nil
+	return result, nil
 }

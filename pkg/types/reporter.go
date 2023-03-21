@@ -5,6 +5,6 @@ import (
 )
 
 type Reporter interface {
-	Convert(result *Result) error
+	Convert(result []Finding) error
 	Write(dest io.Writer) error
 }

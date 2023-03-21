@@ -33,11 +33,11 @@ func NewSarifReporter(logger zerolog.Logger, workDir string) types.Reporter {
 	return &SarifReporter{report: nil, run: nil, log: logger, workDir: workDir}
 }
 
-func (sr *SarifReporter) Convert(result *types.Result) error {
+func (sr *SarifReporter) Convert(findings []types.Finding) error {
 	sr.createEmptyReport("initial")
 
-	sr.log.Debug().Msgf("Scan result shows the code is affected by %d vulnerabilities", len(result.Vulns))
-	for _, vuln := range result.Vulns {
+	sr.log.Debug().Msgf("Scan result shows the code is affected by %d vulnerabilities", len(findings))
+	for _, vuln := range findings {
 		sr.addRule(vuln.Osv)
 
 		for _, mods := range vuln.Modules {

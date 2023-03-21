@@ -48,13 +48,15 @@ func main() {
 		Str("Fail on Vulnerabilities", os.Getenv("STRICT")).
 		Msg("Action Inputs:")
 
-	result, err := scanner.Scan()
+	findings, err := scanner.Scan()
 	if err != nil {
 		logger.Error().Err(err).Msg("Scanning yielded error")
 		os.Exit(2)
 	}
+	
 
-	err = reporter.Convert(result)
+
+	err = reporter.Convert(findings)
 	if err != nil {
 		logger.Error().Err(err).Msg("Conversion of Scan yielded error")
 		os.Exit(2)
@@ -93,7 +95,7 @@ func main() {
 	if os.Getenv("STRICT") == "true" {
 		logger.Debug().Msg("Action is running in strict mode")
 
-		if len(result.Vulns) > 0 {
+		if len(findings) > 0 {
 			logger.Info().Msg("Encountered at least one vulnerability while running in strict mode, will mark outcome as failed")
 			os.Exit(2)
 		}

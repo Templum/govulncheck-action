@@ -18,15 +18,15 @@ func NewLocalScanner(logger zerolog.Logger, pathToFile string) Scanner {
 	return &StaticScanner{log: logger, path: pathToFile}
 }
 
-func (r *StaticScanner) Scan() (*types.Result, error) {
+func (r *StaticScanner) Scan() ([]types.Finding, error) {
 	out, _ := os.ReadFile(r.path)
 
-	var result types.Result
+	var result []types.Finding
 	err := json.Unmarshal(out, &result)
 	if err != nil {
 		return nil, errors.New("scan failed to produce proper report")
 	}
 
 	r.log.Debug().Msgf("Successfully parsed report located at %s", r.path)
-	return &result, nil
+	return result, nil
 }
