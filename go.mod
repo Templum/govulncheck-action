@@ -21,7 +21,7 @@ require (
 
 require (
 	github.com/google/go-github/v47 v47.1.0
-	github.com/owenrumney/go-sarif/v2 v2.1.2
+	github.com/owenrumney/go-sarif/v2 v2.1.3
 	github.com/rs/zerolog v1.29.0
 	github.com/stretchr/testify v1.8.2
 	golang.org/x/mod v0.6.0 // indirect
