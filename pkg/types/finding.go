@@ -6,12 +6,8 @@ import (
 	"golang.org/x/vuln/osv"
 )
 
-// Result links to: https://github.com/golang/vuln/blob/55c64d8e26b914d8703299302be4997b6de580d0/internal/govulncheck/result.go#L38
-type Result struct {
-	Vulns []Vulns
-}
-
-type Vulns struct {
+// Finding links to: https://github.com/golang/vuln/blob/55c64d8e26b914d8703299302be4997b6de580d0/internal/govulncheck/result.go#L38
+type Finding struct {
 	// OSV contains all data from the OSV entry for this vulnerability.
 	Osv *osv.Entry
 	// Modules contains all of the modules in the OSV entry where a
