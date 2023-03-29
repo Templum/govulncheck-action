@@ -2,9 +2,9 @@ package vulncheck
 
 import (
 	"encoding/json"
-	"errors"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/Templum/govulncheck-action/pkg/types"
 	"github.com/rs/zerolog"
@@ -49,34 +49,61 @@ func (r *CmdScanner) Scan() ([]types.Finding, error) {
 		return nil, cmdErr
 	}
 
-	var result []types.Finding
-	err := json.Unmarshal(out, &result)
-	if err != nil {
-		r.log.Debug().Str("Stdout", string(out)).Msg("govulncheck had following raw output")
-		r.log.Error().Err(err).Msg("parsing govulncheck output yielded error")
-		return nil, errors.New("scan failed to produce proper report")
+	report := r.findReportInStream(out)
+
+	if os.Getenv("DEBUG") == "true" {
+		r.dumpRawReport(string(out))
 	}
 
 	r.log.Info().Msg("Successfully scanned project")
+	return report, nil
 
-	if os.Getenv("DEBUG") == "true" {
-		fileName := "raw-report.json"
-		reportFile, err := os.Create(fileName)
+}
 
-		r.log.Debug().Str("fileName", fileName).Msg("Making a copy of the raw vulncheck json report which can be exposed for debugging")
+// findReportInStream is going over the raw output of govulncheck which at the moment contains multiple json objects and tries to locate the report
+func (r *CmdScanner) findReportInStream(stream []byte) []types.Finding {
+	var findings []types.Finding
+	MESSAGE_SEPARATOR := "\n{\n"
 
-		if err != nil {
-			r.log.Debug().Err(err).Msg("Failed to create copy will proceed with normal flow")
-			return result, nil
+	messages := strings.SplitN(string(stream), MESSAGE_SEPARATOR, -1)
+
+	for _, rawMsg := range messages {
+		// Fixing broken JSON where needed
+		if !strings.HasPrefix(rawMsg, "{") {
+			rawMsg = "{\n" + rawMsg
 		}
 
-		defer reportFile.Close()
-
-		_, err = reportFile.Write(out)
+		var msg types.StreamMessage
+		err := json.Unmarshal([]byte(rawMsg), &msg)
 		if err != nil {
-			r.log.Debug().Err(err).Msg("Failed to write copy to disk will proceed with normal flow")
+			r.log.Warn().Str("Message", rawMsg).Msg("Found message in stream that could not be parsed")
+			continue
+		}
+
+		if msg.Vulnerability != nil {
+			findings = append(findings, *msg.Vulnerability)
 		}
 	}
 
-	return result, nil
+	return findings
+}
+
+// dumpRawReport takes the raw report and writes it to raw-report.json if something fails it will proceed with the regular flow
+func (r *CmdScanner) dumpRawReport(rawReport string) {
+	fileName := "raw-report.json"
+	reportFile, err := os.Create(fileName)
+
+	r.log.Debug().Str("fileName", fileName).Msg("Making a copy of the raw vulncheck json report which can be exposed for debugging")
+
+	if err != nil {
+		r.log.Debug().Err(err).Msg("Failed to create copy will proceed with normal flow")
+		return
+	}
+
+	defer reportFile.Close()
+
+	_, err = reportFile.Write([]byte(rawReport))
+	if err != nil {
+		r.log.Debug().Err(err).Msg("Failed to write copy to disk will proceed with normal flow")
+	}
 }
