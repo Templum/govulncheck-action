@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"os/exec"
+	"path"
 	"strings"
 
 	"github.com/Templum/govulncheck-action/pkg/types"
@@ -125,7 +126,7 @@ func vulncheckCli(workDir string, command string, flag string, pkg string) ([]by
 }
 
 func staticLocalCli(workDir string, command string, flag string, pkg string) ([]byte, error) {
-	path := "/workspaces/govulncheck-action/hack/found.stream"
+	path := path.Join("..", "..", "hack", "found.stream")
 	out, _ := os.ReadFile(path)
 
 	return out, nil
