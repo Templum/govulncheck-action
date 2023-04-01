@@ -20,48 +20,55 @@ type Scanner interface {
 	Scan() ([]types.Finding, error)
 }
 
-type CmdScanner struct {
-	log     zerolog.Logger
-	workDir string
+type CLIScanner struct {
+	log       zerolog.Logger
+	invokeCli CLIInvoker
+	workDir   string
 }
 
-func NewScanner(logger zerolog.Logger, workDir string) Scanner {
-	return &CmdScanner{log: logger, workDir: workDir}
+type CLIInvoker func(workDir string, command string, flag string, pkg string) ([]byte, error)
+
+func NewScanner(logger zerolog.Logger, workDir string, inLocalMode bool) Scanner {
+	scanner := CLIScanner{log: logger, workDir: workDir}
+
+	if inLocalMode {
+		scanner.invokeCli = staticLocalCli
+	} else {
+		scanner.invokeCli = vulncheckCli
+	}
+
+	return &scanner
 }
 
-func (r *CmdScanner) Scan() ([]types.Finding, error) {
+func (r *CLIScanner) Scan() ([]types.Finding, error) {
 	pkg := os.Getenv(envPackage)
 	r.log.Info().Msgf("Running govulncheck for package %s in dir %s", pkg, r.workDir)
 
-	cmd := exec.Command(command, flag, pkg)
-	cmd.Dir = r.workDir
+	out, cmdErr := r.invokeCli(r.workDir, command, flag, pkg)
 
-	out, cmdErr := cmd.Output()
+	if os.Getenv("DEBUG") == "true" {
+		r.dumpRawReport(string(out))
+	}
+
+	// govulncheck exits with none zero exit code if any vulnerability are found
 	if err, ok := cmdErr.(*exec.ExitError); ok {
+		// Only if stderr is present the CLI failed
 		if len(err.Stderr) > 0 {
 			r.log.Error().
 				Err(err).
 				Str("Stderr", string(err.Stderr)).
 				Msg("govulncheck exited with none 0 code")
 		}
-
-	} else if cmdErr != nil {
-		return nil, cmdErr
 	}
 
-	report := r.findReportInStream(out)
-
-	if os.Getenv("DEBUG") == "true" {
-		r.dumpRawReport(string(out))
-	}
+	report := r.findFindingsInStream(out)
 
 	r.log.Info().Msg("Successfully scanned project")
 	return report, nil
-
 }
 
-// findReportInStream is going over the raw output of govulncheck which at the moment contains multiple json objects and tries to locate the report
-func (r *CmdScanner) findReportInStream(stream []byte) []types.Finding {
+// findFindingsInStream is going over the raw output of govulncheck which at the moment contains multiple json objects and tries to locate the report
+func (r *CLIScanner) findFindingsInStream(stream []byte) []types.Finding {
 	var findings []types.Finding
 	MESSAGE_SEPARATOR := "\n{\n"
 
@@ -89,7 +96,7 @@ func (r *CmdScanner) findReportInStream(stream []byte) []types.Finding {
 }
 
 // dumpRawReport takes the raw report and writes it to raw-report.json if something fails it will proceed with the regular flow
-func (r *CmdScanner) dumpRawReport(rawReport string) {
+func (r *CLIScanner) dumpRawReport(rawReport string) {
 	fileName := "raw-report.json"
 	reportFile, err := os.Create(fileName)
 
@@ -106,4 +113,20 @@ func (r *CmdScanner) dumpRawReport(rawReport string) {
 	if err != nil {
 		r.log.Debug().Err(err).Msg("Failed to write copy to disk will proceed with normal flow")
 	}
+}
+
+// vulncheckCli
+func vulncheckCli(workDir string, command string, flag string, pkg string) ([]byte, error) {
+	cmd := exec.Command(command, flag, pkg)
+	cmd.Dir = workDir
+
+	out, err := cmd.Output()
+	return out, err
+}
+
+func staticLocalCli(workDir string, command string, flag string, pkg string) ([]byte, error) {
+	path := "/workspaces/govulncheck-action/hack/found.stream"
+	out, _ := os.ReadFile(path)
+
+	return out, nil
 }

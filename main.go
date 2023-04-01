@@ -18,19 +18,15 @@ func main() {
 		Logger() // Main Logger
 
 	workDir, _ := os.Getwd()
+	inLocalMode := os.Getenv("LOCAL") == "true"
 
 	github := github.NewSarifUploader(logger)
 	reporter := sarif.NewSarifReporter(logger, workDir)
-	scanner := vulncheck.NewScanner(logger, workDir)
+	scanner := vulncheck.NewScanner(logger, workDir, inLocalMode)
 
 	if os.Getenv("DEBUG") == "true" {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 		logger.Debug().Msg("Enabled Debug Level logs")
-	}
-
-	if os.Getenv("LOCAL") == "true" {
-		scanner = vulncheck.NewLocalScanner(logger, "/workspaces/govulncheck-action/hack/found.json")
-		logger.Debug().Msg("Enabled Local Development mode, scanner will return static result based on found.json")
 	}
 
 	info := action.ReadRuntimeInfoFromEnv()
@@ -53,8 +49,6 @@ func main() {
 		logger.Error().Err(err).Msg("Scanning yielded error")
 		os.Exit(2)
 	}
-	
-
 
 	err = reporter.Convert(findings)
 	if err != nil {

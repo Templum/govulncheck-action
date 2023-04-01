@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"path"
 	"testing"
 
 	"github.com/Templum/govulncheck-action/pkg/types"
@@ -15,7 +14,7 @@ import (
 )
 
 func TestSarifReporter_Convert(t *testing.T) {
-	scanner := helper.NewLocalScanner(zerolog.Nop(), path.Join("..", "..", "hack", "found.json"))
+	scanner := helper.NewScanner(zerolog.Nop(), "", true)
 	result, _ := scanner.Scan()
 
 	t.Run("Should convert a preprocessed report into sarif format", func(t *testing.T) {
