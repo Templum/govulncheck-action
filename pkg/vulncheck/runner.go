@@ -126,7 +126,7 @@ func vulncheckCli(workDir string, command string, flag string, pkg string) ([]by
 }
 
 func staticLocalCli(workDir string, command string, flag string, pkg string) ([]byte, error) {
-	path := path.Join("..", "..", "hack", "found.stream")
+	path := path.Join(workDir, "hack", "found.stream")
 	out, _ := os.ReadFile(path)
 
 	return out, nil
