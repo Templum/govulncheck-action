@@ -11,9 +11,9 @@ inputs:
     required: false
     default: "1.19"
   vulncheck-version:
-    description: "Version of govulncheck that should be used, by default v0.0.0-20230320232729-bfc1eaef17a4"
+    description: "Version of govulncheck that should be used, by default v0.0.0-20230331150530-a42f9910daf3"
     required: false
-    default: "v0.0.0-20230320232729-bfc1eaef17a4"
+    default: "v0.0.0-20230331150530-a42f9910daf3"
   github-token:
     description: "Github App token to upload sarif report. Needs write permissions for security_events. By default it will use 'github.token' value"
     default: ${{ github.token }}
