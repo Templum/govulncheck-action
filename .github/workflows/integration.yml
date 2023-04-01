@@ -1,5 +1,9 @@
 name: Integration Test
 on:
+  pull_request:
+    branches-ignore:
+      - dependabot/github_actions/*
+      - dependabot/docker/*
   push:
     branches:
       - main
