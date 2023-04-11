@@ -48,12 +48,13 @@
                 }
             },
             "extensions": [
-                "golang.Go",
-                "streetsidesoftware.code-spell-checker",
-                "premparihar.gotestexplorer",
-                "wayou.vscode-todo-highlight",
-                "bierner.github-markdown-preview"
-            ]
+				"golang.Go",
+				"streetsidesoftware.code-spell-checker",
+				"premparihar.gotestexplorer",
+				"wayou.vscode-todo-highlight",
+				"bierner.github-markdown-preview",
+				"GitHub.vscode-github-actions"
+			]
         }
     },
     // Set *default* container specific settings.json values on container create.

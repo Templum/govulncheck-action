@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"os"
 	"path"
 	"testing"
 
@@ -15,7 +16,8 @@ import (
 )
 
 func TestSarifReporter_Convert(t *testing.T) {
-	scanner := helper.NewLocalScanner(zerolog.Nop(), path.Join("..", "..", "hack", "found.json"))
+	wd, _ := os.Getwd()
+	scanner := helper.NewScanner(zerolog.Nop(), path.Join(wd, "..", ".."), true)
 	result, _ := scanner.Scan()
 
 	t.Run("Should convert a preprocessed report into sarif format", func(t *testing.T) {

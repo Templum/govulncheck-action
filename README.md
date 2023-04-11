@@ -39,6 +39,8 @@ Please be aware there will be no direct output to the console, all found vulnera
   This configuration uses a different version of go (1.18) scans ./... and will fail if at least one vulnerability was found.
   </summary>
 
+  > :warning: Choosing `vulncheck-version: latest` can include breaking changes to the JSON format, which will break this action.
+
 ```yaml
 name: My Workflow
 on: [push, pull_request]
@@ -165,7 +167,5 @@ jobs:
 | `skip-upload` _(optional)_       | This flag allows you to skip the sarif upload, it will be instead written to disk as `govulncheck-report.sarif`|
 
 > :warning: Please be aware that go-version should be a valid tag name for the [golang dockerhub image](https://hub.docker.com/_/golang/tags).
-
-> :warning: New versions of govulncheck might introduce new report formats, breaking this action. Hence the default version is always the last known working version.
 
 > :lock: Please be aware if the token is not specified it uses `github.token` for more details on that check [those docs](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)

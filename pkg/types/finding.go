@@ -6,7 +6,14 @@ import (
 	"golang.org/x/vuln/osv"
 )
 
-// Finding links to: https://github.com/golang/vuln/blob/55c64d8e26b914d8703299302be4997b6de580d0/internal/govulncheck/result.go#L38
+// StreamMessage links to: https://github.com/golang/vuln/blob/master/internal/govulncheck/result.go#L32-L38
+type StreamMessage struct {
+	Preamble      *struct{} `json:"preamble,omitempty"`
+	Progress      string    `json:"progress,omitempty"`
+	Vulnerability *Finding  `json:"vulnerability,omitempty"`
+}
+
+// Finding links to: https://github.com/golang/vuln/blob/master/internal/govulncheck/result.go#L56-L68
 type Finding struct {
 	// OSV contains all data from the OSV entry for this vulnerability.
 	Osv *osv.Entry
