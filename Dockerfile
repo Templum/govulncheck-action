@@ -13,7 +13,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build -ldflags="-w -s" -v -o action .
 # This golang version determines in which golang environment the customer code is checked
 FROM golang:$GOLANG_VERSION
-ARG VULNCHECK_VERSION=latest 
+ARG VULNCHECK_VERSION=v0.1.0 
 RUN go install golang.org/x/vuln/cmd/govulncheck@$VULNCHECK_VERSION
 
 # This allows private repositories hosted on Github
