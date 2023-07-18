@@ -11,7 +11,7 @@
             "VARIANT": "1.20-bullseye",
             // Options
             "NODE_VERSION": "none",
-            "VULNCHECK_VERSION": "v1.0.0"
+            "VULNCHECK_VERSION": "v0.1.0"
         }
     },
     "runArgs": [
@@ -22,19 +22,18 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "go.useLanguageServer": true,
+                "go.gocodeAutoBuild": false,
                 "files.autoSave": "afterDelay",
                 "editor.formatOnPaste": true,
                 "editor.formatOnSave": true,
-                "gopls": {
-                    "ui.completion.usePlaceholders": true
-                },
                 "go.gopath": "/go",
                 "go.goroot": "/usr/local/go",
                 "go.toolsGopath": "/go/bin",
+                "go.buildOnSave": "workspace",
                 "go.lintOnSave": "package",
                 "go.vetOnSave": "package",
                 "go.coverOnSave": false,
+                "go.useCodeSnippetsOnFunctionSuggest": false,
                 "go.lintTool": "golangci-lint",
                 "go.formatTool": "goimports",
                 "[go]": {
