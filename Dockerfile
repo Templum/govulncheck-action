@@ -1,4 +1,4 @@
-ARG GOLANG_VERSION=1.19
+ARG GOLANG_VERSION=1.20
 # This golang version is for the builder only
 FROM golang:1.20 as builder
 
@@ -13,7 +13,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build -ldflags="-w -s" -v -o action .
 # This golang version determines in which golang environment the customer code is checked
 FROM golang:$GOLANG_VERSION
-ARG VULNCHECK_VERSION=v0.1.0 
+ARG VULNCHECK_VERSION=v1.0.0 
 RUN go install golang.org/x/vuln/cmd/govulncheck@$VULNCHECK_VERSION
 
 # This allows private repositories hosted on Github
