@@ -23,7 +23,7 @@ RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 RUN go install golang.org/x/tools/gopls@latest
 
 # Installing govulncheck
-ARG VULNCHECK_VERSION="v0.1.0"
+ARG VULNCHECK_VERSION="v1.0.0"
 RUN go install golang.org/x/vuln/cmd/govulncheck@$VULNCHECK_VERSION
 
 
