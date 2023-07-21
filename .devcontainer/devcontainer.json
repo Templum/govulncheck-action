@@ -52,7 +52,6 @@
             "extensions": [
                 "golang.Go",
                 "streetsidesoftware.code-spell-checker",
-                "premparihar.gotestexplorer",
                 "wayou.vscode-todo-highlight",
                 "bierner.github-markdown-preview",
                 "GitHub.vscode-github-actions"
