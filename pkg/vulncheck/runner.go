@@ -18,7 +18,7 @@ const (
 )
 
 type Scanner interface {
-	Scan() ([]types.Finding, error)
+	Scan() (*types.Report, error)
 }
 
 type CLIScanner struct {
@@ -41,7 +41,7 @@ func NewScanner(logger zerolog.Logger, workDir string, inLocalMode bool) Scanner
 	return &scanner
 }
 
-func (r *CLIScanner) Scan() ([]types.Finding, error) {
+func (r *CLIScanner) Scan() (*types.Report, error) {
 	pkg := os.Getenv(envPackage)
 	r.log.Info().Msgf("Running govulncheck for package %s in dir %s", pkg, r.workDir)
 
@@ -69,8 +69,11 @@ func (r *CLIScanner) Scan() ([]types.Finding, error) {
 }
 
 // findFindingsInStream is going over the raw output of govulncheck which at the moment contains multiple json objects and tries to locate the report
-func (r *CLIScanner) findFindingsInStream(stream []byte) []types.Finding {
+func (r *CLIScanner) findFindingsInStream(stream []byte) *types.Report {
+	var vulnerabilities []types.Entry
 	var findings []types.Finding
+	var version string
+
 	MESSAGE_SEPARATOR := "\n{\n"
 
 	messages := strings.SplitN(string(stream), MESSAGE_SEPARATOR, -1)
@@ -84,16 +87,34 @@ func (r *CLIScanner) findFindingsInStream(stream []byte) []types.Finding {
 		var msg types.StreamMessage
 		err := json.Unmarshal([]byte(rawMsg), &msg)
 		if err != nil {
-			r.log.Warn().Str("Message", rawMsg).Msg("Found message in stream that could not be parsed")
+			r.log.Warn().Str("Message", rawMsg).Msgf("Parsing message yielded %v", err)
 			continue
 		}
 
-		if msg.Vulnerability != nil {
-			findings = append(findings, *msg.Vulnerability)
+		if msg.Config != nil {
+			r.log.Info().
+				Str("Protocol Version", msg.Config.ProtocolVersion).
+				Str("Scanner Version", msg.Config.ScannerVersion).
+				Str("Database", msg.Config.DB).
+				Msg("govulncheck information")
+
+			version = msg.Config.ScannerVersion
+		}
+
+		if msg.Progress != nil && len(msg.Progress.Message) > 0 {
+			r.log.Info().Msg(msg.Progress.Message)
+		}
+
+		if msg.Finding != nil {
+			findings = append(findings, *msg.Finding)
+		}
+
+		if msg.OSV != nil {
+			vulnerabilities = append(vulnerabilities, *msg.OSV)
 		}
 	}
 
-	return findings
+	return &types.Report{Vulnerabilities: vulnerabilities, Findings: findings, Version: version}
 }
 
 // dumpRawReport takes the raw report and writes it to raw-report.json if something fails it will proceed with the regular flow

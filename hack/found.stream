@@ -1,823 +1,2205 @@
 {
-  "preamble": {
-    "go_version": "go1.19.6",
-    "tool_version": "govulncheck@v0.0.0",
+  "config": {
+    "protocol_version": "v1.0.0",
+    "scanner_name": "govulncheck",
+    "scanner_version": "v1.0.0",
     "db": "https://vuln.go.dev",
-    "db_last_modified": "2023-03-31T20:58:11Z",
-    "query_kind": "Source",
-    "callstack_mode": "Compact"
+    "db_last_modified": "2023-07-13T22:19:53Z",
+    "go_version": "go1.20.1",
+    "scan_level": "symbol"
   }
 }
 {
-  "progress": "Scanning your code and 58 packages across 6 dependent modules for known vulnerabilities..."
+  "progress": {
+    "message": "Scanning your code and 59 packages across 6 dependent modules for known vulnerabilities..."
+  }
 }
 {
-  "vulnerability": {
-    "osv": {
-      "id": "GO-2022-1059",
-      "published": "2022-10-11T18:16:24Z",
-      "modified": "2022-11-21T19:50:45Z",
-      "aliases": [
-        "CVE-2022-32149",
-        "GHSA-69ch-w2m2-3vjp"
-      ],
-      "details": "An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse.",
-      "affected": [
-        {
-          "package": {
-            "name": "golang.org/x/text",
-            "ecosystem": "Go"
-          },
-          "ranges": [
-            {
-              "type": "SEMVER",
-              "events": [
-                {
-                  "introduced": "0"
-                },
-                {
-                  "fixed": "0.3.8"
-                }
-              ]
-            }
-          ],
-          "database_specific": {
-            "url": "https://pkg.go.dev/vuln/GO-2022-1059"
-          },
-          "ecosystem_specific": {
-            "imports": [
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2023-1840",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2023-06-08T20:16:06Z",
+    "aliases": [
+      "CVE-2023-29403"
+    ],
+    "summary": "Unsafe behavior in setuid/setgid binaries in runtime",
+    "details": "On Unix platforms, the Go runtime does not behave differently when a binary is run with the setuid/setgid bits. This can be dangerous in certain cases, such as when dumping memory state, or assuming the status of standard i/o file descriptors.\n\nIf a setuid/setgid binary is executed with standard I/O file descriptors closed, opening any files can result in unexpected content being read or written with elevated privileges. Similarly, if a setuid/setgid program is terminated, either via panic or signal, it may leak the contents of its registers.",
+    "affected": [
+      {
+        "package": {
+          "name": "stdlib",
+          "ecosystem": "Go"
+        },
+        "ranges": [
+          {
+            "type": "SEMVER",
+            "events": [
               {
-                "path": "golang.org/x/text/language",
-                "symbols": [
-                  "MatchStrings",
-                  "ParseAcceptLanguage"
-                ]
+                "introduced": "0"
+              },
+              {
+                "fixed": "1.19.10"
+              },
+              {
+                "introduced": "1.20.0-0"
+              },
+              {
+                "fixed": "1.20.5"
               }
             ]
           }
+        ],
+        "ecosystem_specific": {
+          "imports": [
+            {
+              "path": "runtime"
+            }
+          ]
         }
-      ],
-      "references": [
-        {
-          "type": "REPORT",
-          "url": "https://go.dev/issue/56152"
-        },
-        {
-          "type": "FIX",
-          "url": "https://go.dev/cl/442235"
-        },
-        {
-          "type": "WEB",
-          "url": "https://groups.google.com/g/golang-announce/c/-hjNw559_tE/m/KlGTfid5CAAJ"
-        }
-      ],
-      "credits": [
-        {
-          "name": "Adam Korczynski (ADA Logics) and OSS-Fuzz"
-        }
-      ],
-      "schema_version": "1.3.1"
-    },
-    "modules": [
+      }
+    ],
+    "references": [
       {
-        "path": "golang.org/x/text",
-        "found_version": "v0.3.6",
-        "fixed_version": "v0.3.8",
-        "packages": [
-          {
-            "path": "golang.org/x/text/language"
-          }
-        ]
+        "type": "REPORT",
+        "url": "https://go.dev/issue/60272"
+      },
+      {
+        "type": "FIX",
+        "url": "https://go.dev/cl/501223"
+      },
+      {
+        "type": "WEB",
+        "url": "https://groups.google.com/g/golang-announce/c/q5135a9d924/m/j0ZoAJOHAwAJ"
+      }
+    ],
+    "credits": [
+      {
+        "name": "Vincent Dehors from Synacktiv"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2023-1840"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "Callers"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "valueMethodName",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 5440,
+          "line": 178,
+          "column": 22
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "mustBe",
+        "receiver": "flag",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 6841,
+          "line": 223,
+          "column": 36
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "SetBool",
+        "receiver": "Value",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 69944,
+          "line": 2252,
+          "column": 10
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "scalar",
+        "receiver": "*decoder",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 12056,
+          "line": 500,
+          "column": 15
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "unmarshal",
+        "receiver": "*decoder",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 7697,
+          "line": 330,
+          "column": 18
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "unmarshal",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
+          "offset": 4635,
+          "line": 148,
+          "column": 14
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "Unmarshal",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
+          "offset": 2826,
+          "line": 81,
+          "column": 18
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 348,
+          "line": 28,
+          "column": 20
+        }
       }
     ]
   }
 }
 {
-  "vulnerability": {
-    "osv": {
-      "id": "GO-2022-0957",
-      "published": "2022-08-25T06:28:20Z",
-      "modified": "2022-11-21T19:50:45Z",
-      "aliases": [
-        "CVE-2020-36066",
-        "GHSA-wjm3-fq3r-5x46"
-      ],
-      "details": "A maliciously crafted JSON input can cause a denial of service attack.",
-      "affected": [
-        {
-          "package": {
-            "name": "github.com/tidwall/gjson",
-            "ecosystem": "Go"
-          },
-          "ranges": [
-            {
-              "type": "SEMVER",
-              "events": [
-                {
-                  "introduced": "0"
-                },
-                {
-                  "fixed": "1.6.5"
-                }
-              ]
-            }
-          ],
-          "database_specific": {
-            "url": "https://pkg.go.dev/vuln/GO-2022-0957"
-          },
-          "ecosystem_specific": {
-            "imports": [
-              {
-                "path": "github.com/tidwall/gjson",
-                "symbols": [
-                  "Get",
-                  "GetBytes",
-                  "GetMany",
-                  "GetManyBytes",
-                  "Result.Get",
-                  "parseObject",
-                  "queryMatches"
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "references": [
-        {
-          "type": "FIX",
-          "url": "https://github.com/tidwall/match/commit/c2f534168b739a7ec1821a33839fb2f029f26bbc"
-        },
-        {
-          "type": "WEB",
-          "url": "https://github.com/tidwall/gjson/commit/9f58baa7a613f89dfdc764c39e47fd3a15606153"
-        },
-        {
-          "type": "WEB",
-          "url": "https://github.com/tidwall/gjson/issues/195"
-        }
-      ],
-      "schema_version": "1.3.1"
-    },
-    "modules": [
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
       {
-        "path": "github.com/tidwall/gjson",
-        "found_version": "v1.6.4",
-        "fixed_version": "v1.6.5",
-        "packages": [
-          {
-            "path": "github.com/tidwall/gjson",
-            "callstacks": [
-              {
-                "symbol": "Get",
-                "summary": "pkg/seconds/mixer.go:15:18: github.com/Templum/playground/pkg/seconds.Testcase calls github.com/tidwall/gjson.Get",
-                "frames": [
-                  {
-                    "package": "github.com/Templum/playground/pkg/seconds",
-                    "function": "Testcase",
-                    "position": {
-                      "Filename": "/workspaces/playground/pkg/seconds/mixer.go",
-                      "Offset": 257,
-                      "Line": 15,
-                      "Column": 18
-                    }
-                  },
-                  {
-                    "package": "github.com/tidwall/gjson",
-                    "function": "Get",
-                    "position": {
-                      "Filename": "",
-                      "Offset": 0,
-                      "Line": 0,
-                      "Column": 0
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "CallersFrames"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "valueMethodName",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 5483,
+          "line": 179,
+          "column": 33
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "mustBe",
+        "receiver": "flag",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 6841,
+          "line": 223,
+          "column": 36
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "SetBool",
+        "receiver": "Value",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 69944,
+          "line": 2252,
+          "column": 10
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "scalar",
+        "receiver": "*decoder",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 12056,
+          "line": 500,
+          "column": 15
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "unmarshal",
+        "receiver": "*decoder",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 7697,
+          "line": 330,
+          "column": 18
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "unmarshal",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
+          "offset": 4635,
+          "line": 148,
+          "column": 14
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "Unmarshal",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
+          "offset": 2826,
+          "line": 81,
+          "column": 18
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 348,
+          "line": 28,
+          "column": 20
+        }
       }
     ]
   }
 }
 {
-  "vulnerability": {
-    "osv": {
-      "id": "GO-2022-0956",
-      "published": "2022-08-29T22:15:46Z",
-      "modified": "2023-02-08T18:46:18Z",
-      "aliases": [
-        "CVE-2022-3064",
-        "GHSA-6q6q-88xp-6f2r"
-      ],
-      "details": "Parsing malicious or large YAML documents can consume excessive amounts of CPU or memory.",
-      "affected": [
-        {
-          "package": {
-            "name": "gopkg.in/yaml.v2",
-            "ecosystem": "Go"
-          },
-          "ranges": [
-            {
-              "type": "SEMVER",
-              "events": [
-                {
-                  "introduced": "0"
-                },
-                {
-                  "fixed": "2.2.4"
-                }
-              ]
-            }
-          ],
-          "database_specific": {
-            "url": "https://pkg.go.dev/vuln/GO-2022-0956"
-          },
-          "ecosystem_specific": {
-            "imports": [
-              {
-                "path": "gopkg.in/yaml.v2",
-                "symbols": [
-                  "Decoder.Decode",
-                  "Unmarshal",
-                  "UnmarshalStrict",
-                  "decoder.unmarshal",
-                  "yaml_parser_increase_flow_level",
-                  "yaml_parser_roll_indent"
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "references": [
-        {
-          "type": "FIX",
-          "url": "https://github.com/go-yaml/yaml/commit/f221b8435cfb71e54062f6c6e99e9ade30b124d5"
-        },
-        {
-          "type": "WEB",
-          "url": "https://github.com/go-yaml/yaml/releases/tag/v2.2.4"
-        }
-      ],
-      "schema_version": "1.3.1"
-    },
-    "modules": [
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
       {
-        "path": "gopkg.in/yaml.v2",
-        "found_version": "v2.2.0",
-        "fixed_version": "v2.2.4",
-        "packages": [
-          {
-            "path": "gopkg.in/yaml.v2",
-            "callstacks": [
-              {
-                "symbol": "Unmarshal",
-                "summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
-                "frames": [
-                  {
-                    "package": "github.com/Templum/playground/pkg/yaml",
-                    "function": "Testcase",
-                    "position": {
-                      "Filename": "/workspaces/playground/pkg/yaml/testcase.go",
-                      "Offset": 348,
-                      "Line": 28,
-                      "Column": 20
-                    }
-                  },
-                  {
-                    "package": "gopkg.in/yaml.v2",
-                    "function": "Unmarshal",
-                    "position": {
-                      "Filename": "",
-                      "Offset": 0,
-                      "Line": 0,
-                      "Column": 0
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "Next",
+        "receiver": "*Frames"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "valueMethodName",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 5605,
+          "line": 183,
+          "column": 28
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "mustBe",
+        "receiver": "flag",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 6841,
+          "line": 223,
+          "column": 36
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "SetBool",
+        "receiver": "Value",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 69944,
+          "line": 2252,
+          "column": 10
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "scalar",
+        "receiver": "*decoder",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 12056,
+          "line": 500,
+          "column": 15
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "unmarshal",
+        "receiver": "*decoder",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 7697,
+          "line": 330,
+          "column": 18
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "unmarshal",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
+          "offset": 4635,
+          "line": 148,
+          "column": 14
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "Unmarshal",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/yaml.go",
+          "offset": 2826,
+          "line": 81,
+          "column": 18
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 348,
+          "line": 28,
+          "column": 20
+        }
       }
     ]
   }
 }
 {
-  "vulnerability": {
-    "osv": {
-      "id": "GO-2021-0265",
-      "published": "2022-08-15T18:06:07Z",
-      "modified": "2022-11-21T19:50:45Z",
-      "aliases": [
-        "CVE-2021-42248",
-        "CVE-2021-42836",
-        "GHSA-c9gm-7rfj-8w5h",
-        "GHSA-ppj4-34rq-v8j9"
-      ],
-      "details": "A maliciously crafted path can cause Get and other query functions to consume excessive amounts of CPU and time.",
-      "affected": [
-        {
-          "package": {
-            "name": "github.com/tidwall/gjson",
-            "ecosystem": "Go"
-          },
-          "ranges": [
-            {
-              "type": "SEMVER",
-              "events": [
-                {
-                  "introduced": "0"
-                },
-                {
-                  "fixed": "1.9.3"
-                }
-              ]
-            }
-          ],
-          "database_specific": {
-            "url": "https://pkg.go.dev/vuln/GO-2021-0265"
-          },
-          "ecosystem_specific": {
-            "imports": [
-              {
-                "path": "github.com/tidwall/gjson",
-                "symbols": [
-                  "Get",
-                  "GetBytes",
-                  "GetMany",
-                  "GetManyBytes",
-                  "Result.Get",
-                  "parseObject",
-                  "queryMatches"
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "references": [
-        {
-          "type": "FIX",
-          "url": "https://github.com/tidwall/gjson/commit/77a57fda87dca6d0d7d4627d512a630f89a91c96"
-        },
-        {
-          "type": "WEB",
-          "url": "https://github.com/tidwall/gjson/issues/237"
-        },
-        {
-          "type": "WEB",
-          "url": "https://github.com/tidwall/gjson/issues/236"
-        },
-        {
-          "type": "WEB",
-          "url": "https://github.com/tidwall/gjson/commit/590010fdac311cc8990ef5c97448d4fec8f29944"
-        }
-      ],
-      "schema_version": "1.3.1"
-    },
-    "modules": [
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
       {
-        "path": "github.com/tidwall/gjson",
-        "found_version": "v1.6.4",
-        "fixed_version": "v1.9.3",
-        "packages": [
-          {
-            "path": "github.com/tidwall/gjson",
-            "callstacks": [
-              {
-                "symbol": "Get",
-                "summary": "pkg/seconds/mixer.go:15:18: github.com/Templum/playground/pkg/seconds.Testcase calls github.com/tidwall/gjson.Get",
-                "frames": [
-                  {
-                    "package": "github.com/Templum/playground/pkg/seconds",
-                    "function": "Testcase",
-                    "position": {
-                      "Filename": "/workspaces/playground/pkg/seconds/mixer.go",
-                      "Offset": 257,
-                      "Line": 15,
-                      "Column": 18
-                    }
-                  },
-                  {
-                    "package": "github.com/tidwall/gjson",
-                    "function": "Get",
-                    "position": {
-                      "Filename": "",
-                      "Offset": 0,
-                      "Line": 0,
-                      "Column": 0
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "GOMAXPROCS"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "sync",
+        "function": "pinSlow",
+        "receiver": "*Pool",
+        "position": {
+          "filename": "/usr/local/go/src/sync/pool.go",
+          "offset": 6977,
+          "line": 229,
+          "column": 28
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "sync",
+        "function": "pin",
+        "receiver": "*Pool",
+        "position": {
+          "filename": "/usr/local/go/src/sync/pool.go",
+          "offset": 6451,
+          "line": 209,
+          "column": 18
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "sync",
+        "function": "Put",
+        "receiver": "*Pool",
+        "position": {
+          "filename": "/usr/local/go/src/sync/pool.go",
+          "offset": 3619,
+          "line": 107,
+          "column": 15
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "free",
+        "receiver": "*pp",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 5475,
+          "line": 181,
+          "column": 12
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "Fprintf",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 6650,
+          "line": 226,
+          "column": 8
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "Printf",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 6893,
+          "line": 233,
+          "column": 16
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 378,
+          "line": 29,
+          "column": 12
+        }
       }
     ]
   }
 }
 {
-  "vulnerability": {
-    "osv": {
-      "id": "GO-2021-0113",
-      "published": "2021-10-06T17:51:21Z",
-      "modified": "2023-02-02T17:52:29Z",
-      "aliases": [
-        "CVE-2021-38561",
-        "GHSA-ppp9-7jff-5vj2"
-      ],
-      "details": "Due to improper index calculation, an incorrectly formatted language tag can cause Parse to panic via an out of bounds read. If Parse is used to process untrusted user inputs, this may be used as a vector for a denial of service attack.",
-      "affected": [
-        {
-          "package": {
-            "name": "golang.org/x/text",
-            "ecosystem": "Go"
-          },
-          "ranges": [
-            {
-              "type": "SEMVER",
-              "events": [
-                {
-                  "introduced": "0"
-                },
-                {
-                  "fixed": "0.3.7"
-                }
-              ]
-            }
-          ],
-          "database_specific": {
-            "url": "https://pkg.go.dev/vuln/GO-2021-0113"
-          },
-          "ecosystem_specific": {
-            "imports": [
-              {
-                "path": "golang.org/x/text/language",
-                "symbols": [
-                  "MatchStrings",
-                  "MustParse",
-                  "Parse",
-                  "ParseAcceptLanguage"
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "references": [
-        {
-          "type": "FIX",
-          "url": "https://go.dev/cl/340830"
-        },
-        {
-          "type": "FIX",
-          "url": "https://go.googlesource.com/text/+/383b2e75a7a4198c42f8f87833eefb772868a56f"
-        }
-      ],
-      "credits": [
-        {
-          "name": "Guido Vranken"
-        }
-      ],
-      "schema_version": "1.3.1"
-    },
-    "modules": [
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
       {
-        "path": "golang.org/x/text",
-        "found_version": "v0.3.6",
-        "fixed_version": "v0.3.7",
-        "packages": [
-          {
-            "path": "golang.org/x/text/language",
-            "callstacks": [
-              {
-                "symbol": "MustParse",
-                "summary": "pkg/seconds/mixer.go:12:29: github.com/Templum/playground/pkg/seconds.Testcase calls golang.org/x/text/language.MustParse",
-                "frames": [
-                  {
-                    "package": "github.com/Templum/playground/pkg/seconds",
-                    "function": "Testcase",
-                    "position": {
-                      "Filename": "/workspaces/playground/pkg/seconds/mixer.go",
-                      "Offset": 204,
-                      "Line": 12,
-                      "Column": 29
-                    }
-                  },
-                  {
-                    "package": "golang.org/x/text/language",
-                    "function": "MustParse",
-                    "position": {
-                      "Filename": "",
-                      "Offset": 0,
-                      "Line": 0,
-                      "Column": 0
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "GOROOT"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "time",
+        "function": "loadLocation",
+        "position": {
+          "filename": "/usr/local/go/src/time/zoneinfo_read.go",
+          "offset": 13637,
+          "line": 552,
+          "column": 50
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "time",
+        "function": "initLocal",
+        "position": {
+          "filename": "/usr/local/go/src/time/zoneinfo_unix.go",
+          "offset": 1091,
+          "line": 37,
+          "column": 25
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "sync",
+        "function": "doSlow",
+        "receiver": "*Once",
+        "position": {
+          "filename": "/usr/local/go/src/sync/once.go",
+          "offset": 2485,
+          "line": 74,
+          "column": 4
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "sync",
+        "function": "Do",
+        "receiver": "*Once",
+        "position": {
+          "filename": "/usr/local/go/src/sync/once.go",
+          "offset": 2349,
+          "line": 65,
+          "column": 11
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "internal/poll",
+        "function": "init",
+        "receiver": "*pollDesc",
+        "position": {
+          "filename": "/usr/local/go/src/internal/poll/fd_poll_runtime.go",
+          "offset": 983,
+          "line": 39,
+          "column": 15
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "internal/poll",
+        "function": "Init",
+        "receiver": "*FD",
+        "position": {
+          "filename": "/usr/local/go/src/internal/poll/fd_unix.go",
+          "offset": 1618,
+          "line": 63,
+          "column": 19
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "os",
+        "function": "newFile",
+        "position": {
+          "filename": "/usr/local/go/src/os/file_unix.go",
+          "offset": 6210,
+          "line": 190,
+          "column": 26
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "os",
+        "function": "NewFile",
+        "position": {
+          "filename": "/usr/local/go/src/os/file_unix.go",
+          "offset": 3751,
+          "line": 106,
+          "column": 16
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "os",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/os/file.go",
+          "offset": 2220,
+          "line": 65,
+          "column": 18
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 209,
+          "line": 10,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 24,
+          "line": 4,
+          "column": 2
+        }
       }
     ]
   }
 }
 {
-  "vulnerability": {
-    "osv": {
-      "id": "GO-2021-0061",
-      "published": "2021-04-14T20:04:52Z",
-      "modified": "2023-02-08T18:46:18Z",
-      "aliases": [
-        "CVE-2021-4235",
-        "GHSA-r88r-gmrh-7j83"
-      ],
-      "details": "Due to unbounded alias chasing, a maliciously crafted YAML file can cause the system to consume significant system resources. If parsing user input, this may be used as a denial of service vector.",
-      "affected": [
-        {
-          "package": {
-            "name": "gopkg.in/yaml.v2",
-            "ecosystem": "Go"
-          },
-          "ranges": [
-            {
-              "type": "SEMVER",
-              "events": [
-                {
-                  "introduced": "0"
-                },
-                {
-                  "fixed": "2.2.3"
-                }
-              ]
-            }
-          ],
-          "database_specific": {
-            "url": "https://pkg.go.dev/vuln/GO-2021-0061"
-          },
-          "ecosystem_specific": {
-            "imports": [
-              {
-                "path": "gopkg.in/yaml.v2",
-                "symbols": [
-                  "Decoder.Decode",
-                  "Unmarshal",
-                  "UnmarshalStrict",
-                  "decoder.unmarshal"
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "references": [
-        {
-          "type": "FIX",
-          "url": "https://github.com/go-yaml/yaml/pull/375"
-        },
-        {
-          "type": "FIX",
-          "url": "https://github.com/go-yaml/yaml/commit/bb4e33bf68bf89cad44d386192cbed201f35b241"
-        }
-      ],
-      "credits": [
-        {
-          "name": "@simonferquel"
-        }
-      ],
-      "schema_version": "1.3.1"
-    },
-    "modules": [
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
       {
-        "path": "gopkg.in/yaml.v2",
-        "found_version": "v2.2.0",
-        "fixed_version": "v2.2.3",
-        "packages": [
-          {
-            "path": "gopkg.in/yaml.v2",
-            "callstacks": [
-              {
-                "symbol": "Unmarshal",
-                "summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
-                "frames": [
-                  {
-                    "package": "github.com/Templum/playground/pkg/yaml",
-                    "function": "Testcase",
-                    "position": {
-                      "Filename": "/workspaces/playground/pkg/yaml/testcase.go",
-                      "Offset": 348,
-                      "Line": 28,
-                      "Column": 20
-                    }
-                  },
-                  {
-                    "package": "gopkg.in/yaml.v2",
-                    "function": "Unmarshal",
-                    "position": {
-                      "Filename": "",
-                      "Offset": 0,
-                      "Line": 0,
-                      "Column": 0
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "KeepAlive"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "os",
+        "function": "write",
+        "receiver": "*File",
+        "position": {
+          "filename": "/usr/local/go/src/os/file_posix.go",
+          "offset": 1401,
+          "line": 49,
+          "column": 19
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "os",
+        "function": "Write",
+        "receiver": "*File",
+        "position": {
+          "filename": "/usr/local/go/src/os/file.go",
+          "offset": 5499,
+          "line": 175,
+          "column": 17
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "Fprintf",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 6635,
+          "line": 225,
+          "column": 18
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "Printf",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 6893,
+          "line": 233,
+          "column": 16
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 378,
+          "line": 29,
+          "column": 12
+        }
       }
     ]
   }
 }
 {
-  "vulnerability": {
-    "osv": {
-      "id": "GO-2021-0054",
-      "published": "2021-04-14T20:04:52Z",
-      "modified": "2023-02-07T21:49:49Z",
-      "aliases": [
-        "CVE-2020-36067",
-        "GHSA-p64j-r5f4-pwwx"
-      ],
-      "details": "Due to improper bounds checking, maliciously crafted JSON objects can cause an out-of-bounds panic. If parsing user input, this may be used as a denial of service vector.",
-      "affected": [
-        {
-          "package": {
-            "name": "github.com/tidwall/gjson",
-            "ecosystem": "Go"
-          },
-          "ranges": [
-            {
-              "type": "SEMVER",
-              "events": [
-                {
-                  "introduced": "0"
-                },
-                {
-                  "fixed": "1.6.6"
-                }
-              ]
-            }
-          ],
-          "database_specific": {
-            "url": "https://pkg.go.dev/vuln/GO-2021-0054"
-          },
-          "ecosystem_specific": {
-            "imports": [
-              {
-                "path": "github.com/tidwall/gjson",
-                "symbols": [
-                  "Result.ForEach",
-                  "unwrap"
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "references": [
-        {
-          "type": "FIX",
-          "url": "https://github.com/tidwall/gjson/commit/bf4efcb3c18d1825b2988603dea5909140a5302b"
-        },
-        {
-          "type": "WEB",
-          "url": "https://github.com/tidwall/gjson/issues/196"
-        }
-      ],
-      "credits": [
-        {
-          "name": "@toptotu"
-        }
-      ],
-      "schema_version": "1.3.1"
-    },
-    "modules": [
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
       {
-        "path": "github.com/tidwall/gjson",
-        "found_version": "v1.6.4",
-        "fixed_version": "v1.6.6",
-        "packages": [
-          {
-            "path": "github.com/tidwall/gjson"
-          }
-        ]
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "SetFinalizer"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "os",
+        "function": "newFile",
+        "position": {
+          "filename": "/usr/local/go/src/os/file_unix.go",
+          "offset": 6373,
+          "line": 196,
+          "column": 22
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "os",
+        "function": "NewFile",
+        "position": {
+          "filename": "/usr/local/go/src/os/file_unix.go",
+          "offset": 3751,
+          "line": 106,
+          "column": 16
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "os",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/os/file.go",
+          "offset": 2220,
+          "line": 65,
+          "column": 18
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 209,
+          "line": 10,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 24,
+          "line": 4,
+          "column": 2
+        }
       }
     ]
   }
 }
 {
-  "vulnerability": {
-    "osv": {
-      "id": "GO-2020-0036",
-      "published": "2021-04-14T20:04:52Z",
-      "modified": "2023-01-14T00:31:02Z",
-      "aliases": [
-        "CVE-2019-11254",
-        "GHSA-wxc4-f4m6-wwqv"
-      ],
-      "details": "Due to unbounded aliasing, a crafted YAML file can cause consumption of significant system resources. If parsing user supplied input, this may be used as a denial of service vector.",
-      "affected": [
-        {
-          "package": {
-            "name": "gopkg.in/yaml.v2",
-            "ecosystem": "Go"
-          },
-          "ranges": [
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "Error",
+        "receiver": "*TypeAssertionError"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "handleMethods",
+        "receiver": "*pp",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 18244,
+          "line": 667,
+          "column": 24
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "printArg",
+        "receiver": "*pp",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 20093,
+          "line": 749,
+          "column": 22
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "doPrintf",
+        "receiver": "*pp",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 28963,
+          "line": 1077,
+          "column": 16
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "Fprintf",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 6606,
+          "line": 224,
+          "column": 12
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "Printf",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 6893,
+          "line": 233,
+          "column": 16
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 378,
+          "line": 29,
+          "column": 12
+        }
+      }
+    ]
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "efaceOf"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/iface.go",
+          "offset": 9635,
+          "line": 305,
+          "column": 29
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 282,
+          "line": 14,
+          "column": 2
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "init",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 76,
+          "line": 9,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 32,
+          "line": 6,
+          "column": 2
+        }
+      }
+    ]
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "findfunc"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init#6",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/preempt.go",
+          "offset": 10566,
+          "line": 317,
+          "column": 15
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/alg.go",
+          "offset": 160,
+          "line": 5,
+          "column": 1
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 282,
+          "line": 14,
+          "column": 2
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "init",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 76,
+          "line": 9,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 32,
+          "line": 6,
+          "column": 2
+        }
+      }
+    ]
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "float64frombits"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/float.go",
+          "offset": 219,
+          "line": 9,
+          "column": 26
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 282,
+          "line": 14,
+          "column": 2
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "init",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 76,
+          "line": 9,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 32,
+          "line": 6,
+          "column": 2
+        }
+      }
+    ]
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "forcegchelper"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init#7",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/proc.go",
+          "offset": 9938,
+          "line": 293,
+          "column": 2
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/alg.go",
+          "offset": 160,
+          "line": 5,
+          "column": 1
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 282,
+          "line": 14,
+          "column": 2
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "init",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 76,
+          "line": 9,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 32,
+          "line": 6,
+          "column": 2
+        }
+      }
+    ]
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "funcMaxSPDelta"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init#6",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/preempt.go",
+          "offset": 10621,
+          "line": 318,
+          "column": 25
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/alg.go",
+          "offset": 160,
+          "line": 5,
+          "column": 1
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 282,
+          "line": 14,
+          "column": 2
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "init",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 76,
+          "line": 9,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 32,
+          "line": 6,
+          "column": 2
+        }
+      }
+    ]
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "lockInit"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init#1",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/arena.go",
+          "offset": 9277,
+          "line": 219,
+          "column": 10
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/alg.go",
+          "offset": 160,
+          "line": 5,
+          "column": 1
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 282,
+          "line": 14,
+          "column": 2
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "init",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 76,
+          "line": 9,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 32,
+          "line": 6,
+          "column": 2
+        }
+      }
+    ]
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "Error",
+        "receiver": "plainError"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "handleMethods",
+        "receiver": "*pp",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 18244,
+          "line": 667,
+          "column": 24
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "printArg",
+        "receiver": "*pp",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 20093,
+          "line": 749,
+          "column": 22
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "doPrintf",
+        "receiver": "*pp",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 28963,
+          "line": 1077,
+          "column": 16
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "Fprintf",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 6606,
+          "line": 224,
+          "column": 12
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "fmt",
+        "function": "Printf",
+        "position": {
+          "filename": "/usr/local/go/src/fmt/print.go",
+          "offset": 6893,
+          "line": 233,
+          "column": 16
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 378,
+          "line": 29,
+          "column": 12
+        }
+      }
+    ]
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2023-1840",
+    "fixed_version": "v1.20.5",
+    "trace": [
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "throw"
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init#4",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/mgcwork.go",
+          "offset": 738,
+          "line": 28,
+          "column": 8
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "runtime",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/runtime/alg.go",
+          "offset": 160,
+          "line": 5,
+          "column": 1
+        }
+      },
+      {
+        "module": "stdlib",
+        "version": "v1.20.1",
+        "package": "reflect",
+        "function": "init",
+        "position": {
+          "filename": "/usr/local/go/src/reflect/value.go",
+          "offset": 282,
+          "line": 14,
+          "column": 2
+        }
+      },
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "init",
+        "position": {
+          "filename": "/go/pkg/mod/gopkg.in/yaml.v2@v2.2.0/decode.go",
+          "offset": 76,
+          "line": 9,
+          "column": 2
+        }
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "init",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 32,
+          "line": 6,
+          "column": 2
+        }
+      }
+    ]
+  }
+}
+{
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2021-0265",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2022-08-15T18:06:07Z",
+    "aliases": [
+      "CVE-2021-42248",
+      "CVE-2021-42836",
+      "GHSA-c9gm-7rfj-8w5h",
+      "GHSA-ppj4-34rq-v8j9"
+    ],
+    "summary": "Denial of service in github.com/tidwall/gjson",
+    "details": "A maliciously crafted path can cause Get and other query functions to consume excessive amounts of CPU and time.",
+    "affected": [
+      {
+        "package": {
+          "name": "github.com/tidwall/gjson",
+          "ecosystem": "Go"
+        },
+        "ranges": [
+          {
+            "type": "SEMVER",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "fixed": "1.9.3"
+              }
+            ]
+          }
+        ],
+        "ecosystem_specific": {
+          "imports": [
             {
-              "type": "SEMVER",
-              "events": [
-                {
-                  "introduced": "0"
-                },
-                {
-                  "fixed": "2.2.8"
-                }
+              "path": "github.com/tidwall/gjson",
+              "symbols": [
+                "Get",
+                "GetBytes",
+                "GetMany",
+                "GetManyBytes",
+                "Result.Get",
+                "parseObject",
+                "queryMatches"
               ]
             }
-          ],
-          "database_specific": {
-            "url": "https://pkg.go.dev/vuln/GO-2020-0036"
-          },
-          "ecosystem_specific": {
-            "imports": [
-              {
-                "path": "gopkg.in/yaml.v2",
-                "symbols": [
-                  "Decoder.Decode",
-                  "Unmarshal",
-                  "UnmarshalStrict",
-                  "yaml_parser_decrease_flow_level",
-                  "yaml_parser_fetch_more_tokens",
-                  "yaml_parser_fetch_stream_start",
-                  "yaml_parser_fetch_value",
-                  "yaml_parser_remove_simple_key",
-                  "yaml_parser_save_simple_key"
-                ]
-              }
-            ]
-          }
+          ]
         }
-      ],
-      "references": [
-        {
-          "type": "FIX",
-          "url": "https://github.com/go-yaml/yaml/pull/555"
-        },
-        {
-          "type": "FIX",
-          "url": "https://github.com/go-yaml/yaml/commit/53403b58ad1b561927d19068c655246f2db79d48"
-        },
-        {
-          "type": "WEB",
-          "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=18496"
-        }
-      ],
-      "schema_version": "1.3.1"
-    },
-    "modules": [
+      }
+    ],
+    "references": [
       {
-        "path": "gopkg.in/yaml.v2",
-        "found_version": "v2.2.0",
-        "fixed_version": "v2.2.8",
-        "packages": [
+        "type": "FIX",
+        "url": "https://github.com/tidwall/gjson/commit/77a57fda87dca6d0d7d4627d512a630f89a91c96"
+      },
+      {
+        "type": "WEB",
+        "url": "https://github.com/tidwall/gjson/issues/237"
+      },
+      {
+        "type": "WEB",
+        "url": "https://github.com/tidwall/gjson/issues/236"
+      },
+      {
+        "type": "WEB",
+        "url": "https://github.com/tidwall/gjson/commit/590010fdac311cc8990ef5c97448d4fec8f29944"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2021-0265"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2021-0265",
+    "fixed_version": "v1.9.3",
+    "trace": [
+      {
+        "module": "github.com/tidwall/gjson",
+        "version": "v1.6.4",
+        "package": "github.com/tidwall/gjson",
+        "function": "Get"
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/seconds",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/seconds/mixer.go",
+          "offset": 257,
+          "line": 15,
+          "column": 18
+        }
+      }
+    ]
+  }
+}
+{
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2022-0957",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2022-08-25T06:28:20Z",
+    "aliases": [
+      "CVE-2020-36066",
+      "GHSA-wjm3-fq3r-5x46"
+    ],
+    "summary": "Denial of service in github.com/tidwall/gjson",
+    "details": "A maliciously crafted JSON input can cause a denial of service attack.",
+    "affected": [
+      {
+        "package": {
+          "name": "github.com/tidwall/gjson",
+          "ecosystem": "Go"
+        },
+        "ranges": [
           {
-            "path": "gopkg.in/yaml.v2",
-            "callstacks": [
+            "type": "SEMVER",
+            "events": [
               {
-                "symbol": "Unmarshal",
-                "summary": "pkg/yaml/testcase.go:28:20: github.com/Templum/playground/pkg/yaml.Testcase calls gopkg.in/yaml.v2.Unmarshal",
-                "frames": [
-                  {
-                    "package": "github.com/Templum/playground/pkg/yaml",
-                    "function": "Testcase",
-                    "position": {
-                      "Filename": "/workspaces/playground/pkg/yaml/testcase.go",
-                      "Offset": 348,
-                      "Line": 28,
-                      "Column": 20
-                    }
-                  },
-                  {
-                    "package": "gopkg.in/yaml.v2",
-                    "function": "Unmarshal",
-                    "position": {
-                      "Filename": "",
-                      "Offset": 0,
-                      "Line": 0,
-                      "Column": 0
-                    }
-                  }
-                ]
+                "introduced": "0"
+              },
+              {
+                "fixed": "1.6.5"
               }
             ]
           }
-        ]
+        ],
+        "ecosystem_specific": {
+          "imports": [
+            {
+              "path": "github.com/tidwall/gjson",
+              "symbols": [
+                "Get",
+                "GetBytes",
+                "GetMany",
+                "GetManyBytes",
+                "Result.Get",
+                "parseObject",
+                "queryMatches"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "references": [
+      {
+        "type": "FIX",
+        "url": "https://github.com/tidwall/match/commit/c2f534168b739a7ec1821a33839fb2f029f26bbc"
+      },
+      {
+        "type": "WEB",
+        "url": "https://github.com/tidwall/gjson/commit/9f58baa7a613f89dfdc764c39e47fd3a15606153"
+      },
+      {
+        "type": "WEB",
+        "url": "https://github.com/tidwall/gjson/issues/195"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2022-0957"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2022-0957",
+    "fixed_version": "v1.6.5",
+    "trace": [
+      {
+        "module": "github.com/tidwall/gjson",
+        "version": "v1.6.4",
+        "package": "github.com/tidwall/gjson",
+        "function": "Get"
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/seconds",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/seconds/mixer.go",
+          "offset": 257,
+          "line": 15,
+          "column": 18
+        }
+      }
+    ]
+  }
+}
+{
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2021-0113",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2021-10-06T17:51:21Z",
+    "aliases": [
+      "CVE-2021-38561",
+      "GHSA-ppp9-7jff-5vj2"
+    ],
+    "summary": "Out-of-bounds read in golang.org/x/text/language",
+    "details": "Due to improper index calculation, an incorrectly formatted language tag can cause Parse to panic via an out of bounds read. If Parse is used to process untrusted user inputs, this may be used as a vector for a denial of service attack.",
+    "affected": [
+      {
+        "package": {
+          "name": "golang.org/x/text",
+          "ecosystem": "Go"
+        },
+        "ranges": [
+          {
+            "type": "SEMVER",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "fixed": "0.3.7"
+              }
+            ]
+          }
+        ],
+        "ecosystem_specific": {
+          "imports": [
+            {
+              "path": "golang.org/x/text/language",
+              "symbols": [
+                "MatchStrings",
+                "MustParse",
+                "Parse",
+                "ParseAcceptLanguage"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "references": [
+      {
+        "type": "FIX",
+        "url": "https://go.dev/cl/340830"
+      },
+      {
+        "type": "FIX",
+        "url": "https://go.googlesource.com/text/+/383b2e75a7a4198c42f8f87833eefb772868a56f"
+      }
+    ],
+    "credits": [
+      {
+        "name": "Guido Vranken"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2021-0113"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2021-0113",
+    "fixed_version": "v0.3.7",
+    "trace": [
+      {
+        "module": "golang.org/x/text",
+        "version": "v0.3.6",
+        "package": "golang.org/x/text/language",
+        "function": "MustParse"
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/seconds",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/seconds/mixer.go",
+          "offset": 204,
+          "line": 12,
+          "column": 29
+        }
+      }
+    ]
+  }
+}
+{
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2020-0036",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2021-04-14T20:04:52Z",
+    "aliases": [
+      "CVE-2019-11254",
+      "GHSA-wxc4-f4m6-wwqv"
+    ],
+    "summary": "Excessive resource consumption in YAML parsing in gopkg.in/yaml.v2",
+    "details": "Due to unbounded aliasing, a crafted YAML file can cause consumption of significant system resources. If parsing user supplied input, this may be used as a denial of service vector.",
+    "affected": [
+      {
+        "package": {
+          "name": "gopkg.in/yaml.v2",
+          "ecosystem": "Go"
+        },
+        "ranges": [
+          {
+            "type": "SEMVER",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "fixed": "2.2.8"
+              }
+            ]
+          }
+        ],
+        "ecosystem_specific": {
+          "imports": [
+            {
+              "path": "gopkg.in/yaml.v2",
+              "symbols": [
+                "Decoder.Decode",
+                "Unmarshal",
+                "UnmarshalStrict",
+                "yaml_parser_decrease_flow_level",
+                "yaml_parser_fetch_more_tokens",
+                "yaml_parser_fetch_stream_start",
+                "yaml_parser_fetch_value",
+                "yaml_parser_remove_simple_key",
+                "yaml_parser_save_simple_key"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "references": [
+      {
+        "type": "FIX",
+        "url": "https://github.com/go-yaml/yaml/pull/555"
+      },
+      {
+        "type": "FIX",
+        "url": "https://github.com/go-yaml/yaml/commit/53403b58ad1b561927d19068c655246f2db79d48"
+      },
+      {
+        "type": "WEB",
+        "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=18496"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2020-0036"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2020-0036",
+    "fixed_version": "v2.2.8",
+    "trace": [
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "Unmarshal"
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 348,
+          "line": 28,
+          "column": 20
+        }
+      }
+    ]
+  }
+}
+{
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2021-0061",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2021-04-14T20:04:52Z",
+    "aliases": [
+      "CVE-2021-4235",
+      "GHSA-r88r-gmrh-7j83"
+    ],
+    "summary": "Denial of service in gopkg.in/yaml.v2",
+    "details": "Due to unbounded alias chasing, a maliciously crafted YAML file can cause the system to consume significant system resources. If parsing user input, this may be used as a denial of service vector.",
+    "affected": [
+      {
+        "package": {
+          "name": "gopkg.in/yaml.v2",
+          "ecosystem": "Go"
+        },
+        "ranges": [
+          {
+            "type": "SEMVER",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "fixed": "2.2.3"
+              }
+            ]
+          }
+        ],
+        "ecosystem_specific": {
+          "imports": [
+            {
+              "path": "gopkg.in/yaml.v2",
+              "symbols": [
+                "Decoder.Decode",
+                "Unmarshal",
+                "UnmarshalStrict",
+                "decoder.unmarshal"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "references": [
+      {
+        "type": "FIX",
+        "url": "https://github.com/go-yaml/yaml/pull/375"
+      },
+      {
+        "type": "FIX",
+        "url": "https://github.com/go-yaml/yaml/commit/bb4e33bf68bf89cad44d386192cbed201f35b241"
+      }
+    ],
+    "credits": [
+      {
+        "name": "@simonferquel"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2021-0061"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2021-0061",
+    "fixed_version": "v2.2.3",
+    "trace": [
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "Unmarshal"
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 348,
+          "line": 28,
+          "column": 20
+        }
+      }
+    ]
+  }
+}
+{
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2022-0956",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2022-08-29T22:15:46Z",
+    "aliases": [
+      "CVE-2022-3064",
+      "GHSA-6q6q-88xp-6f2r"
+    ],
+    "summary": "Excessive resource consumption in gopkg.in/yaml.v2",
+    "details": "Parsing malicious or large YAML documents can consume excessive amounts of CPU or memory.",
+    "affected": [
+      {
+        "package": {
+          "name": "gopkg.in/yaml.v2",
+          "ecosystem": "Go"
+        },
+        "ranges": [
+          {
+            "type": "SEMVER",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "fixed": "2.2.4"
+              }
+            ]
+          }
+        ],
+        "ecosystem_specific": {
+          "imports": [
+            {
+              "path": "gopkg.in/yaml.v2",
+              "symbols": [
+                "Decoder.Decode",
+                "Unmarshal",
+                "UnmarshalStrict",
+                "decoder.unmarshal",
+                "yaml_parser_increase_flow_level",
+                "yaml_parser_roll_indent"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "references": [
+      {
+        "type": "FIX",
+        "url": "https://github.com/go-yaml/yaml/commit/f221b8435cfb71e54062f6c6e99e9ade30b124d5"
+      },
+      {
+        "type": "WEB",
+        "url": "https://github.com/go-yaml/yaml/releases/tag/v2.2.4"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2022-0956"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2022-0956",
+    "fixed_version": "v2.2.4",
+    "trace": [
+      {
+        "module": "gopkg.in/yaml.v2",
+        "version": "v2.2.0",
+        "package": "gopkg.in/yaml.v2",
+        "function": "Unmarshal"
+      },
+      {
+        "module": "github.com/Templum/playground",
+        "package": "github.com/Templum/playground/pkg/yaml",
+        "function": "Testcase",
+        "position": {
+          "filename": "/workspaces/playground/pkg/yaml/testcase.go",
+          "offset": 348,
+          "line": 28,
+          "column": 20
+        }
+      }
+    ]
+  }
+}
+{
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2021-0054",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2021-04-14T20:04:52Z",
+    "aliases": [
+      "CVE-2020-36067",
+      "GHSA-p64j-r5f4-pwwx"
+    ],
+    "summary": "Panic due to improper input validation in github.com/tidwall/gjson",
+    "details": "Due to improper bounds checking, maliciously crafted JSON objects can cause an out-of-bounds panic. If parsing user input, this may be used as a denial of service vector.",
+    "affected": [
+      {
+        "package": {
+          "name": "github.com/tidwall/gjson",
+          "ecosystem": "Go"
+        },
+        "ranges": [
+          {
+            "type": "SEMVER",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "fixed": "1.6.6"
+              }
+            ]
+          }
+        ],
+        "ecosystem_specific": {
+          "imports": [
+            {
+              "path": "github.com/tidwall/gjson",
+              "symbols": [
+                "Result.ForEach",
+                "unwrap"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "references": [
+      {
+        "type": "FIX",
+        "url": "https://github.com/tidwall/gjson/commit/bf4efcb3c18d1825b2988603dea5909140a5302b"
+      },
+      {
+        "type": "WEB",
+        "url": "https://github.com/tidwall/gjson/issues/196"
+      }
+    ],
+    "credits": [
+      {
+        "name": "@toptotu"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2021-0054"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2021-0054",
+    "fixed_version": "v1.6.6",
+    "trace": [
+      {
+        "module": "github.com/tidwall/gjson",
+        "version": "v1.6.4",
+        "package": "github.com/tidwall/gjson"
+      }
+    ]
+  }
+}
+{
+  "osv": {
+    "schema_version": "1.3.1",
+    "id": "GO-2022-1059",
+    "modified": "2023-06-12T18:45:41Z",
+    "published": "2022-10-11T18:16:24Z",
+    "aliases": [
+      "CVE-2022-32149",
+      "GHSA-69ch-w2m2-3vjp"
+    ],
+    "summary": "Denial of service via crafted Accept-Language header in golang.org/x/text/language",
+    "details": "An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse.",
+    "affected": [
+      {
+        "package": {
+          "name": "golang.org/x/text",
+          "ecosystem": "Go"
+        },
+        "ranges": [
+          {
+            "type": "SEMVER",
+            "events": [
+              {
+                "introduced": "0"
+              },
+              {
+                "fixed": "0.3.8"
+              }
+            ]
+          }
+        ],
+        "ecosystem_specific": {
+          "imports": [
+            {
+              "path": "golang.org/x/text/language",
+              "symbols": [
+                "MatchStrings",
+                "ParseAcceptLanguage"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "references": [
+      {
+        "type": "REPORT",
+        "url": "https://go.dev/issue/56152"
+      },
+      {
+        "type": "FIX",
+        "url": "https://go.dev/cl/442235"
+      },
+      {
+        "type": "WEB",
+        "url": "https://groups.google.com/g/golang-announce/c/-hjNw559_tE/m/KlGTfid5CAAJ"
+      }
+    ],
+    "credits": [
+      {
+        "name": "Adam Korczynski (ADA Logics)"
+      },
+      {
+        "name": "OSS-Fuzz"
+      }
+    ],
+    "database_specific": {
+      "url": "https://pkg.go.dev/vuln/GO-2022-1059"
+    }
+  }
+}
+{
+  "finding": {
+    "osv": "GO-2022-1059",
+    "fixed_version": "v0.3.8",
+    "trace": [
+      {
+        "module": "golang.org/x/text",
+        "version": "v0.3.6",
+        "package": "golang.org/x/text/language"
       }
     ]
   }

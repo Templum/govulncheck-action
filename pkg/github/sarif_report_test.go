@@ -27,7 +27,7 @@ type MockReport struct {
 	mock.Mock
 }
 
-func (m *MockReport) Convert(findings []types.Finding) error {
+func (m *MockReport) Convert(findings *types.Report) error {
 	args := m.Called(findings)
 	return args.Error(0)
 }
