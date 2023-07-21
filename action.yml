@@ -11,7 +11,7 @@ inputs:
     required: false
     default: "1.20.6"
   vulncheck-version:
-    description: "Version of govulncheck that should be used, by default v0.0.0-20230331150530-a42f9910daf3"
+    description: "Version of govulncheck that should be used, by default v1.0.0"
     required: false
     default: "v1.0.0"
   github-token:
