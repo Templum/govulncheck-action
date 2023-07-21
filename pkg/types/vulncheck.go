@@ -6,10 +6,40 @@ import (
 
 // StreamMessage (Message) links to: https://github.com/golang/vuln/blob/1568f338f20421c10ef3dcf745755769c4e52a68/internal/govulncheck/govulncheck.go#L21
 type StreamMessage struct {
-	Config   *struct{} `json:"config,omitempty"`
+	Config   *Config   `json:"config,omitempty"`
 	Progress *Progress `json:"progress,omitempty"`
 	OSV      *Entry    `json:"osv,omitempty"`
 	Finding  *Finding  `json:"finding,omitempty"`
+}
+
+// Config links to: https://github.com/golang/vuln/blob/1568f338f20421c10ef3dcf745755769c4e52a68/internal/govulncheck/govulncheck.go#L31C1-L58C2
+type Config struct {
+	// ProtocolVersion specifies the version of the JSON protocol.
+	ProtocolVersion string `json:"protocol_version"`
+
+	// ScannerName is the name of the tool, for example, govulncheck.
+	//
+	// We expect this JSON format to be used by other tools that wrap
+	// govulncheck, which will have a different name.
+	ScannerName string `json:"scanner_name,omitempty"`
+
+	// ScannerVersion is the version of the tool.
+	ScannerVersion string `json:"scanner_version,omitempty"`
+
+	// DB is the database used by the tool, for example,
+	// vuln.go.dev.
+	DB string `json:"db,omitempty"`
+
+	// LastModified is the last modified time of the data source.
+	DBLastModified *time.Time `json:"db_last_modified,omitempty"`
+
+	// GoVersion is the version of Go used for analyzing standard library
+	// vulnerabilities.
+	GoVersion string `json:"go_version,omitempty"`
+
+	// ScanLevel instructs govulncheck to analyze at a specific level of detail.
+	// Valid values include module, package and symbol.
+	ScanLevel string `json:"scan_level,omitempty"`
 }
 
 // Progress links to: https://github.com/golang/vuln/blob/1568f338f20421c10ef3dcf745755769c4e52a68/internal/govulncheck/govulncheck.go#L64
@@ -92,6 +122,7 @@ type Position struct {
 	Column   int    `json:"column"`             // column number, starting at 1 (byte count)
 }
 
+// Entry links to: https://github.com/golang/vuln/blob/1568f338f20421c10ef3dcf745755769c4e52a68/internal/osv/osv.go#L180
 type Entry struct {
 	// SchemaVersion is the OSV schema version used to encode this
 	// vulnerability.
@@ -132,6 +163,7 @@ type Entry struct {
 	DatabaseSpecific *struct{} `json:"database_specific,omitempty"`
 }
 
+// Affected links to: https://github.com/golang/vuln/blob/1568f338f20421c10ef3dcf745755769c4e52a68/internal/osv/osv.go#L136
 type Affected struct {
 	// The affected Go module. Required.
 	// Note that this field is called "package" in the OSV specification.
@@ -142,6 +174,7 @@ type Affected struct {
 	EcosystemSpecific *struct{} `json:"ecosystem_specific"`
 }
 
+// Module links to: https://github.com/golang/vuln/blob/1568f338f20421c10ef3dcf745755769c4e52a68/internal/osv/osv.go#L54
 type Module struct {
 	// The Go module path. Required.
 	// For the Go standard library, this is "stdlib".
@@ -152,6 +185,7 @@ type Module struct {
 	Ecosystem string `json:"ecosystem"`
 }
 
+// Range links to: https://github.com/golang/vuln/blob/1568f338f20421c10ef3dcf745755769c4e52a68/internal/osv/osv.go#L85C1-L85C1
 type Range struct {
 	// Type is the version type that should be used to interpret the
 	// versions in Events. Required.
@@ -167,6 +201,7 @@ type Range struct {
 	Events []RangeEvent `json:"events"`
 }
 
+// RangeEvent links to: https://github.com/golang/vuln/blob/1568f338f20421c10ef3dcf745755769c4e52a68/internal/osv/osv.go#L72
 type RangeEvent struct {
 	// Introduced is a version that introduces the vulnerability.
 	// A special value, "0", represents a version that sorts before

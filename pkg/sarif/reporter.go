@@ -33,7 +33,7 @@ func NewSarifReporter(logger zerolog.Logger, workDir string) types.Reporter {
 }
 
 func (sr *SarifReporter) Convert(report *types.Report) error {
-	sr.createEmptyReport("initial")
+	sr.createEmptyReport(report.Version)
 
 	sr.log.Debug().Int("Number of Call Sites", len(report.Findings)).Msgf("Scan result shows the code is affected by %d vulnerabilities", len(report.Vulnerabilities))
 
@@ -64,7 +64,7 @@ func (sr *SarifReporter) createEmptyReport(vulncheckVersion string) {
 	report, _ := sarif.New(sarif.Version210)
 
 	run := sarif.NewRunWithInformationURI(shortName, uri)
-	run.Tool.Driver.WithVersion("0.0.1") // TODO: Use scanner_version from config
+	run.Tool.Driver.WithVersion(vulncheckVersion)
 	run.Tool.Driver.WithFullName(fullName)
 	run.ColumnKind = "utf16CodeUnits"
 

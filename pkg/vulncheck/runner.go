@@ -72,6 +72,8 @@ func (r *CLIScanner) Scan() (*types.Report, error) {
 func (r *CLIScanner) findFindingsInStream(stream []byte) *types.Report {
 	var vulnerabilities []types.Entry
 	var findings []types.Finding
+	var version string
+
 	MESSAGE_SEPARATOR := "\n{\n"
 
 	messages := strings.SplitN(string(stream), MESSAGE_SEPARATOR, -1)
@@ -89,6 +91,16 @@ func (r *CLIScanner) findFindingsInStream(stream []byte) *types.Report {
 			continue
 		}
 
+		if msg.Config != nil {
+			r.log.Info().
+				Str("Protocol Version", msg.Config.ProtocolVersion).
+				Str("Scanner Version", msg.Config.ScannerVersion).
+				Str("Database", msg.Config.DB).
+				Msg("govulncheck information")
+
+			version = msg.Config.ScannerVersion
+		}
+
 		if msg.Progress != nil && len(msg.Progress.Message) > 0 {
 			r.log.Info().Msg(msg.Progress.Message)
 		}
@@ -102,7 +114,7 @@ func (r *CLIScanner) findFindingsInStream(stream []byte) *types.Report {
 		}
 	}
 
-	return &types.Report{Vulnerabilities: vulnerabilities, Findings: findings}
+	return &types.Report{Vulnerabilities: vulnerabilities, Findings: findings, Version: version}
 }
 
 // dumpRawReport takes the raw report and writes it to raw-report.json if something fails it will proceed with the regular flow
