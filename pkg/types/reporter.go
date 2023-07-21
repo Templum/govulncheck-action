@@ -5,6 +5,13 @@ import (
 )
 
 type Reporter interface {
-	Convert(result []Finding) error
+	Convert(result *Report) error
 	Write(dest io.Writer) error
+}
+
+// TODO: Config contains govulncheck version
+
+type Report struct {
+	Vulnerabilities []Entry
+	Findings        []Finding
 }

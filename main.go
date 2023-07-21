@@ -89,7 +89,7 @@ func main() {
 	if os.Getenv("STRICT") == "true" {
 		logger.Debug().Msg("Action is running in strict mode")
 
-		if len(findings) > 0 {
+		if len(findings.Findings) > 0 {
 			logger.Info().Msg("Encountered at least one vulnerability while running in strict mode, will mark outcome as failed")
 			os.Exit(2)
 		}
