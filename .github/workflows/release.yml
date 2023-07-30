@@ -2,7 +2,7 @@ name: Release Process
 on:
   push: # Only trigger for tags with format v****
     tags:
-      - 'v*'
+      - v[0-9]+.[0-9]+.[0-9]+
 
 jobs:
   build:
@@ -18,3 +18,5 @@ jobs:
         with:
           generate_release_notes: true
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update Tags
+        uses: vweevers/additional-tags-action@v2
