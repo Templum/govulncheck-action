@@ -26,12 +26,12 @@ jobs:
           go-version: 1.20.0
       - name: Compile Action
         run: go build -ldflags="-w -s" -v -o action .
+      - name: Install govulncheck default version (v1.0.0)
+        run: go install golang.org/x/vuln/cmd/govulncheck@v1.0.0
       - name: Run action against local version of the action
         run: ./action
         env:
-          GH_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
           SKIP_UPLOAD: "true"
-          GOPRIVATE: "github.com/Templum/private-lib"
       - name: Ensure at least 8 Vulnerabilities are discovered
         run: |
           rules=$(cat govulncheck-report.sarif | jq '.runs[0].tool.driver.rules | length')
