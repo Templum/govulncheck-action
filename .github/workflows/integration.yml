@@ -10,10 +10,44 @@ on:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+
   schedule:
-    - cron: '0 22 */3 * *'
+    - cron: "0 22 */3 * *"
 jobs:
-  test:
+  integration-test:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We must fetch at least the immediate parents so that if this is
+          # a pull request then we can checkout the head.
+          fetch-depth: 2
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.20.0
+      - name: Compile Action
+        run: go build -ldflags="-w -s" -v -o action .
+      - name: Run action against local version of the action
+        run: ./action
+        env:
+          GH_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          SKIP_UPLOAD: "true"
+          GOPRIVATE: "github.com/Templum/private-lib"
+      - name: Ensure at least 8 Vulnerabilities are discovered
+        run: |
+          rules=$(cat govulncheck-report.sarif | jq '.runs[0].tool.driver.rules | length')
+          occurrences=$(cat govulncheck-report.sarif | jq '.runs[0].results | length')
+          if [[ $rules -ge 8 ]]; then echo "Found expected number of rules"; else echo "Found unexpected number of rules $rules expected 8"; exit 1; fi
+          if [[ $occurrences -ge 8 ]]; then echo "Found expected number of call sites"; else echo "Found unexpected number of call sites ($occurrences expected 8)"; exit 1; fi
+      - name: Upload Report if Test failed
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: sarif-report
+          path: govulncheck-report.sarif
+
+  integration-private-test:
+    runs-on: ubuntu-latest
+    if: contains(github.ref, 'main')
     steps:
       - name: Checkout playground repository
         uses: actions/checkout@main
