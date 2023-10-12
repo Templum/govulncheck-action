@@ -22,6 +22,6 @@ require (
 	github.com/owenrumney/go-sarif/v2 v2.2.2
 	github.com/rs/zerolog v1.31.0
 	github.com/stretchr/testify v1.8.4
-	golang.org/x/oauth2 v0.12.0
+	golang.org/x/oauth2 v0.13.0
 	golang.org/x/sys v0.13.0 // indirect
 )
