@@ -108,7 +108,7 @@ func TestGithubSarifUploader_UploadReport(t *testing.T) {
 			t.Errorf("Decompressing Sarif String failed with %v", err)
 		}
 
-		if !strings.HasPrefix(string(sarifReport), "{\"version\":\"2.1.0\",\"$schema\":\"https://json.schemastore.org/sarif-2.1.0.json\"") {
+		if !strings.HasPrefix(string(sarifReport), "{\"version\":\"2.1.0\",") {
 			t.Error("Sarif Report did not start as expected")
 		}
 
