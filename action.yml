@@ -7,9 +7,9 @@ inputs:
     required: false
     default: "./..."
   go-version:
-    description: "Can be any Tag for the golang docker image, but should ideally match your runtime go version. By default 1.20.6 is assumed"
+    description: "Can be any Tag for the golang docker image, but should ideally match your runtime go version. By default 1.21.4 is assumed"
     required: false
-    default: "1.20.6"
+    default: "1.21.4"
   vulncheck-version:
     description: "Version of govulncheck that should be used, by default v1.0.0"
     required: false

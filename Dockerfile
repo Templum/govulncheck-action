@@ -1,4 +1,4 @@
-ARG GOLANG_VERSION=1.20
+ARG GOLANG_VERSION=1.21
 # This golang version is for the builder only
 FROM golang:1.21 as builder
 
