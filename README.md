@@ -159,7 +159,7 @@ jobs:
 
 | Input                            | Description                                                                                                    |
 |----------------------------------|----------------------------------------------------------------------------------------------------------------|
-| `go-version` _(optional)_        | Version of Go used for scanning the code, should equal *your* runtime version. Defaults to `1.20.6`            |
+| `go-version` _(optional)_        | Version of Go used for scanning the code, should equal *your* runtime version. Defaults to `1.21.4`            |
 | `vulncheck-version` _(optional)_ | Version of govulncheck that should be used, by default `v1.0.0`                                                |
 | `package` _(optional)_           | The package you want to scan, by default will be `./...`                                                       |
 | `github-token` _(optional)_      | Github Token to upload sarif report. **Needs** `write` permissions for `security_events`                       |

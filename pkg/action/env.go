@@ -24,17 +24,17 @@ func ReadRuntimeInfoFromEnv() *RuntimeInfos {
 
 		if strings.Contains(env, "GOARCH") {
 			keyVal := strings.SplitAfter(env, "=")
-			info.Arch = strings.Trim(keyVal[1], "\"")
+			info.Arch = strings.Trim(strings.Trim(keyVal[1], "\""), "'")
 		}
 
 		if strings.Contains(env, "GOVERSION") {
 			keyVal := strings.SplitAfter(env, "=")
-			info.Version = strings.Trim(keyVal[1], "\"")
+			info.Version = strings.Trim(strings.Trim(keyVal[1], "\""), "'")
 		}
 
 		if strings.Contains(env, "GOOS") {
 			keyVal := strings.SplitAfter(env, "=")
-			info.Os = strings.Trim(keyVal[1], "\"")
+			info.Os = strings.Trim(strings.Trim(keyVal[1], "\""), "'")
 		}
 
 	}
