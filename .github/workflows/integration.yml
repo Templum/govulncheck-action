@@ -40,7 +40,7 @@ jobs:
           if [[ $occurrences -ge 30 ]]; then echo "Found expected number of call sites"; else echo "Found unexpected number of call sites ($occurrences expected 30)"; exit 1; fi
       - name: Upload Report if Test failed
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sarif-report
           path: govulncheck-report.sarif
@@ -69,7 +69,7 @@ jobs:
           if [[ $occurrences -ge 8 ]]; then echo "Found expected number of call sites"; else echo "Found unexpected number of call sites ($occurrences expected 8)"; exit 1; fi
       - name: Upload Report if Test failed
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sarif-report
           path: govulncheck-report.sarif
