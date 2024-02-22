@@ -42,8 +42,8 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          # token is not needed for public repositories
           files: coverage.txt
           flags: unit-tests
           name: codecov-action
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
