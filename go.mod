@@ -19,7 +19,7 @@ require (
 
 require (
 	github.com/google/go-github/v47 v47.1.0
-	github.com/owenrumney/go-sarif/v2 v2.3.0
+	github.com/owenrumney/go-sarif/v2 v2.3.1
 	github.com/rs/zerolog v1.32.0
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/oauth2 v0.18.0
