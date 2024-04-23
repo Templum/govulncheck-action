@@ -2,6 +2,7 @@ package vulncheck
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"os/exec"
 	"path"
@@ -55,10 +56,23 @@ func (r *CLIScanner) Scan() (*types.Report, error) {
 	if err, ok := cmdErr.(*exec.ExitError); ok {
 		// Only if stderr is present the CLI failed
 		if len(err.Stderr) > 0 {
+			receivedError := string(err.Stderr)
+
+			if strings.Contains(receivedError, "go:") {
+				receivedError = strings.Trim(receivedError[strings.Index(receivedError, "go:")+3:], " ")
+			}
+
 			r.log.Error().
 				Err(err).
-				Str("Stderr", string(err.Stderr)).
+				Str("Stderr", receivedError).
 				Msg("govulncheck exited with none 0 code")
+
+			// Building up a set of known "mistakes"
+			if strings.Contains(receivedError, "requires go >=") {
+				return nil, fmt.Errorf("the used go version is lower than required by your code. original error: %s", receivedError)
+			}
+
+			return nil, fmt.Errorf("running govulncheck binary produced %s", receivedError)
 		}
 	}
 
