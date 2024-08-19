@@ -1,6 +1,6 @@
 ARG GOLANG_VERSION=1.21
 # This golang version is for the builder only
-FROM golang:1.22 as builder
+FROM golang:1.23 as builder
 
 WORKDIR /go/src/github.com/Templum/govulncheck-action/
 ENV GO111MODULE=on
