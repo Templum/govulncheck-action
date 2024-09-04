@@ -18,6 +18,6 @@ require (
 	github.com/owenrumney/go-sarif/v2 v2.3.3
 	github.com/rs/zerolog v1.33.0
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/oauth2 v0.22.0
+	golang.org/x/oauth2 v0.23.0
 	golang.org/x/sys v0.18.0 // indirect
 )
