@@ -11,7 +11,7 @@
             "VARIANT": "1.22-bullseye",
             // Options
             "NODE_VERSION": "none",
-            "VULNCHECK_VERSION": "v1.1.0"
+            "VULNCHECK_VERSION": "v1.1.3"
         }
     },
     "runArgs": [
