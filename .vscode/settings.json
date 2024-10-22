@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "sarif"
-    ]
+    ],
+    "files.associations": {
+        "*.yaml": "home-assistant"
+    }
 }
