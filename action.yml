@@ -30,6 +30,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - id: config
+      run: echo "GOLANG_VERSION=${{ inputs.go-version }} VULNCHECK_VERSION=${{ inputs.vulncheck-version }}"
+      shell: bash
     - id: build
       run: docker build --build-arg GOLANG_VERSION=${{ inputs.go-version }} --build-arg GH_PAT_TOKEN=$GH_PAT_TOKEN --build-arg GOPRIVATE=$GOPRIVATE --build-arg VULNCHECK_VERSION=${{ inputs.vulncheck-version }} -q -f $GITHUB_ACTION_PATH/Dockerfile -t templum/govulncheck-action:local $GITHUB_ACTION_PATH
       shell: bash
