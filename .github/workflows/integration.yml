@@ -23,7 +23,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.23.0
+          go-version: 1.21.4
       - name: Compile Action
         run: go build -ldflags="-w -s" -v -o action .
       - name: Install govulncheck default version (v1.1.3)
@@ -57,7 +57,7 @@ jobs:
         uses: Templum/govulncheck-action@main
         with:
           skip-upload: true
-          go-version: 1.23.0
+          go-version: 1.21.4
         env:
           GH_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
           GOPRIVATE: "github.com/Templum/private-lib"
