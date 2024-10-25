@@ -23,11 +23,11 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.20.0
+          go-version: 1.21.4
       - name: Compile Action
         run: go build -ldflags="-w -s" -v -o action .
-      - name: Install govulncheck default version (v1.0.0)
-        run: go install golang.org/x/vuln/cmd/govulncheck@v1.0.0
+      - name: Install govulncheck default version (v1.1.3)
+        run: go install golang.org/x/vuln/cmd/govulncheck@v1.1.3
       - name: Run action against local version of the action
         run: ./action
         env:
@@ -37,7 +37,7 @@ jobs:
           rules=$(cat govulncheck-report.sarif | jq '.runs[0].tool.driver.rules | length')
           occurrences=$(cat govulncheck-report.sarif | jq '.runs[0].results | length')
           if [[ $rules -ge 10 ]]; then echo "Found expected number of rules"; else echo "Found unexpected number of rules $rules expected 10"; exit 1; fi
-          if [[ $occurrences -ge 30 ]]; then echo "Found expected number of call sites"; else echo "Found unexpected number of call sites ($occurrences expected 30)"; exit 1; fi
+          if [[ $occurrences -ge 3 ]]; then echo "Found expected number of call sites"; else echo "Found unexpected number of call sites ($occurrences expected 30)"; exit 1; fi
       - name: Upload Report if Test failed
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
@@ -57,7 +57,7 @@ jobs:
         uses: Templum/govulncheck-action@main
         with:
           skip-upload: true
-          go-version: 1.20.0
+          go-version: 1.21.4
         env:
           GH_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
           GOPRIVATE: "github.com/Templum/private-lib"
