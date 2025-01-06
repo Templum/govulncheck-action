@@ -12,11 +12,9 @@ elif [[ $github_workspace = $input_working_directory || -z $input_working_direct
 elif [[ $input_working_directory =~ ^/ ]]; then 
     export DOCKER_WD=$input_working_directory;
     export GITHUBH_WD=.$input_working_directory;
-    # export GITHUBH_WD=$input_working_directory;
 else 
     export DOCKER_WD=$(echo $input_working_directory |  sed 's/\.//');
     export GITHUBH_WD=$input_working_directory
-    # export GITHUBH_WD=$(echo $input_working_directory |  sed 's/\.//');
 fi
 
 echo "export DOCKER_WD=$DOCKER_WD"
