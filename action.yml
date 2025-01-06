@@ -36,7 +36,7 @@ runs:
   steps:
     - id: determine-working-directory
       run: |
-        go run ${{ github.action_path }}/scripts/determine_workdir/main.go --github_workspace ${{ github.workspace }} --input_working_directory ${{ inputs.working-directory }}
+        source ${{ github.action_path }}/determine-wd.sh ${{ github.workspace }} ${{ inputs.working-directory }}
         echo "DOCKER_WD=${DOCKER_WD}" >> "$GITHUB_ENV"
         echo "GITHUBH_WD=${GITHUBH_WD}" >> "$GITHUB_ENV"
       shell: bash
