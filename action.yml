@@ -46,10 +46,12 @@ runs:
     - id: build
       run: docker build --build-arg GOLANG_VERSION="${{ inputs.go-version }}" --build-arg GH_PAT_TOKEN=$GH_PAT_TOKEN --build-arg GOPRIVATE=$GOPRIVATE --build-arg VULNCHECK_VERSION="${{ inputs.vulncheck-version }}" -q -f $GITHUB_ACTION_PATH/Dockerfile -t templum/govulncheck-action:local $GITHUB_ACTION_PATH
       shell: bash
-    - run: |
-        ls -la 
+    - id: debug
+      run: |
+        ls -la
         echo  ${{ env.GITHUBH_WD }}
         echo  ${{ github.workspace }}
+      shell: bash
     - id: run
       run: docker run --rm -v $(pwd):${{ env.DOCKER_WD }} --workdir ${{ env.DOCKER_WD }} -e GITHUB_TOKEN=${{ inputs.github-token }} -e STRICT=${{ inputs.fail-on-vuln }} -e PACKAGE=${{ inputs.package }} -e SKIP_UPLOAD=${{ inputs.skip-upload }} -e DEBUG=${DEBUG} -e GITHUB_REPOSITORY=${{ github.repository }} -e GITHUB_REF=${{ github.ref }} -e GITHUB_SHA=${{ github.sha }} templum/govulncheck-action:local
       shell: bash
