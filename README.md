@@ -162,6 +162,7 @@ jobs:
 | `go-version` _(optional)_        | Version of Go used for scanning the code, should equal *your* runtime version. Defaults to `1.21.4`            |
 | `vulncheck-version` _(optional)_ | Version of govulncheck that should be used, by default `v1.0.0`                                                |
 | `package` _(optional)_           | The package you want to scan, by default will be `./...`                                                       |
+| `working-directory` _(optional)_ | The working directory, from where the scan should start, by default will be `github.workspace`                 |
 | `github-token` _(optional)_      | Github Token to upload sarif report. **Needs** `write` permissions for `security_events`                       |
 | `fail-on-vuln` _(optional)_      | This allows you to specify if the action should fail on encountering any vulnerability, by default it will not |
 | `skip-upload` _(optional)_       | This flag allows you to skip the sarif upload, it will be instead written to disk as `govulncheck-report.sarif`|
