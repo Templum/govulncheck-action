@@ -1,6 +1,7 @@
 module github.com/Templum/govulncheck-action
 
 go 1.20
+toolchain go1.24.1
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -18,6 +19,6 @@ require (
 	github.com/owenrumney/go-sarif/v2 v2.3.3
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/oauth2 v0.26.0
+	golang.org/x/oauth2 v0.28.0
 	golang.org/x/sys v0.28.0 // indirect
 )
