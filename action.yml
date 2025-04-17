@@ -11,9 +11,9 @@ inputs:
     required: false
     default: ${{ github.workspace }}
   go-version:
-    description: "Can be any Tag for the golang docker image, but should ideally match your runtime go version. By default 1.21.4 is assumed"
+    description: "Can be any Tag for the golang docker image, but should ideally match your runtime go version. By default 1.24.2 is assumed"
     required: false
-    default: "1.21.4"
+    default: "1.24.2"
   vulncheck-version:
     description: "Version of govulncheck that should be used, by default v1.1.3"
     required: false

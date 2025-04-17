@@ -159,7 +159,7 @@ jobs:
 
 | Input                            | Description                                                                                                    |
 |----------------------------------|----------------------------------------------------------------------------------------------------------------|
-| `go-version` _(optional)_        | Version of Go used for scanning the code, should equal *your* runtime version. Defaults to `1.21.4`            |
+| `go-version` _(optional)_        | Version of Go used for scanning the code, should equal *your* runtime version. Defaults to `1.24.2`            |
 | `vulncheck-version` _(optional)_ | Version of govulncheck that should be used, by default `v1.0.0`                                                |
 | `package` _(optional)_           | The package you want to scan, by default will be `./...`                                                       |
 | `working-directory` _(optional)_ | The working directory, from where the scan should start, by default will be `github.workspace`                 |
