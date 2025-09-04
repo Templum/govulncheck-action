@@ -21,7 +21,7 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: '1.24.2'
       - name: Compile Action
